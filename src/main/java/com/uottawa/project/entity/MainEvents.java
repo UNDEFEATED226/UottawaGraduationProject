@@ -2,9 +2,9 @@ package com.uottawa.project.entity;
 
 import java.sql.Timestamp;
 
-public class Events {
+public class MainEvents {
 	
-	private Long ID;
+	private Long id;
 	private String name_en;
 	private String name_fr;
 	private Timestamp start_date;
@@ -12,13 +12,13 @@ public class Events {
 	private String notes;
 	private Integer type;
 	
-	public Events() {
+	public MainEvents() {
 		
 	}
 	
-	public Events(Long ID, String name_en, String name_fr, Timestamp start_date, Timestamp end_date,
+	public MainEvents(Long id, String name_en, String name_fr, Timestamp start_date, Timestamp end_date,
 			String notes, Integer type) {
-		this.ID = ID;
+		this.id = id;
 		this.name_en = name_en;
 		this.name_fr = name_fr;
 		this.start_date = start_date;
@@ -27,11 +27,11 @@ public class Events {
 		this.type = type;
 	}
 
-	public Long getID() {
-		return ID;
+	public Long getId() {
+		return id;
 	}
-	public void SetID(Long ID) {
-		this.ID = ID;
+	public void SetId(Long id) {
+		this.id = id;
 	}
 	public String getName_en() {
 		return name_en;
