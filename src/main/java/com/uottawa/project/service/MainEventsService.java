@@ -1,6 +1,7 @@
 package com.uottawa.project.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,32 +31,43 @@ public class MainEventsService implements MainEventsRepository {
 		return event;
 	};
 
+	public void add(MainEvents event) {
+		String qry = "INSERT INTO main_Events(name_en,name_fr,start_date,end_date,notes,type) VALUES(?,?,?,?,?,?)";
+		try {
+			template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(), event.getEnd_date(),
+					event.getNotes(), event.getType());
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "EVENT WHEN ADDING");
+		}
+	}
+
+	public void deleteById(Long id) {
+		String qry = "DELETE * FROM main_Events WHERE ID = ?";
+		try {
+			template.update(qry, id);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+		}
+	}
+
+	public void update(MainEvents event) {
+		String qry = "UPDATE main_Events SET name_en = ?,name_fr = ?, start_date = ?, end_date = ?, notes = ?, type = ? WHERE id = ?";
+		try {
+			template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(), event.getEnd_date(),
+					event.getNotes(), event.getType(), event.getId());
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EVENT WHEN UPDATING");
+		}
+	}
+
 	public List<MainEvents> findAll() {
 		String qry = "SELECT ID,name_en,name_fr,start_date,end_date,notes,type FROM main_Events";
-		return template.query(qry, rowMapper);
-	}
-
-	public int add(MainEvents event) {
-		String qry = "INSERT into main_Events(name_en,name_fr,start_date,end_date,notes,type) VALUES(?,?,?,?,?,?)";
-		int update = -1;
+		List<MainEvents> list = new ArrayList<MainEvents>();
 		try {
-			update = template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(),
-					event.getEnd_date(), event.getNotes(), event.getType());
+			list = template.query(qry, rowMapper);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EVENT NOT FOUND");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
-		return update;
-	}
-
-	public int update(MainEvents event) {
-		String qry = "UPDATE main_Events SET name_en = ?,name_fr = ?, start_date = ?, end_date = ?, notes = ?, type = ? WHERE id = ?";
-		int update = -1;
-		try {
-			update = template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(),
-					event.getEnd_date(), event.getNotes(), event.getType(), event.getId());
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EVENT NOT FOUND");
-		}
-		return update;
+		return list;
 	}
 }

@@ -6,15 +6,15 @@ import com.uottawa.project.entity.RelpProductMember;
 
 @Repository
 public interface RelpProductMemberRepository {
-	int add(Long productId, Long memberId);
+	void add(RelpProductMember relpProductMember);
+	
+	int deleteByProductId(Long productId);
+
+	int deleteByMemberId(Long memberId);
 
 	List<RelpProductMember> findAll();
 
 	List<RelpProductMember> findByProductId(Long productId);
 
 	List<RelpProductMember> findByMemberId(Long memberId);
-
-	void deleteByProductId(Long productId);
-
-	void deleteByMemberId(Long memberId);
 }

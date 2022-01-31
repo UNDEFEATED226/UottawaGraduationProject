@@ -5,7 +5,6 @@ public class RelpPartnerMember {
 	private Long memberId;
 
 	public RelpPartnerMember() {
-
 	}
 
 	public RelpPartnerMember(Long partnerId, Long memberId) {

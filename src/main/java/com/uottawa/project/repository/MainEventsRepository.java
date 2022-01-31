@@ -5,12 +5,13 @@ import org.springframework.stereotype.Repository;
 import com.uottawa.project.entity.MainEvents;
 
 @Repository
-public interface MainEventsRepository{
-	
-	int add(MainEvents event);
-	
+public interface MainEventsRepository {
+
+	void add(MainEvents event);
+
+	void deleteById(Long id);
+
+	void update(MainEvents event);
+
 	List<MainEvents> findAll();
-	
-	int update(MainEvents event);
-	
 }
