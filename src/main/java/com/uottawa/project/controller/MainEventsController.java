@@ -23,7 +23,7 @@ import com.uottawa.project.service.MainEventsService;
 public class MainEventsController {
 
 	@Autowired
-	MainEventsService mainEventsService;
+	private MainEventsService mainEventsService;
 
 	Gson gson = new Gson();
 
@@ -31,35 +31,50 @@ public class MainEventsController {
 
 	@PostMapping("/add")
 	public void add(@RequestBody MainEvents event) {
+		int update = 0;
 		try {
-			mainEventsService.add(event);
+			update = mainEventsService.add(event);
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding event{} to main_Events.", gson.toJson(event));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
-		log.info("Event{} added.", gson.toJson(event));
+		if (update > 0) {
+			log.info("Event{} added.", gson.toJson(event));
+		} else {
+			log.error("Error when adding event{} to main_Events.", gson.toJson(event));
+		}
 	}
 
 	@GetMapping("/delete_by_id")
 	public void deleteById(Long id) {
+		int update = 0;
 		try {
-			mainEventsService.deleteById(id);
+			update = mainEventsService.deleteById(id);
 		} catch (DataAccessException e) {
-			log.error("Error when deleting from main_Events where id = {}",id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			log.error("Error when deleting from main_Events where id = {}", id);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
-		log.info("Deleted from main_Events where id = {}",id);
+		if (update > 0) {
+			log.info("Deleted from main_Events where id = {}", id);
+		} else {
+			log.error("Error when deleting from main_Events where id = {}", id);
+		}
 	}
 
 	@PostMapping("/update")
 	public void update(@RequestBody MainEvents event) {
+		int update = 0;
 		try {
-			mainEventsService.update(event);
+			update = mainEventsService.update(event);
 		} catch (ResponseStatusException e) {
-			log.error("Error when updating event{}.", event);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN UPDATING");
+			log.error("Error when updating event{}.", gson.toJson(event));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
 		}
-		log.info("Event{} updated.", event);
+		if (update > 0) {
+			log.info("Event{} updated.", gson.toJson(event));
+		} else {
+			log.error("Error when updating event{}.", gson.toJson(event));
+		}
 	}
 
 	@GetMapping("/find_all")

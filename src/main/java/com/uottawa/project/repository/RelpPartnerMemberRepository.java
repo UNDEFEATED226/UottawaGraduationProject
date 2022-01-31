@@ -6,7 +6,7 @@ import com.uottawa.project.entity.RelpPartnerMember;
 
 @Repository
 public interface RelpPartnerMemberRepository {
-	void add(RelpPartnerMember relpPartnerMember);
+	int add(RelpPartnerMember relpPartnerMember);
 
 	int deleteByPartnerId(Long partnerId);
 

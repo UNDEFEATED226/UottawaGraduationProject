@@ -6,7 +6,7 @@ import com.uottawa.project.entity.RelpProductMember;
 
 @Repository
 public interface RelpProductMemberRepository {
-	void add(RelpProductMember relpProductMember);
+	int add(RelpProductMember relpProductMember);
 	
 	int deleteByProductId(Long productId);
 

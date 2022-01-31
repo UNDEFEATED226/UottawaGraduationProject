@@ -25,15 +25,17 @@ public class RelpProductMemberService implements RelpProductMemberRepository {
 		return relpProductMember;
 	};
 
-	public void add(RelpProductMember relpProductMember) {
+	public int add(RelpProductMember relpProductMember) {
+		int update = 0;
 		Long productId = relpProductMember.getProductId();
 		Long memberId = relpProductMember.getMemberId();
 		String qry = "INSERT INTO relp_Product_Member(product_id,member_id) VALUES (?,?)";
 		try {
-			template.update(qry, productId, memberId);
+			update = template.update(qry, productId, memberId);
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
+		return update;
 	};
 
 	public int deleteByProductId(Long productId) {
@@ -42,7 +44,7 @@ public class RelpProductMemberService implements RelpProductMemberRepository {
 			String qry = "DELETE * FROM relp_Product_Member WHERE product_id = " + productId;
 			update = template.update(qry);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		return update;
 	};
@@ -53,7 +55,7 @@ public class RelpProductMemberService implements RelpProductMemberRepository {
 			String qry = "DELETE * FROM relp_Product_Member WHERE member_id =" + memberId;
 			update = template.update(qry);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		return update;
 	};

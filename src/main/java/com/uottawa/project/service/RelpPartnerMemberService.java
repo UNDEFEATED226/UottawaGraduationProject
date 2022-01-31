@@ -25,35 +25,37 @@ public class RelpPartnerMemberService implements RelpPartnerMemberRepository {
 		return relpPartnerMember;
 	};
 
-	public void add(RelpPartnerMember relpPartnerMember) {
+	public int add(RelpPartnerMember relpPartnerMember) {
+		String qry = "INSERT INTO relp_Partner_Member(partner_id,member_id) VALUES (?,?)";
+		int update = 0;
 		Long partnerId = relpPartnerMember.getPartnerId();
 		Long memberId = relpPartnerMember.getMemberId();
-		String qry = "INSERT INTO relp_Partner_Member(partner_id,member_id) VALUES (?,?)";
 		try {
-			template.update(qry, partnerId, memberId);
+			update = template.update(qry, partnerId, memberId);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
+		return update;
 	};
 
 	public int deleteByPartnerId(Long partnerId) {
 		int update = 0;
+		String qry = "DELETE * FROM relp_Partner_Member WHERE partner_id = " + partnerId;
 		try {
-			String qry = "DELETE * FROM relp_Partner_Member WHERE partner_id = " + partnerId;
 			update = template.update(qry);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		return update;
 	};
 
 	public int deleteByMemberId(Long memberId) {
 		int update = 0;
+		String qry = "DELETE * FROM relp_Partner_Member WHERE member_id =" + memberId;
 		try {
-			String qry = "DELETE * FROM relp_Partner_Member WHERE member_id =" + memberId;
 			update = template.update(qry);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		return update;
 	};

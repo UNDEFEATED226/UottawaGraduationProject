@@ -31,33 +31,39 @@ public class MainEventsService implements MainEventsRepository {
 		return event;
 	};
 
-	public void add(MainEvents event) {
+	public int add(MainEvents event) {
+		int update = 0;
 		String qry = "INSERT INTO main_Events(name_en,name_fr,start_date,end_date,notes,type) VALUES(?,?,?,?,?,?)";
 		try {
-			template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(), event.getEnd_date(),
-					event.getNotes(), event.getType());
+			update = template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(),
+					event.getEnd_date(), event.getNotes(), event.getType());
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "EVENT WHEN ADDING");
 		}
+		return update;
 	}
 
-	public void deleteById(Long id) {
+	public int deleteById(Long id) {
+		int update = 0;
 		String qry = "DELETE * FROM main_Events WHERE ID = ?";
 		try {
-			template.update(qry, id);
+			update = template.update(qry, id);
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
+		return update;
 	}
 
-	public void update(MainEvents event) {
+	public int update(MainEvents event) {
+		int update = 0;
 		String qry = "UPDATE main_Events SET name_en = ?,name_fr = ?, start_date = ?, end_date = ?, notes = ?, type = ? WHERE id = ?";
 		try {
-			template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(), event.getEnd_date(),
-					event.getNotes(), event.getType(), event.getId());
+			update = template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(),
+					event.getEnd_date(), event.getNotes(), event.getType(), event.getId());
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "EVENT WHEN UPDATING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "EVENT WHEN UPDATING");
 		}
+		return update;
 	}
 
 	public List<MainEvents> findAll() {

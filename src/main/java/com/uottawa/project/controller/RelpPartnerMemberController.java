@@ -21,48 +21,58 @@ import com.uottawa.project.service.RelpPartnerMemberService;
 public class RelpPartnerMemberController {
 
 	@Autowired
-	RelpPartnerMemberService relpPartnerMemberService;
+	private RelpPartnerMemberService relpPartnerMemberService;
 
 	private static final Logger log = LoggerFactory.getLogger(RelpPartnerMemberController.class);
 
 	Gson gson = new Gson();
 
 	@PostMapping("/add")
-	public void add(@RequestBody RelpPartnerMember r) {
-		Long partnerId = r.getPartnerId();
-		Long memberId = r.getMemberId();
+	public void add(@RequestBody RelpPartnerMember relpPartnerMember) {
+		int update = 0;
 		try {
-			relpPartnerMemberService.add(r);
+			update = relpPartnerMemberService.add(relpPartnerMember);
 		} catch (ResponseStatusException e) {
-			log.error("Error when adding to relp_Partner_Member where partner_id = {} and member_id = {}", partnerId,
-					memberId);
+			log.error("Error when adding relpPartnerMember{} to relp_Partner_Member", gson.toJson(relpPartnerMember));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
-		log.info("RelpPartnerMember{} added to relp_Partner_Member.", gson.toJson(r));
+		if (update > 0) {
+			log.info("RelpPartnerMember{} added to relp_Partner_Member.", gson.toJson(relpPartnerMember));
+		} else {
+			log.error("Error when adding relpPartnerMember{} to relp_Partner_Member", gson.toJson(relpPartnerMember));
+		}
 	}
 
 	@GetMapping("/delete_by_partner_id")
 	public void deleteByPartnerId(Long partnerId) {
-		int update = -1;
+		int update = 0;
 		try {
 			update = relpPartnerMemberService.deleteByPartnerId(partnerId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting where partner id={}", partnerId);
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
 		}
-		log.info("{} rows in relp_Partner_Member where partner_id = {} are deleted.", update, partnerId);
+		if (update > 0) {
+			log.info("{} rows in relp_Partner_Member where partner_id = {} are deleted.", update, partnerId);
+		} else {
+			log.error("Error when deleting where partner id={}", partnerId);
+		}
 	}
 
 	@GetMapping("/delete_by_member_id")
 	public void deleteByMemberId(Long memberId) {
-		int update = -1;
+		int update = 0;
 		try {
 			update = relpPartnerMemberService.deleteByMemberId(memberId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting where member id={}", memberId);
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
 		}
-		log.info("{} rows in relp_Partner_Member where member_id = {} are deleted.", update, memberId);
+		if (update > 0) {
+			log.info("{} rows in relp_Partner_Member where member_id = {} are deleted.", update, memberId);
+		} else {
+			log.error("Error when deleting where member id={}", memberId);
+		}
 	}
 
 	@GetMapping("/find_all")

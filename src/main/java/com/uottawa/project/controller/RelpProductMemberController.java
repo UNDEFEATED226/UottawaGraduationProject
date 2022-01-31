@@ -21,7 +21,7 @@ import com.uottawa.project.service.RelpProductMemberService;
 public class RelpProductMemberController {
 
 	@Autowired
-	RelpProductMemberService relpProductMemberService;
+	private RelpProductMemberService relpProductMemberService;
 
 	private static final Logger log = LoggerFactory.getLogger(RelpProductMemberController.class);
 
@@ -29,40 +29,50 @@ public class RelpProductMemberController {
 
 	@PostMapping("/add")
 	public void add(@RequestBody RelpProductMember relpProductMember) {
-		Long productId = relpProductMember.getProductId();
-		Long memberId = relpProductMember.getMemberId();
+		int update = 0;
 		try {
-			relpProductMemberService.add(relpProductMember);
+			update = relpProductMemberService.add(relpProductMember);
 		} catch (ResponseStatusException e) {
-			log.error("Error when adding to relp_Product_Member where product_id = {} and member_id = {}", productId,
-					memberId);
+			log.error("Error when adding relpProductMember{} to relp_Product_Member.", gson.toJson(relpProductMember));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
-		log.info("RelpProductMember{} added to relp_Product_Member.", gson.toJson(relpProductMember));
+		if (update > 0) {
+			log.info("RelpProductMember{} added to relp_Product_Member.", gson.toJson(relpProductMember));
+		} else {
+			log.error("Error when adding relpProductMember{} to relp_Product_Member.", gson.toJson(relpProductMember));
+		}
 	}
 
 	@GetMapping("/delete_by_member_id")
 	public void deleteByMemberId(Long memberId) {
-		int update = -1;
+		int update = 0;
 		try {
 			update = relpProductMemberService.deleteByMemberId(memberId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting where member id={}", memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
-		log.info("{} rows in relp_Product_Member where member_id = {} are deleted.", update, memberId);
+		if (update > 0) {
+			log.info("{} rows in relp_Product_Member where member_id = {} are deleted.", update, memberId);
+		} else {
+			log.error("Error when deleting where member id={}", memberId);
+		}
 	}
 
 	@GetMapping("/delete_by_product_id")
 	public void deleteByProductId(Long productId) {
-		int update = -1;
+		int update = 0;
 		try {
 			update = relpProductMemberService.deleteByProductId(productId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting where product_id={}", productId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
-		log.info("{} rows in relp_Product_Member where product_id = {} are deleted.", update, productId);
+		if (update > 0) {
+			log.info("{} rows in relp_Product_Member where product_id = {} are deleted.", update, productId);
+		} else {
+			log.error("Error when deleting where product_id={}", productId);
+		}
 	}
 
 	@GetMapping("/find_all")
