@@ -1,25 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+class App extends Component {
+  state = {
+    events: []
+  };
+
+  async componentDidMount() {
+    const response = await fetch('/main_events/find_all');
+    const body = await response.json();
+    this.setState({events: body});
+  }
+
+  render() {
+    const {events} = this.state;
+    return (
+      <div className="App">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {events.map(e =>
+            <div>
+              {e.name_en}/{e.name_fr} ({new Date(e.start_date).getFullYear()} to {new Date(e.end_date).getFullYear()})
+            </div>
+          )}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;
