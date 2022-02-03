@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.MainEvents;
+import com.uottawa.project.entity.MainPartners;
 import com.uottawa.project.repository.MainEventsRepository;
 
 @Service
@@ -75,5 +76,16 @@ public class MainEventsService implements MainEventsRepository {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
 		return list;
+	}
+
+	public MainEvents findById(Long id) {
+		MainEvents event;
+		String qry = "SELECT * FROM main_Events WHERE ID = " + id;
+		try {
+			event = template.queryForObject(qry, rowMapper);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		return event;
 	}
 }

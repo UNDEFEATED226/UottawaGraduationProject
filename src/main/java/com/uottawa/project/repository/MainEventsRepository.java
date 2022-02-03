@@ -7,11 +7,13 @@ import com.uottawa.project.entity.MainEvents;
 @Repository
 public interface MainEventsRepository {
 
-	int add(MainEvents event);
+	public int add(MainEvents event);
 
-	int deleteById(Long id);
+	public int deleteById(Long id);
 
-	int update(MainEvents event);
+	public int update(MainEvents event);
 
-	List<MainEvents> findAll();
+	public List<MainEvents> findAll();
+	
+	public MainEvents findById(Long id);
 }

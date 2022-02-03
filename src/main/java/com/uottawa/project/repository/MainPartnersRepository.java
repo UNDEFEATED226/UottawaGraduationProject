@@ -8,17 +8,17 @@ import com.uottawa.project.entity.MainPartners;
 
 @Repository
 public interface MainPartnersRepository {
-	int add(MainPartners partner);
+	public int add(MainPartners partner);
 
-	int deleteById(Long id);
+	public int deleteById(Long id);
 
-	int update(MainPartners partner);
+	public int update(MainPartners partner);
 
-	List<MainPartners> findAll();
+	public List<MainPartners> findAll();
 
-	MainPartners findById(Long id);
+	public MainPartners findById(Long id);
 
-	List<MainPartners> findByType(Long type);
+	public List<MainPartners> findByType(Long type);
 
-	List<MainPartners> findByScope(Long scope);
+	public List<MainPartners> findByScope(Long scope);
 }

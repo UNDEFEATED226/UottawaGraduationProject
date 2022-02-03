@@ -89,4 +89,17 @@ public class MainEventsController {
 		log.info("main_Events list:{}", gson.toJson(list));
 		return list;
 	}
+
+	@GetMapping("/find_by_id")
+	public MainEvents findById(Long id) {
+		MainEvents event;
+		try {
+			event = mainEventsService.findById(id);
+		} catch (DataAccessException e) {
+			log.error("Error when finding main_Events where id = {}.", id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		log.info("Event{} found.", gson.toJson(event));
+		return event;
+	}
 }
