@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +48,7 @@ public class MainProductsController {
 		int update = 0;
 		try {
 			update = mainProductsService.deleteById(id);
-		} catch (DataAccessException e) {
+		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Products where id = {}", id);
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
@@ -81,7 +80,7 @@ public class MainProductsController {
 		List<MainProducts> list = new ArrayList<MainProducts>();
 		try {
 			list = mainProductsService.findAll();
-		} catch (DataAccessException e) {
+		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Products list.");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
@@ -94,7 +93,7 @@ public class MainProductsController {
 		MainProducts product;
 		try {
 			product = mainProductsService.findById(id);
-		} catch (DataAccessException e) {
+		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Products where id = {}.", id);
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}

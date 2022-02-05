@@ -82,7 +82,7 @@ public class MainProductsService implements MainProductsRepository {
 
 	public MainProducts findById(Long id) {
 		MainProducts product;
-		String qry = "SELECT * FROM main_Partners WHERE ID = " + id;
+		String qry = "SELECT * FROM main_Products WHERE ID = " + id;
 		try {
 			product = template.queryForObject(qry, rowMapper);
 		} catch (DataAccessException e) {

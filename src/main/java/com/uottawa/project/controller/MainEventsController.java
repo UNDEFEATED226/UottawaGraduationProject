@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,7 +49,7 @@ public class MainEventsController {
 		int update = 0;
 		try {
 			update = mainEventsService.deleteById(id);
-		} catch (DataAccessException e) {
+		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Events where id = {}", id);
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
@@ -82,7 +81,7 @@ public class MainEventsController {
 		List<MainEvents> list = new ArrayList<MainEvents>();
 		try {
 			list = mainEventsService.findAll();
-		} catch (DataAccessException e) {
+		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Events list.");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
@@ -95,7 +94,7 @@ public class MainEventsController {
 		MainEvents event;
 		try {
 			event = mainEventsService.findById(id);
-		} catch (DataAccessException e) {
+		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Events where id = {}.", id);
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
