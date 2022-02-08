@@ -14,4 +14,6 @@ public interface TypesProductRepository {
 	public int update(TypesProduct product);
 	
 	public List<TypesProduct> findAll();
+	
+	public TypesProduct findById(Long id);
 }

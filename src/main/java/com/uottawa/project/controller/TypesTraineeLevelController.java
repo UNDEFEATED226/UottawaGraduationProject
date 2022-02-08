@@ -88,4 +88,16 @@ public class TypesTraineeLevelController {
 		return list;
 	}
 
+	@GetMapping("/find_by_id")
+	public TypesTraineeLevel findById(Long id) {
+		TypesTraineeLevel traineeLevel;
+		try {
+			traineeLevel = typesTraineeLevelService.findById(id);
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding tyoes_TraineeLevel where id = {}.", id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		log.info("TraineeLevel type{} found.", gson.toJson(traineeLevel));
+		return traineeLevel;
+	}
 }

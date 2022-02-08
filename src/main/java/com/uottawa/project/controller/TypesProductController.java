@@ -88,4 +88,16 @@ public class TypesProductController {
 		return list;
 	}
 
+	@GetMapping("/find_by_id")
+	public TypesProduct findById(Long id) {
+		TypesProduct product;
+		try {
+			product = typesProductService.findById(id);
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding types_Product where id = {}.", id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		log.info("Product type{} found.", gson.toJson(product));
+		return product;
+	}
 }

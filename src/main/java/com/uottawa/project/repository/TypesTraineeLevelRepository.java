@@ -14,4 +14,6 @@ public interface TypesTraineeLevelRepository {
 	public int update(TypesTraineeLevel level);
 	
 	public List<TypesTraineeLevel> findAll();
+	
+	public TypesTraineeLevel findById(Long id);
 }

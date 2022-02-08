@@ -2,6 +2,7 @@ package com.uottawa.project.entity;
 
 public class MainPartners {
 	private Long id;
+	
 	private String name;
 
 	// types_PartnerShipType id

@@ -10,13 +10,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.TypesFaculty;
+import com.uottawa.project.repository.TypesFacultyRepository;
 
 @Service
-public class TypesFacultyService {
-	
+public class TypesFacultyService implements TypesFacultyRepository {
+
 	@Autowired
 	private JdbcTemplate template;
-	
+
 	RowMapper<TypesFaculty> rowMapper = (f, rowNum) -> {
 		TypesFaculty faculty = new TypesFaculty();
 		faculty.setId(f.getLong("ID"));
@@ -24,7 +25,7 @@ public class TypesFacultyService {
 		faculty.setNameFr(f.getString("name_fr"));
 		return faculty;
 	};
-	
+
 	public int add(TypesFaculty faculty) {
 		int update = 0;
 		String qry = "INSERT INTO types_Faculty(name_en,name_fr) VALUES(?,?)";
@@ -35,7 +36,7 @@ public class TypesFacultyService {
 		}
 		return update;
 	}
-	
+
 	public int deleteById(Long id) {
 		int update = 0;
 		String qry = "DELETE * FROM types_Faculty WHERE ID = ?";
@@ -46,7 +47,7 @@ public class TypesFacultyService {
 		}
 		return update;
 	}
-	
+
 	public int update(TypesFaculty faculty) {
 		int update = 0;
 		String qry = "UPDATE types_Faculty SET name_en=?,name_fr=? WHERE ID = ?";
@@ -57,8 +58,8 @@ public class TypesFacultyService {
 		}
 		return update;
 	}
-	
-	public List<TypesFaculty> findAll(){
+
+	public List<TypesFaculty> findAll() {
 		List<TypesFaculty> list = new ArrayList<TypesFaculty>();
 		String qry = "SELECT * FROM types_Faculty";
 		try {
@@ -67,5 +68,16 @@ public class TypesFacultyService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
 		return list;
+	}
+
+	public TypesFaculty findById(Long id) {
+		TypesFaculty faculty;
+		String qry = "SELECT * FROM types_Faculty WHERE id = " + id;
+		try {
+			faculty = template.queryForObject(qry, rowMapper);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		return faculty;
 	}
 }
