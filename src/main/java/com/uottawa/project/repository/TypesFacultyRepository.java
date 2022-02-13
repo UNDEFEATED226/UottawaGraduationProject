@@ -14,4 +14,6 @@ public interface TypesFacultyRepository {
 	public int update(TypesFaculty faculty);
 	
 	public List<TypesFaculty> findAll();
+	
+	public TypesFaculty findById(Long id);
 }

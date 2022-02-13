@@ -10,9 +10,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.TypesProduct;
+import com.uottawa.project.repository.TypesProductRepository;
 
 @Service
-public class TypesProductService {
+public class TypesProductService implements TypesProductRepository {
 
 	@Autowired
 	private JdbcTemplate template;
@@ -67,5 +68,16 @@ public class TypesProductService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
 		return list;
+	}
+
+	public TypesProduct findById(Long id) {
+		TypesProduct product;
+		String qry = "SELECT * FROM types_Product WHERE id = " + id;
+		try {
+			product = template.queryForObject(qry, rowMapper);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		return product;
 	}
 }

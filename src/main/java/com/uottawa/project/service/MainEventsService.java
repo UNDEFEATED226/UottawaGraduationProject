@@ -1,6 +1,5 @@
 package com.uottawa.project.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.MainEvents;
-import com.uottawa.project.entity.MainPartners;
 import com.uottawa.project.repository.MainEventsRepository;
 
 @Service
@@ -22,11 +20,11 @@ public class MainEventsService implements MainEventsRepository {
 
 	RowMapper<MainEvents> rowMapper = (e, rowNum) -> {
 		MainEvents event = new MainEvents();
-		event.SetId(e.getLong("ID"));
-		event.setName_en(e.getString("name_en"));
-		event.setName_fr(e.getString("name_fr"));
-		event.setStart_date(new Timestamp(e.getDate("start_date").getTime()));
-		event.setEnd_date(new Timestamp(e.getDate("end_date").getTime()));
+		event.setId(e.getLong("ID"));
+		event.setNameEn(e.getString("name_en"));
+		event.setNameFr(e.getString("name_fr"));
+		event.setStartDate(e.getDate("start_date"));
+		event.setEndDate(e.getDate("end_date"));
 		event.setNotes(e.getString("notes"));
 		event.setType(e.getInt("type"));
 		return event;
@@ -36,10 +34,10 @@ public class MainEventsService implements MainEventsRepository {
 		int update = 0;
 		String qry = "INSERT INTO main_Events(name_en,name_fr,start_date,end_date,notes,type) VALUES(?,?,?,?,?,?)";
 		try {
-			update = template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(),
-					event.getEnd_date(), event.getNotes(), event.getType());
+			update = template.update(qry, event.getNameEn(), event.getNameFr(), event.getStartDate(),
+					event.getEndDate(), event.getNotes(), event.getType());
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "EVENT WHEN ADDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
 		return update;
 	}
@@ -59,16 +57,16 @@ public class MainEventsService implements MainEventsRepository {
 		int update = 0;
 		String qry = "UPDATE main_Events SET name_en = ?,name_fr = ?, start_date = ?, end_date = ?, notes = ?, type = ? WHERE id = ?";
 		try {
-			update = template.update(qry, event.getName_en(), event.getName_fr(), event.getStart_date(),
-					event.getEnd_date(), event.getNotes(), event.getType(), event.getId());
+			update = template.update(qry, event.getNameEn(), event.getNameFr(), event.getStartDate(),
+					event.getEndDate(), event.getNotes(), event.getType(), event.getId());
 		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "EVENT WHEN UPDATING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
 		}
 		return update;
 	}
 
 	public List<MainEvents> findAll() {
-		String qry = "SELECT ID,name_en,name_fr,start_date,end_date,notes,type FROM main_Events";
+		String qry = "SELECT * FROM main_Events";
 		List<MainEvents> list = new ArrayList<MainEvents>();
 		try {
 			list = template.query(qry, rowMapper);

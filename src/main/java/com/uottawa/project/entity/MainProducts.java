@@ -4,13 +4,22 @@ import java.sql.Date;
 
 public class MainProducts {
 	private Long id;
+	
 	private String title;
+	
 	private Date date;
+	
 	private Integer onGoing;
+	
 	private Integer peerReviewed;
+
 	private String doi;
+	
 	private String authorsAll;
+	
 	private String notes;
+	
+	//types_Product id
 	private Long type;
 
 	public MainProducts() {	

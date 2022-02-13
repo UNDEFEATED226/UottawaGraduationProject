@@ -6,7 +6,7 @@ public class MainSupervision {
 
 	private Long id;
 
-	// id in main_Members
+	//main_Members id
 	private Long trainee;
 
 	private String lastName;

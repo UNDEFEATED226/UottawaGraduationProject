@@ -11,9 +11,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.MainSupervision;
+import com.uottawa.project.repository.MainSupervisionRepository;
 
 @Service
-public class MainSupervisionService {
+public class MainSupervisionService implements MainSupervisionRepository{
 
 	@Autowired
 	private JdbcTemplate template;

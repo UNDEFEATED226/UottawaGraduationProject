@@ -87,4 +87,17 @@ public class TypesFacultyController {
 		log.info("types_Faculty list:{}", gson.toJson(list));
 		return list;
 	}
+
+	@GetMapping("/find_by_id")
+	public TypesFaculty findById(Long id) {
+		TypesFaculty faculty;
+		try {
+			faculty = typesFacultyService.findById(id);
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding types_Faculty where id = {}.", id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		log.info("Faculty type{} found.", gson.toJson(faculty));
+		return faculty;
+	}
 }
