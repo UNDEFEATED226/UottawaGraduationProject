@@ -1,28 +1,38 @@
-import './App.css';
+import './App.css'
 import { Component } from 'react';
+import SideBar from './components/SideBar'
 
 class App extends Component {
-  state = {
-    events: []
-  };
-
-  async componentDidMount() {
-    const response = await fetch('/main_events/find_all');
-    const body = await response.json();
-    this.setState({events: body});
-  }
-
   render() {
-    const {events} = this.state;
     return (
       <div className="App">
-        <p>
-          {events.map(e =>
-            <div>
-              {e.name_en}/{e.name_fr} ({new Date(e.start_date).getFullYear()} to {new Date(e.end_date).getFullYear()})
-            </div>
-          )}
-        </p>
+        <header>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic voluptatibus obcaecati suscipit voluptatem consectetur in nemo sunt earum non at praesentium placeat ut ratione explicabo nisi, molestiae perspiciatis. Nobis, animi?
+        </header>
+        <div className='SideBarContainer'>
+          <SideBar selected="MyProducts"/>
+        </div>
+        <div className='mainSection'>
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime consequatur accusamus nam tenetur temporibus ad sunt necessitatibus aperiam delectus perspiciatis porro illo, expedita unde, nemo iusto veniam, magni vero eaque?
+          </p>
+        </div>
       </div>
     );
   }

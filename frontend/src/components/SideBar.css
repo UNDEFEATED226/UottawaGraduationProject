@@ -1,0 +1,26 @@
+.SideBar {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(128, 128, 128);
+}
+
+.SideBar > div {
+    height: 10vh;
+    min-height: 1.5em;
+    max-height: 3em;
+    line-height: 3em;
+    text-align: right;
+    padding-right: 1em;
+    border-top-width: 1px;
+    border-top-style: solid;
+    background-color: aquamarine;
+    cursor: pointer;
+}
+
+.SideBar > .selected {
+    background-color: gold;
+}
+
+.SideBar > div:hover {
+    background-color: rgb(70, 172, 133);
+}
