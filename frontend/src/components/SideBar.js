@@ -2,9 +2,23 @@ import './SideBar.css'
 import React, { Component } from 'react';
 
 class SideBar extends Component {
+    
+    state = {
+        collapsed: false
+    }
+
+    toggleCollapse() {
+        this.setState(state => {
+            return {collapsed: !state.collapsed};
+        });
+    }
+    
     render() { 
         return (
-            <div className="SideBar">
+            <div className={"SideBar" + (this.state.collapsed? " collapsed" : "")}>
+                <button onClick={() => (this.toggleCollapse())}>
+                    {this.state.collapsed? ">" : "< Collapse"}
+                </button>
                 <div className={this.props.selected === "BasicInfo"? "selected" : "unselected"}>
                     Basic Information
                 </div>
