@@ -8,22 +8,27 @@ class Button extends Component {
     //state = {  } 
 
     static propTypes = {
-        text: PropTypes.string,
-        positive: PropTypes.bool,
-        negative: PropTypes.bool,
-        disabled: PropTypes.bool
+        text: PropTypes.string.isRequired,
+        type: PropTypes.number,
+        disabled: PropTypes.bool,
+        clickHandler: PropTypes.func
+    }
+
+    handleClick = () => {
+        this.props.clickHandler(this.props.text);
     }
 
     render() { 
         const prepClassName = [
             "component-button",
-            this.props.positive ? "positive" : "",
-            this.props.negative ? "negative" : ""
+            this.props.type == 1 ? "positive" : "",
+            this.props.type == 2 ? "negative" : ""
         ];
 
         const className = prepClassName.join(" ").trim();
 
         return (
+            // Look into when to disable, like tied to the submit state
             <button className = { className } disabled={ this.props.disabled }>{ this.props.text }</button>
         );
     }
