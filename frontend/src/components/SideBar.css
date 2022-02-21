@@ -1,7 +1,7 @@
 .SideBar {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 240px;
     height: 100%;
     background-color: rgb(128, 128, 128);
     transition: width ease-out 0.3s;
@@ -19,10 +19,8 @@
 }
 
 .SideBar > div {
-    height: 10vh;
-    min-height: 1.5em;
-    max-height: 3em;
-    line-height: 3em;
+    height: fit-content;
+    line-height: 2.5;
     text-align: right;
     white-space: nowrap;
     padding-right: 1em;
