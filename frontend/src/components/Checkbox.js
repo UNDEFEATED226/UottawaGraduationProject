@@ -1,10 +1,10 @@
 import './Checkbox.css'
 
-const Checkbox = (prop) => {
+const Checkbox = ({name, disabled}) => {
     return (
         <div className='Checkbox'>
-            <input type="checkbox" name={prop.name} id={prop.name} disabled={prop.disabled} />
-            <label htmlFor={prop.name}>{prop.name}</label>
+            <input type="checkbox" name={name} id={name} disabled={disabled} />
+            <label htmlFor={name}>{name}</label>
         </div>
     );
 }
