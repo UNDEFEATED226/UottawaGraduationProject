@@ -1,0 +1,8 @@
+.Dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.Dropdown > select {
+    height: 2rem;
+}
