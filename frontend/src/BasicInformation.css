@@ -1,0 +1,16 @@
+.BasicInformation {
+    padding: 1em;
+    background-color: pink;
+}
+
+.BasicInformation .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+}
+
+.BasicInformation .buttons {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
