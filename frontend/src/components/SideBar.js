@@ -1,49 +1,39 @@
 import './SideBar.css'
-import React, { Component } from 'react';
+import { useState } from 'react';
 
-class SideBar extends Component {
-    
-    state = {
-        collapsed: false
-    }
+const SideBar = ({ selected }) => {
 
-    toggleCollapse() {
-        this.setState(state => {
-            return {collapsed: !state.collapsed};
-        });
-    }
-    
-    render() { 
-        return (
-            <div className={"SideBar" + (this.state.collapsed? " collapsed" : "")}>
-                <button onClick={() => (this.toggleCollapse())}>
-                    {this.state.collapsed? ">" : "< Collapse"}
-                </button>
-                <div className={this.props.selected === "BasicInfo"? "selected" : "unselected"}>
-                    Basic Information
-                </div>
-                <div className={this.props.selected === "AboutMe"? "selected" : "unselected"}>
-                    About Me
-                </div>
-                <div className={this.props.selected === "MyProducts"? "selected" : "unselected"}>
-                    My Products
-                </div>
-                <div className={this.props.selected === "MyGrants"? "selected" : "unselected"}>
-                    My Grants
-                </div>
-                <div className={this.props.selected === "MyEvents"? "selected" : "unselected"}>
-                    My Events
-                </div>
-                <div className={this.props.selected === "MySupervisions"? "selected" : "unselected"}>
-                    My Supervisions
-                </div>
-                <div className={this.props.selected === "Partners"? "selected" : "unselected"}>
-                    Partners
-                </div>
-                <div></div>
+    const [collapsed, setCollapsed] = useState(false);
+
+    return (
+        <div className={"SideBar" + (collapsed? " collapsed" : "")}>
+            <button onClick={() => setCollapsed(!collapsed)}>
+                {collapsed? ">" : "< Collapse"}
+            </button>
+            <div className={selected === "BasicInfo"? "selected" : "unselected"}>
+                Basic Information
             </div>
-        );
-    }
+            <div className={selected === "AboutMe"? "selected" : "unselected"}>
+                About Me
+            </div>
+            <div className={selected === "MyProducts"? "selected" : "unselected"}>
+                My Products
+            </div>
+            <div className={selected === "MyGrants"? "selected" : "unselected"}>
+                My Grants
+            </div>
+            <div className={selected === "MyEvents"? "selected" : "unselected"}>
+                My Events
+            </div>
+            <div className={selected === "MySupervisions"? "selected" : "unselected"}>
+                My Supervisions
+            </div>
+            <div className={selected === "Partners"? "selected" : "unselected"}>
+                Partners
+            </div>
+            <div></div>
+        </div>
+    );
 }
 
 export default SideBar;
