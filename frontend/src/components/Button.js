@@ -1,39 +1,29 @@
 import './Button.css';
-import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
-/* source of inspiration: https://github.com/ahfarmer/calculator */
- 
-class Button extends Component {
-    //state = {  } 
+const Button = ({text, type, disabled, clickHandler}) => {
+    /* source of inspiration: https://github.com/ahfarmer/calculator */
 
-    static propTypes = {
-        text: PropTypes.string.isRequired,
-        type: PropTypes.number,
-        disabled: PropTypes.bool,
-        clickHandler: PropTypes.func
-    }
+    const prepClassName = [
+        "component-button",
+        type === 1 ? "positive" : "",
+        type === 2 ? "negative" : ""
+    ];
 
-    handleClick = () => {
-        this.props.clickHandler(this.props.text);
-    }
+    const className = prepClassName.join(" ").trim();
 
-    render() { 
-        const prepClassName = [
-            "component-button",
-            this.props.type == 1 ? "positive" : "",
-            this.props.type == 2 ? "negative" : ""
-        ];
-
-        const className = prepClassName.join(" ").trim();
-
-        return (
-            // Look into when to disable, like tied to the submit state
-            <button className = { className } disabled={ this.props.disabled }>{ this.props.text }</button>
-        );
-    }
+    return ( // Look into when to disable, like tied to the submit state
+        <button className = { className } onClick={() => clickHandler(text)} disabled={ disabled }>{ text }</button>
+    );
 }
- 
+
+Button.propTypes = {
+    text: PropTypes.string.isRequired,
+    type: PropTypes.number,
+    disabled: PropTypes.bool,
+    clickHandler: PropTypes.func
+}
+
 export default Button;
 
 /*
