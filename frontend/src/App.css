@@ -1,7 +1,7 @@
 .App {
   display: grid;
   grid-template-rows: 140px auto;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   grid-template-areas:
     "hd hd"
     "sb ms";
