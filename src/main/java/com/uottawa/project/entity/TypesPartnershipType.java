@@ -1,43 +1,27 @@
 package com.uottawa.project.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "types_PartnershipType")
 public class TypesPartnershipType {
+	
+	@Id
+	@GeneratedValue
 	private Long id;
 	
 	private String typeEn;
 	
 	private String typeFr;
-
-	public TypesPartnershipType() {
-		
-	}
-	
-	public TypesPartnershipType(Long id, String typeEn, String typeFr) {
-		this.id = id;
-		this.typeEn = typeEn;
-		this.typeFr = typeFr;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTypeEn() {
-		return typeEn;
-	}
-
-	public void setTypeEn(String typeEn) {
-		this.typeEn = typeEn;
-	}
-
-	public String getTypeFr() {
-		return typeFr;
-	}
-
-	public void setTypeFr(String typeFr) {
-		this.typeFr = typeFr;
-	}
 }

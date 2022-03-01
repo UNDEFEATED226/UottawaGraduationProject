@@ -1,83 +1,66 @@
 package com.uottawa.project.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.TypesFaculty;
 import com.uottawa.project.repository.TypesFacultyRepository;
 
 @Service
-public class TypesFacultyService implements TypesFacultyRepository {
+public class TypesFacultyService {
 
 	@Autowired
-	private JdbcTemplate template;
+	private TypesFacultyRepository typesFacultyRepository;
 
-	RowMapper<TypesFaculty> rowMapper = (f, rowNum) -> {
-		TypesFaculty faculty = new TypesFaculty();
-		faculty.setId(f.getLong("ID"));
-		faculty.setNameEn(f.getString("name_en"));
-		faculty.setNameFr(f.getString("name_fr"));
-		return faculty;
-	};
-
-	public int add(TypesFaculty faculty) {
-		int update = 0;
-		String qry = "INSERT INTO types_Faculty(name_en,name_fr) VALUES(?,?)";
+	public TypesFaculty add(TypesFaculty faculty) {
 		try {
-			update = template.update(qry, faculty.getNameEn(), faculty.getNameFr());
-		} catch (DataAccessException e) {
+			return typesFacultyRepository.save(faculty);
+		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
-		return update;
 	}
 
-	public int deleteById(Long id) {
-		int update = 0;
-		String qry = "DELETE * FROM types_Faculty WHERE ID = ?";
-		try {
-			update = template.update(qry, id);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+	public void deleteById(Long id) {
+		if (typesFacultyRepository.existsById(id)) {
+			try {
+				typesFacultyRepository.deleteById(id);
+				return;
+			} catch (IllegalArgumentException e) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			}
 		}
-		return update;
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 	}
-
-	public int update(TypesFaculty faculty) {
-		int update = 0;
-		String qry = "UPDATE types_Faculty SET name_en=?,name_fr=? WHERE ID = ?";
-		try {
-			update = template.update(qry, faculty.getNameEn(), faculty.getNameFr(), faculty.getId());
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+	
+	public TypesFaculty update(TypesFaculty faculty) {
+		if (typesFacultyRepository.existsById(faculty.getId())) {
+			try {
+				return typesFacultyRepository.save(faculty);
+			} catch (IllegalArgumentException e) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			}
 		}
-		return update;
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 	}
 
 	public List<TypesFaculty> findAll() {
-		List<TypesFaculty> list = new ArrayList<TypesFaculty>();
-		String qry = "SELECT * FROM types_Faculty";
 		try {
-			list = template.query(qry, rowMapper);
-		} catch (DataAccessException e) {
+			return typesFacultyRepository.findAll();
+		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
-		return list;
 	}
 
 	public TypesFaculty findById(Long id) {
-		TypesFaculty faculty;
-		String qry = "SELECT * FROM types_Faculty WHERE id = " + id;
-		try {
-			faculty = template.queryForObject(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		if (typesFacultyRepository.existsById(id)) {
+			try {
+				return typesFacultyRepository.findById(id).get();
+			} catch (IllegalArgumentException e) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			}
 		}
-		return faculty;
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 	}
 }

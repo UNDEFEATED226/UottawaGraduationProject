@@ -25,7 +25,7 @@ public class MainSupervisionController {
 
 	private static final Logger log = LoggerFactory.getLogger(MainSupervisionController.class);
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	@PostMapping("/add")
 	public void add(@RequestBody MainSupervision supervision) {

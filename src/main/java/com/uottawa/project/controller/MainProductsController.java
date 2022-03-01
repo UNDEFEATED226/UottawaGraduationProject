@@ -25,7 +25,7 @@ public class MainProductsController {
 
 	private static final Logger log = LoggerFactory.getLogger(MainProductsController.class);
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	@PostMapping("/add")
 	public void add(@RequestBody MainProducts product) {

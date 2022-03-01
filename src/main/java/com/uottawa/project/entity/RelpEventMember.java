@@ -1,27 +1,20 @@
 package com.uottawa.project.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+//@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "types_Product")
-public class TypesProduct {
+//@Table(name = "Relp_Event_Member")
+public class RelpEventMember {
+	private Long eventId;
 	
-	@Id
-	@GeneratedValue
-	private Long id;
-	
-	private String typeEn;
-	
-	private String typeFr;
+	private Long memberId;
 }

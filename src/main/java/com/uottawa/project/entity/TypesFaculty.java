@@ -1,44 +1,32 @@
 package com.uottawa.project.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "types_Faculty")
 public class TypesFaculty {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ID")
 	private Long id;
 
+	@Column(name="name_en")
 	private String nameEn;
 	
+	@Column(name="name_fr")
 	private String nameFr;
-	
-	public TypesFaculty() {
-		
-	}
-
-	public TypesFaculty(Long id, String nameEn, String nameFr) {
-		this.id = id;
-		this.nameEn = nameEn;
-		this.nameFr = nameFr;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNameEn() {
-		return nameEn;
-	}
-
-	public void setNameEn(String nameEn) {
-		this.nameEn = nameEn;
-	}
-
-	public String getNameFr() {
-		return nameFr;
-	}
-
-	public void setNameFr(String nameFr) {
-		this.nameFr = nameFr;
-	}
 }

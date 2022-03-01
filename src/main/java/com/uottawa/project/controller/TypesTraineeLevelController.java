@@ -23,7 +23,7 @@ public class TypesTraineeLevelController {
 	@Autowired
 	private TypesTraineeLevelService typesTraineeLevelService;
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	private static final Logger log = LoggerFactory.getLogger(TypesTraineeLevelController.class);
 

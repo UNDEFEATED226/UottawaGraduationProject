@@ -28,15 +28,24 @@ public class RelpPartnerMemberService implements RelpPartnerMemberRepository {
 	public int add(RelpPartnerMember relpPartnerMember) {
 		String qry = "INSERT INTO relp_Partner_Member(partner_id,member_id) VALUES (?,?)";
 		int update = 0;
-		Long partnerId = relpPartnerMember.getPartnerId();
-		Long memberId = relpPartnerMember.getMemberId();
 		try {
-			update = template.update(qry, partnerId, memberId);
+			update = template.update(qry, relpPartnerMember.getPartnerId(), relpPartnerMember.getMemberId());
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
 		return update;
 	};
+	
+	public int deleteById(Long partnerId, Long memberId) {
+		int update = 0;
+		String qry = "DELETE * FROM relp_Partner_Member WHERE partner_id = " + partnerId + " AND member_id=" + memberId;
+		try {
+			update = template.update(qry);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+		}
+		return update;
+	}
 
 	public int deleteByPartnerId(Long partnerId) {
 		int update = 0;
@@ -70,6 +79,18 @@ public class RelpPartnerMemberService implements RelpPartnerMemberRepository {
 		}
 		return list;
 	};
+
+	public RelpPartnerMember findById(Long partnerId, Long memberId) {
+		RelpPartnerMember relpPartnerMember;
+		String qry = "SELECT * FROM relp_Partner_Member WHERE partner_id = " + partnerId + " AND member_id = "
+				+ memberId;
+		try {
+			relpPartnerMember = template.queryForObject(qry, rowMapper);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		return relpPartnerMember;
+	}
 
 	public List<RelpPartnerMember> findByPartnerId(Long partnerId) {
 		String qry = "SELECT * FROM relp_Partner_Member WHERE partner_id = " + partnerId;

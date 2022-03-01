@@ -9,5 +9,4 @@ public class Csi4900Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Csi4900Application.class, args);
 	}
-	
 }

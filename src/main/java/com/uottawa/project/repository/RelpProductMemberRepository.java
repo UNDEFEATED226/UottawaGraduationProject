@@ -8,11 +8,15 @@ import com.uottawa.project.entity.RelpProductMember;
 public interface RelpProductMemberRepository {
 	public int add(RelpProductMember relpProductMember);
 	
+	public int deleteById(Long productId,Long memberId);
+	
 	public int deleteByProductId(Long productId);
 
 	public int deleteByMemberId(Long memberId);
 
 	public List<RelpProductMember> findAll();
+	
+	public RelpProductMember findById(Long productId, Long memberId);
 
 	public List<RelpProductMember> findByProductId(Long productId);
 

@@ -1,16 +1,37 @@
 package com.uottawa.project.entity;
 
 import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "main_Supervision")
 public class MainSupervision {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ID")
 	private Long id;
 
 	//main_Members id
 	private Long trainee;
 
+	@Column(name="last_name")
 	private String lastName;
 
+	@Column(name="first_name")
 	private String firstName;
 
 	// id in types_TraineeLevel
@@ -19,98 +40,11 @@ public class MainSupervision {
 	// id in types_Faculty
 	private Long faculty;
 
+	@Column(name="start_date")
 	private Date startDate;
 
+	@Column(name="end_date")
 	private Date endDate;
 
 	private String notes;
-
-	public MainSupervision() {
-
-	}
-
-	public MainSupervision(Long id, Long trainee, String lastName, String firstName, Long level, Long faculty,
-			Date startDate, Date endDate, String notes) {
-		this.id = id;
-		this.trainee = trainee;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.level = level;
-		this.faculty = faculty;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.notes = notes;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getTrainee() {
-		return trainee;
-	}
-
-	public void setTrainee(Long trainee) {
-		this.trainee = trainee;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public Long getLevel() {
-		return level;
-	}
-
-	public void setLevel(Long level) {
-		this.level = level;
-	}
-
-	public Long getFaculty() {
-		return faculty;
-	}
-
-	public void setFaculty(Long faculty) {
-		this.faculty = faculty;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
 }

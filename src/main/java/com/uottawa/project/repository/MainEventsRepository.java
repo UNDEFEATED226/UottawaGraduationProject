@@ -1,19 +1,16 @@
 package com.uottawa.project.repository;
 
 import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.uottawa.project.entity.MainEvents;
 
 @Repository
-public interface MainEventsRepository {
-
-	public int add(MainEvents event);
-
-	public int deleteById(Long id);
-
-	public int update(MainEvents event);
+public interface MainEventsRepository extends JpaRepository<MainEvents,Long>{
+	public void deleteById(Long id);
 
 	public List<MainEvents> findAll();
 	
-	public MainEvents findById(Long id);
+	public Optional<MainEvents> findById(Long id);
 }

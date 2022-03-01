@@ -1,91 +1,44 @@
 package com.uottawa.project.entity;
 
 import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "main_Events")
 public class MainEvents {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private Long id;
-	
+
+	@Column(name = "name_en")
 	private String nameEn;
-	
+
+	@Column(name = "name_fr")
 	private String nameFr;
-	
+
+	@Column(name = "start_date")
 	private Date startDate;
-	
+
+	@Column(name = "end_date")
 	private Date endDate;
-	
+
 	private String notes;
-	
-	//id of types_Events, to be implemented;
-	private Integer type;
 
-	public MainEvents() {
-
-	}
-	
-	public MainEvents(Long id, String nameEn, String nameFr, Date startDate, Date endDate, String notes, Integer type) {
-		this.id = id;
-		this.nameEn = nameEn;
-		this.nameFr = nameFr;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.notes = notes;
-		this.type = type;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNameEn() {
-		return nameEn;
-	}
-
-	public void setNameEn(String nameEn) {
-		this.nameEn = nameEn;
-	}
-
-	public String getNameFr() {
-		return nameFr;
-	}
-
-	public void setNameFr(String nameFr) {
-		this.nameFr = nameFr;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
+	// id of types_Events, to be implemented;
+	private Long type;
 }

@@ -17,7 +17,7 @@ import com.uottawa.project.entity.RelpProductMember;
 import com.uottawa.project.service.RelpProductMemberService;
 
 @RestController
-@RequestMapping("product_member")
+@RequestMapping("/relp_product_member")
 public class RelpProductMemberController {
 
 	@Autowired
@@ -25,7 +25,7 @@ public class RelpProductMemberController {
 
 	private static final Logger log = LoggerFactory.getLogger(RelpProductMemberController.class);
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	@PostMapping("/add")
 	public void add(@RequestBody RelpProductMember relpProductMember) {
@@ -43,19 +43,38 @@ public class RelpProductMemberController {
 		}
 	}
 
+	@GetMapping("/delete_by_id")
+	public void deleteById(Long productId, Long memberId) {
+		int update = 0;
+		try {
+			update = relpProductMemberService.deleteById(productId, memberId);
+		} catch (ResponseStatusException e) {
+			log.error("Error when deleting from relp_Product_Member where product_id={} and member_id={}", productId,
+					memberId);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
+		}
+		if (update > 0) {
+			log.info("{} rows in relp_Product_Member where product_id={} and member_id={} are deleted.", update,
+					productId, memberId);
+		} else {
+			log.error("Error when deleting from relp_Product_Member where product_id={} and member_id={}", productId,
+					memberId);
+		}
+	}
+
 	@GetMapping("/delete_by_member_id")
 	public void deleteByMemberId(Long memberId) {
 		int update = 0;
 		try {
 			update = relpProductMemberService.deleteByMemberId(memberId);
 		} catch (ResponseStatusException e) {
-			log.error("Error when deleting where member id={}", memberId);
+			log.error("Error when deleting from relp_Product_Member where member_id={}", memberId);
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		if (update > 0) {
 			log.info("{} rows in relp_Product_Member where member_id = {} are deleted.", update, memberId);
 		} else {
-			log.error("Error when deleting where member id={}", memberId);
+			log.error("Error when deleting from relp_Product_Member where member_id={}", memberId);
 		}
 	}
 
@@ -65,13 +84,13 @@ public class RelpProductMemberController {
 		try {
 			update = relpProductMemberService.deleteByProductId(productId);
 		} catch (ResponseStatusException e) {
-			log.error("Error when deleting where product_id={}", productId);
+			log.error("Error when deleting from relp_Product_Member where product_id={}", productId);
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		if (update > 0) {
 			log.info("{} rows in relp_Product_Member where product_id = {} are deleted.", update, productId);
 		} else {
-			log.error("Error when deleting where product_id={}", productId);
+			log.error("Error when deleting from relp_Product_Member where product_id={}", productId);
 		}
 	}
 
@@ -86,6 +105,20 @@ public class RelpProductMemberController {
 		}
 		log.info("relp_Product_Member list:{}", gson.toJson(list));
 		return list;
+	}
+
+	@GetMapping("/find_by_id")
+	public RelpProductMember findById(Long productId, Long memberId) {
+		RelpProductMember relpProductMember;
+		try {
+			relpProductMember = relpProductMemberService.findById(productId, memberId);
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding relp_Product_Member where product_id = {} and member_id={}.", productId,
+					memberId);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		log.info("Relp_Product_Member{} found.", gson.toJson(relpProductMember));
+		return relpProductMember;
 	}
 
 	@GetMapping("/find_by_product_id")

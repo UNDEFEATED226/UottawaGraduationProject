@@ -2,8 +2,6 @@ package com.uottawa.project.entity;
 
 import java.sql.Date;
 
-import net.ucanaccess.complex.Attachment;
-
 public class MainMembers {
 	private Long id;
 	private String last_name;
@@ -40,5 +38,5 @@ public class MainMembers {
 	private Integer indicators_frequency;
 	private String other_comments;
 	private String interviewer_notes;
-	private Attachment cv;
+	//sprivate Attachment cv;
 }

@@ -23,7 +23,7 @@ public class TypesPartnershipTypeController {
 	@Autowired
 	private TypesPartnershipTypeService typesPartnershipTypeService;
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	private static final Logger log = LoggerFactory.getLogger(TypesPartnershipTypeController.class);
 

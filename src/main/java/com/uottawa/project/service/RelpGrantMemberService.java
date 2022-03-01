@@ -9,36 +9,36 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.uottawa.project.entity.RelpProductMember;
-import com.uottawa.project.repository.RelpProductMemberRepository;
+import com.uottawa.project.entity.RelpGrantMember;
+import com.uottawa.project.repository.RelpGrantMemberRepository;
 
 @Service
-public class RelpProductMemberService implements RelpProductMemberRepository {
+public class RelpGrantMemberService implements RelpGrantMemberRepository {
 
 	@Autowired
 	JdbcTemplate template;
 
-	RowMapper<RelpProductMember> rowMapper = (r, rowNum) -> {
-		RelpProductMember relpProductMember = new RelpProductMember();
-		relpProductMember.setProductId(r.getLong("product_id"));
-		relpProductMember.setMemberId(r.getLong("member_id"));
-		return relpProductMember;
+	RowMapper<RelpGrantMember> rowMapper = (grantMember, rowNum) -> {
+		RelpGrantMember relpGrantMember = new RelpGrantMember();
+		relpGrantMember.setGrantId(grantMember.getLong("grant_id"));
+		relpGrantMember.setMemberId(grantMember.getLong("member_id"));
+		return relpGrantMember;
 	};
 
-	public int add(RelpProductMember relpProductMember) {
+	public int add(RelpGrantMember relpGrantMember) {
+		String qry = "INSERT INTO relp_Grant_Member(grant_id,member_id) VALUES (?,?)";
 		int update = 0;
-		String qry = "INSERT INTO relp_Product_Member(product_id,member_id) VALUES (?,?)";
 		try {
-			update = template.update(qry, relpProductMember.getProductId(), relpProductMember.getMemberId());
+			update = template.update(qry, relpGrantMember.getGrantId(), relpGrantMember.getMemberId());
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
 		}
 		return update;
-	}
+	};
 
-	public int deleteById(Long productId, Long memberId) {
+	public int deleteById(Long grantId, Long memberId) {
 		int update = 0;
-		String qry = "DELETE * FROM relp_Product_Member WHERE product_id = " + productId + " AND member_id=" + memberId;
+		String qry = "DELETE * FROM relp_Grant_Member WHERE grant_id = " + grantId + " AND member_id=" + memberId;
 		try {
 			update = template.update(qry);
 		} catch (DataAccessException e) {
@@ -47,54 +47,31 @@ public class RelpProductMemberService implements RelpProductMemberRepository {
 		return update;
 	}
 
-	public int deleteByProductId(Long productId) {
+	public int deleteByGrantId(Long grantId) {
 		int update = 0;
+		String qry = "DELETE * FROM relp_Grant_Member WHERE grant_id = " + grantId;
 		try {
-			String qry = "DELETE * FROM relp_Product_Member WHERE product_id = " + productId;
 			update = template.update(qry);
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		return update;
-	}
+	};
 
 	public int deleteByMemberId(Long memberId) {
 		int update = 0;
+		String qry = "DELETE * FROM relp_Grant_Member WHERE member_id =" + memberId;
 		try {
-			String qry = "DELETE * FROM relp_Product_Member WHERE member_id =" + memberId;
 			update = template.update(qry);
 		} catch (DataAccessException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 		}
 		return update;
-	}
+	};
 
-	public List<RelpProductMember> findAll() {
-		String qry = "SELECT * FROM relp_Product_Member";
-		List<RelpProductMember> list = new ArrayList<RelpProductMember>();
-		try {
-			list = template.query(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-		}
-		return list;
-	}
-
-	public RelpProductMember findById(Long productId, Long memberId) {
-		RelpProductMember relpProductMember;
-		String qry = "SELECT * FROM relp_Product_Member WHERE product_id = " + productId + " AND member_id = "
-				+ memberId;
-		try {
-			relpProductMember = template.queryForObject(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-		}
-		return relpProductMember;
-	}
-
-	public List<RelpProductMember> findByProductId(Long productId) {
-		String qry = "SELECT * FROM relp_Product_Member WHERE product_id = " + productId;
-		List<RelpProductMember> list = new ArrayList<RelpProductMember>();
+	public List<RelpGrantMember> findAll() {
+		String qry = "SELECT * FROM relp_Grant_Member";
+		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
 		try {
 			list = template.query(qry, rowMapper);
 		} catch (DataAccessException e) {
@@ -103,9 +80,31 @@ public class RelpProductMemberService implements RelpProductMemberRepository {
 		return list;
 	};
 
-	public List<RelpProductMember> findByMemberId(Long memberId) {
-		String qry = "SELECT * FROM relp_Product_Member WHERE member_id = " + memberId;
-		List<RelpProductMember> list = new ArrayList<RelpProductMember>();
+	public RelpGrantMember findById(Long grantId, Long memberId) {
+		RelpGrantMember relpGrantMember;
+		String qry = "SELECT * FROM relp_Grant_Member WHERE grant_id = " + grantId + " AND member_id = " + memberId;
+		try {
+			relpGrantMember = template.queryForObject(qry, rowMapper);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		return relpGrantMember;
+	}
+
+	public List<RelpGrantMember> findByGrantId(Long grantId) {
+		String qry = "SELECT * FROM relp_Grant_Member WHERE grant_id = " + grantId;
+		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
+		try {
+			list = template.query(qry, rowMapper);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+		return list;
+	};
+
+	public List<RelpGrantMember> findByMemberId(Long memberId) {
+		String qry = "SELECT * FROM relp_Grant_Member WHERE member_id = " + memberId;
+		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
 		try {
 			list = template.query(qry, rowMapper);
 		} catch (DataAccessException e) {

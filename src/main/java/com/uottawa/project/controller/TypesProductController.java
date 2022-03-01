@@ -23,7 +23,7 @@ public class TypesProductController {
 	@Autowired
 	private TypesProductService typesProductService;
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	private static final Logger log = LoggerFactory.getLogger(TypesProductController.class);
 
