@@ -12,14 +12,14 @@
     width: 1.5rem;
 }
 
-.SideBar > button {
+.SideBar #collapse-btn {
     width: fit-content;
     min-width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
 }
 
-.SideBar > div {
+.SideBar div {
     height: fit-content;
     line-height: 2.5;
     text-align: right;
@@ -31,10 +31,15 @@
     cursor: pointer;
 }
 
-.SideBar > .selected {
+.SideBar .selected {
     background-color: gold;
 }
 
-.SideBar > div:hover {
+.SideBar div:hover {
     background-color: rgb(70, 172, 133);
+}
+
+.SideBar a {
+    text-decoration: none;
+    color: black;
 }
