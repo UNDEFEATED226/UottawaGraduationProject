@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 import BasicInformation from 'BasicInformation';
-import AboutMe from 'AboutMe';
 
 class App extends Component {
   render() {
@@ -14,7 +13,6 @@ class App extends Component {
         <SideBar selected="BasicInfo"/>
         <Routes>
           <Route path="/" element={<BasicInformation />} />
-          <Route path="/aboutme" element={<AboutMe />} />
         </Routes>
       </div>
     );
