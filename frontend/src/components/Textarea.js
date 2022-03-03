@@ -5,7 +5,7 @@ const Textarea = ({name, labelText, placeholderText, required, disabled, rows, c
     
     return (
         <div className='Textarea'>
-            <label for={name}>{labelText}</label>
+            <label htmlFor={name}>{labelText}</label>
             <textarea 
                    id={name} name={name} 
                    placeholder={placeholderText} 

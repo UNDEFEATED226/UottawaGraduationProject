@@ -5,7 +5,7 @@ const Textbox = ({name, labelText, placeholderText, required, disabled}) => {
     
     return (
         <div className="Textbox">
-            <label for={name}>{labelText}</label>
+            <label htmlFor={name}>{labelText}</label>
             <input type="text" id={name} name={name} placeholder={placeholderText} required={required} disabled={disabled}/>
         </div>
     );
