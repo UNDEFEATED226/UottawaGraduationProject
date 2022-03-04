@@ -1,6 +1,5 @@
 package com.uottawa.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.google.gson.Gson;
 import com.uottawa.project.entity.TypesFaculty;
-import com.uottawa.project.repository.TypesFacultyRepository;
 import com.uottawa.project.service.TypesFacultyService;
 
 @RestController
@@ -23,9 +21,6 @@ public class TypesFacultyController {
 
 	@Autowired
 	private TypesFacultyService typesFacultyService;
-
-	@Autowired
-	private TypesFacultyRepository typesFacultyRepository;
 
 	private Gson gson = new Gson();
 
@@ -84,6 +79,30 @@ public class TypesFacultyController {
 			return faculty;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_Faculty where id = {}.", id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+	}
+
+	@GetMapping("/name_en_list")
+	public List<String> nameEnList() {
+		try {
+			List<String> list = typesFacultyService.nameEnList();
+			log.info("types_Faculty name_fr list:{}", gson.toJson(list));
+			return list;
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding types_Faculty name_fr list.");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+	}
+
+	@GetMapping("/name_fr_list")
+	public List<String> nameFrList() {
+		try {
+			List<String> list = typesFacultyService.nameFrList();
+			log.info("types_Faculty name_en list:{}", gson.toJson(list));
+			return list;
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding types_Faculty name_en list.");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 		}
 	}

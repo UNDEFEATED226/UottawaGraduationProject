@@ -33,7 +33,7 @@ public class TypesFacultyService {
 		}
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 	}
-	
+
 	public TypesFaculty update(TypesFaculty faculty) {
 		if (typesFacultyRepository.existsById(faculty.getId())) {
 			try {
@@ -62,5 +62,21 @@ public class TypesFacultyService {
 			}
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+	}
+
+	public List<String> nameEnList() {
+		try {
+			return typesFacultyRepository.nameEnList();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
+	}
+
+	public List<String> nameFrList() {
+		try {
+			return typesFacultyRepository.nameFrList();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		}
 	}
 }
