@@ -33,7 +33,7 @@ public class MainGrants {
 	@Column(name="is_through_LRI")
 	private Integer isThroughLRI;
 
-	// types_GrantStauts id
+	// types_GrantStauts id, to be implemented
 	private Long status;
 
 	@Column(name="submission_date")
@@ -45,7 +45,7 @@ public class MainGrants {
 	@Column(name="finished_date")
 	private Date finishedDate;
 
-	// types_GrantSource id
+	// types_GrantSource id, to be implemented
 	private Long source;
 
 	@Column(name="investigators_all")

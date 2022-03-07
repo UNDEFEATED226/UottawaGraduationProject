@@ -4,7 +4,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,24 +34,18 @@ public class TypesPartnershipTypeController {
 			log.info("Partnership type{} added.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding partnership type{} to types_PartnershipType.", gson.toJson(partnershipType));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
-		} catch (IllegalArgumentException e) {
-			log.error("Error when adding partnership type{} to types_PartnershipType.", gson.toJson(partnershipType));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
-	@GetMapping("delete_by_id")
+	@GetMapping("/delete_by_id")
 	public void deleteById(Long id) {
 		try {
 			typesPartnershipTypeService.deleteById(id);
 			log.info("Deleted from types_PartnershipType where id = {}", id);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from types_PartnershipType where id = {}", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
-		} catch (IllegalArgumentException e) {
-			log.error("Error when deleting from types_PartnershipType where id = {}", id);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -63,10 +56,7 @@ public class TypesPartnershipTypeController {
 			log.info("Partnership type{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating partnership type{}.", gson.toJson(partnershipType));
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
-		} catch (IllegalArgumentException e) {
-			log.error("Error when updating partnership type{}.", gson.toJson(partnershipType));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -78,7 +68,7 @@ public class TypesPartnershipTypeController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_PartnershipType list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -90,10 +80,7 @@ public class TypesPartnershipTypeController {
 			return partnershipType;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_PartnershipType where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
-		} catch (IllegalArgumentException e) {
-			log.error("Error when finding types_PartnershipType where id = {}." + e.getMessage(), id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 }

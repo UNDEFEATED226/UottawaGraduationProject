@@ -1,83 +1,68 @@
 package com.uottawa.project.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.TypesTraineeLevel;
 import com.uottawa.project.repository.TypesTraineeLevelRepository;
 
 @Service
-public class TypesTraineeLevelService implements TypesTraineeLevelRepository {
+public class TypesTraineeLevelService {
 
 	@Autowired
-	private JdbcTemplate template;
+	private TypesTraineeLevelRepository typesTraineeLevelRepository;
 
-	RowMapper<TypesTraineeLevel> rowMapper = (l, rowNum) -> {
-		TypesTraineeLevel traineeLevel = new TypesTraineeLevel();
-		traineeLevel.setId(l.getLong("ID"));
-		traineeLevel.setLevelEn(l.getString("level_en"));
-		traineeLevel.setLevelFr(l.getString("level_fr"));
-		return traineeLevel;
-	};
-
-	public int add(TypesTraineeLevel traineeLevel) {
-		int update = 0;
-		String qry = "INSERT INTO types_TraineeLevel (level_en,level_fr) VALUES(?,?)";
+	public TypesTraineeLevel add(TypesTraineeLevel traineeLevel) {
 		try {
-			update = template.update(qry, traineeLevel.getLevelEn(), traineeLevel.getLevelFr());
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			if (traineeLevel.getId() != null && typesTraineeLevelRepository.existsById(traineeLevel.getId())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
+			}
+			return typesTraineeLevelRepository.save(traineeLevel);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return update;
 	}
 
-	public int deleteById(Long id) {
-		int update = 0;
-		String qry = "DELETE * FROM types_TraineeLevel WHERE ID = ?";
+	public void deleteById(Long id) {
 		try {
-			update = template.update(qry, id);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			if (!typesTraineeLevelRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
+			}
+			typesTraineeLevelRepository.deleteById(id);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return update;
 	}
 
-	public int update(TypesTraineeLevel traineeLevel) {
-		int update = 0;
-		String qry = "UPDATE types_TraineeLevel SET level_en=?,level_fr=? WHERE ID = ?";
+	public TypesTraineeLevel update(TypesTraineeLevel traineeLevel) {
 		try {
-			update = template.update(qry, traineeLevel.getLevelEn(), traineeLevel.getLevelFr(), traineeLevel.getId());
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			if (!typesTraineeLevelRepository.existsById(traineeLevel.getId())) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
+			}
+			return typesTraineeLevelRepository.save(traineeLevel);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return update;
 	}
 
 	public List<TypesTraineeLevel> findAll() {
-		List<TypesTraineeLevel> list = new ArrayList<TypesTraineeLevel>();
-		String qry = "SELECT * FROM types_TraineeLevel";
 		try {
-			list = template.query(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			return typesTraineeLevelRepository.findAll();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return list;
 	}
 
 	public TypesTraineeLevel findById(Long id) {
-		TypesTraineeLevel traineeLevel;
-		String qry = "SELECT * FROM types_TraineeLevel WHERE id = " + id;
 		try {
-			traineeLevel = template.queryForObject(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			if(!typesTraineeLevelRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
+			}
+			return typesTraineeLevelRepository.findById(id).get();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return traineeLevel;
 	}
 }

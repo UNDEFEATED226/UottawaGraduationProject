@@ -1,19 +1,9 @@
 package com.uottawa.project.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.uottawa.project.entity.TypesProduct;
 
 @Repository
-public interface TypesProductRepository {
-
-	public int add(TypesProduct product);
-	
-	public int deleteById(Long id);
-	
-	public int update(TypesProduct product);
-	
-	public List<TypesProduct> findAll();
-	
-	public TypesProduct findById(Long id);
+public interface TypesProductRepository extends JpaRepository<TypesProduct,Long> {
 }

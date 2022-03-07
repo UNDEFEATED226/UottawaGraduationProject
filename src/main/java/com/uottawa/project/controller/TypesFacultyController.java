@@ -4,7 +4,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +32,7 @@ public class TypesFacultyController {
 			log.info("Faculty type{} added.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding faculty type{} to types_Faculty.", gson.toJson(faculty));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -44,7 +43,7 @@ public class TypesFacultyController {
 			log.info("Deleted from types_Faculty where id = {}", id);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from types_Faculty where id = {}", id);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -55,7 +54,7 @@ public class TypesFacultyController {
 			log.info("Faculty type{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating faculty type{}.", gson.toJson(faculty));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -67,7 +66,7 @@ public class TypesFacultyController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_Faculty list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -79,7 +78,7 @@ public class TypesFacultyController {
 			return faculty;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_Faculty where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -91,7 +90,7 @@ public class TypesFacultyController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_Faculty name_fr list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -103,7 +102,7 @@ public class TypesFacultyController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding types_Faculty name_en list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.uottawa.project.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,67 +16,69 @@ public class MainPartnersService {
 
 	public MainPartners add(MainPartners partner) {
 		try {
+			if (partner.getId() != null && mainPartnersRepository.existsById(partner.getId())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
+			}
 			return mainPartnersRepository.save(partner);
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
 	public void deleteById(Long id) {
-		if (mainPartnersRepository.existsById(id)) {
-			try {
-				mainPartnersRepository.deleteById(id);
-				return;
-			} catch (IllegalArgumentException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+		try {
+			if (!mainPartnersRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
+			mainPartnersRepository.deleteById(id);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 	}
 
 	public MainPartners update(MainPartners partner) {
-		if (mainPartnersRepository.existsById(partner.getId())) {
-			try {
-				return mainPartnersRepository.save(partner);
-			} catch (IllegalArgumentException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+		try {
+			if (partner.getId() == null || !mainPartnersRepository.existsById(partner.getId())) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
+			return mainPartnersRepository.save(partner);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 	}
 
 	public List<MainPartners> findAll() {
 		try {
 			return mainPartnersRepository.findAll();
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
 	public MainPartners findById(Long id) {
-		if (mainPartnersRepository.existsById(id)) {
-			try {
-				return mainPartnersRepository.findById(id).get();
-			} catch (IllegalArgumentException e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		try {
+			if (!mainPartnersRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-	}
-
-	public List<MainPartners> findByType(Long type) {
-		try {
-			return mainPartnersRepository.findByType(type);
+			return mainPartnersRepository.findById(id).get();
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<MainPartners> findByScope(Long scope) {
+	public List<MainPartners> findAllByType(Long type) {
 		try {
-			return mainPartnersRepository.findByScope(scope);
+			return mainPartnersRepository.findAllByType(type);
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public List<MainPartners> findAllByScope(Long scope) {
+		try {
+			return mainPartnersRepository.findAllByScope(scope);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
 		}
 	}
 }

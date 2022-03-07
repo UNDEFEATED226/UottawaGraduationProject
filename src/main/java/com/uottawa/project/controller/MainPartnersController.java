@@ -4,7 +4,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +32,7 @@ public class MainPartnersController {
 			log.info("Partner{} added to main_Partners", gson.toJson(added));
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding partner{} to main_Partners.", gson.toJson(partner));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -44,7 +43,7 @@ public class MainPartnersController {
 			log.info("Deleted from main_Partners where id = {}", id);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Partners where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -55,7 +54,7 @@ public class MainPartnersController {
 			log.info("Partner{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating partner{}.", gson.toJson(partner));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -67,7 +66,7 @@ public class MainPartnersController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Partners list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	};
 
@@ -79,31 +78,31 @@ public class MainPartnersController {
 			return partner;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Partners where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	};
 
-	@GetMapping("/find_by_type")
-	public List<MainPartners> findByType(Long type) {
+	@GetMapping("/find_all_by_type")
+	public List<MainPartners> findAllByType(Long type) {
 		try {
-			List<MainPartners> list = mainPartnersService.findByType(type);
+			List<MainPartners> list = mainPartnersService.findAllByType(type);
 			log.info("main_Partners list where type = {}:{}", type, gson.toJson(list));
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Partners list where type = {}.", type);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	};
 
-	@GetMapping("/find_by_scope")
-	public List<MainPartners> findByScope(Long scope) {
+	@GetMapping("/find_all_by_scope")
+	public List<MainPartners> findAllByScope(Long scope) {
 		try {
-			List<MainPartners> list = mainPartnersService.findByScope(scope);
+			List<MainPartners> list = mainPartnersService.findAllByScope(scope);
 			log.info("main_Partners list where scope = {}:{}", scope, gson.toJson(list));
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Partners list where scope = {}.", scope);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	};
 }

@@ -5,21 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.uottawa.project.entity.MainGrants;
-import com.uottawa.project.repository.MainGrantsRepository;
+import com.uottawa.project.entity.TypesFrequencyIndicator;
+import com.uottawa.project.repository.TypesFrequencyIndicatorRepository;
 
 @Service
-public class MainGrantsService {
+public class TypesFrequencyIndicatorService {
 
 	@Autowired
-	private MainGrantsRepository mainGrantsRepository;
+	private TypesFrequencyIndicatorRepository typesFrequencyIndicatorRepository;
 
-	public MainGrants add(MainGrants grant) {
+	public TypesFrequencyIndicator add(TypesFrequencyIndicator indicator) {
 		try {
-			if (grant.getId() != null && mainGrantsRepository.existsById(grant.getId())) {
+			if (indicator.getId() != null && typesFrequencyIndicatorRepository.existsById(indicator.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
 			}
-			return mainGrantsRepository.save(grant);
+			return typesFrequencyIndicatorRepository.save(indicator);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -27,56 +27,40 @@ public class MainGrantsService {
 
 	public void deleteById(Long id) {
 		try {
-			if (!mainGrantsRepository.existsById(id)) {
+			if (!typesFrequencyIndicatorRepository.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			mainGrantsRepository.deleteById(id);
+			typesFrequencyIndicatorRepository.deleteById(id);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public MainGrants update(MainGrants grant) {
+	public TypesFrequencyIndicator update(TypesFrequencyIndicator indicator) {
 		try {
-			if (grant.getId() == null || !mainGrantsRepository.existsById(grant.getId())) {
+			if (indicator.getId() == null || !typesFrequencyIndicatorRepository.existsById(indicator.getId())) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return mainGrantsRepository.save(grant);
+			return typesFrequencyIndicatorRepository.save(indicator);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<MainGrants> findAll() {
+	public List<TypesFrequencyIndicator> findAll() {
 		try {
-			return mainGrantsRepository.findAll();
+			return typesFrequencyIndicatorRepository.findAll();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public MainGrants findById(Long id) {
+	public TypesFrequencyIndicator findById(Long id) {
 		try {
-			if (!mainGrantsRepository.existsById(id)) {
+			if (!typesFrequencyIndicatorRepository.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return mainGrantsRepository.findById(id).get();
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public List<MainGrants> findAllByStatus(Long status) {
-		try {
-			return mainGrantsRepository.findAllByStatus(status);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public List<MainGrants> findAllBySource(Long source) {
-		try {
-			return mainGrantsRepository.findAllBySource(source);
+			return typesFrequencyIndicatorRepository.findById(id).get();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

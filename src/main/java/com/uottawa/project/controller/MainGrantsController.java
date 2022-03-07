@@ -4,7 +4,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +32,7 @@ public class MainGrantsController {
 			log.info("Grant{} added.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding grant{} to main_Grants.", gson.toJson(grant));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -44,7 +43,7 @@ public class MainGrantsController {
 			log.info("Deleted from main_Grants where id = {}", id);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Grants where id = {}", id);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -55,7 +54,7 @@ public class MainGrantsController {
 			log.info("Grant{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating grant{}.", gson.toJson(grant));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -67,7 +66,7 @@ public class MainGrantsController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Grants list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -79,31 +78,31 @@ public class MainGrantsController {
 			return grant;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Grants where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getMessage());
 		}
 	}
 
-	@GetMapping("/find_by_status")
-	public List<MainGrants> findByStatus(Long status) {
+	@GetMapping("/find_all_by_status")
+	public List<MainGrants> findAllByStatus(Long status) {
 		try {
-			List<MainGrants> list = mainGrantsService.findByStatus(status);
+			List<MainGrants> list = mainGrantsService.findAllByStatus(status);
 			log.info("main_Grants list where status={} :{}", status, gson.toJson(list));
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Grants list where status={}.", status);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
-	@GetMapping("/find_by_source")
-	public List<MainGrants> findBySource(Long source) {
+	@GetMapping("/find_all_by_source")
+	public List<MainGrants> findAllBySource(Long source) {
 		try {
-			List<MainGrants> list = mainGrantsService.findBySource(source);
+			List<MainGrants> list = mainGrantsService.findAllBySource(source);
 			log.info("main_Grants list where source={} :{}", source, gson.toJson(list));
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Grants list where source={}.", source);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 }

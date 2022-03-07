@@ -34,11 +34,14 @@ public class MainSupervision {
 	@Column(name="first_name")
 	private String firstName;
 
-	// id in types_TraineeLevel
+	//types_TraineeLevel id
 	private Long level;
 
-	// id in types_Faculty
+	//types_Faculty id
 	private Long faculty;
+
+//	@JoinColumn(name="faculty",referencedColumnName="ID")
+//	private TypesFaculty typesFaculty;
 
 	@Column(name="start_date")
 	private Date startDate;

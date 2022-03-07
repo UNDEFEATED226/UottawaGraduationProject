@@ -16,7 +16,7 @@ public class TypesPartnershipTypeService {
 
 	public TypesPartnershipType add(TypesPartnershipType partnershipType) {
 		if (partnershipType.getId() != null && typesPartnershipTypeRepository.existsById(partnershipType.getId())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
 		}
 		try {
 			return typesPartnershipTypeRepository.save(partnershipType);
@@ -27,7 +27,7 @@ public class TypesPartnershipTypeService {
 
 	public void deleteById(Long id) {
 		if (!typesPartnershipTypeRepository.existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 		}
 		try {
 			typesPartnershipTypeRepository.deleteById(id);
@@ -38,7 +38,7 @@ public class TypesPartnershipTypeService {
 
 	public TypesPartnershipType update(TypesPartnershipType partnershipType) {
 		if (partnershipType.getId() == null || !typesPartnershipTypeRepository.existsById(partnershipType.getId())) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 		}
 		try {
 			return typesPartnershipTypeRepository.save(partnershipType);
@@ -57,7 +57,7 @@ public class TypesPartnershipTypeService {
 
 	public TypesPartnershipType findById(Long id) {
 		if (!typesPartnershipTypeRepository.existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 		}
 		try {
 			return typesPartnershipTypeRepository.findById(id).get();

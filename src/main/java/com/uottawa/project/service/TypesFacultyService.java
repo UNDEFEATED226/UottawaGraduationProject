@@ -16,59 +16,61 @@ public class TypesFacultyService {
 
 	public TypesFaculty add(TypesFaculty faculty) {
 		try {
+			if (faculty.getId() != null && typesFacultyRepository.existsById(faculty.getId())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
+			}
 			return typesFacultyRepository.save(faculty);
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
 	public void deleteById(Long id) {
-		if (typesFacultyRepository.existsById(id)) {
-			try {
-				typesFacultyRepository.deleteById(id);
-				return;
-			} catch (IllegalArgumentException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+		try {
+			if (!typesFacultyRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
+			typesFacultyRepository.deleteById(id);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
 	}
 
 	public TypesFaculty update(TypesFaculty faculty) {
-		if (typesFacultyRepository.existsById(faculty.getId())) {
-			try {
-				return typesFacultyRepository.save(faculty);
-			} catch (IllegalArgumentException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+		try {
+			if (faculty.getId() == null || !typesFacultyRepository.existsById(faculty.getId())) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
+			return typesFacultyRepository.save(faculty);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 	}
 
 	public List<TypesFaculty> findAll() {
 		try {
 			return typesFacultyRepository.findAll();
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
 	public TypesFaculty findById(Long id) {
-		if (typesFacultyRepository.existsById(id)) {
-			try {
-				return typesFacultyRepository.findById(id).get();
-			} catch (IllegalArgumentException e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+		try {
+			if (!typesFacultyRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
+			return typesFacultyRepository.findById(id).get();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
 	}
 
 	public List<String> nameEnList() {
 		try {
 			return typesFacultyRepository.nameEnList();
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
@@ -76,7 +78,7 @@ public class TypesFacultyService {
 		try {
 			return typesFacultyRepository.nameFrList();
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 }

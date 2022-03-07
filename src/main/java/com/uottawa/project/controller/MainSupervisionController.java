@@ -1,11 +1,9 @@
 package com.uottawa.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,104 +27,81 @@ public class MainSupervisionController {
 
 	@PostMapping("/add")
 	public void add(@RequestBody MainSupervision supervision) {
-		int update = 0;
 		try {
-			update = mainSupervisionService.add(supervision);
+			MainSupervision added = mainSupervisionService.add(supervision);
+			log.info("Supervision{} added.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding supervision{} to main_Supervision.", gson.toJson(supervision));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
-		}
-		if (update > 0) {
-			log.info("Supervision{} added.", gson.toJson(supervision));
-		} else {
-			log.error("Error when adding supervision{} to main_Supervision.", gson.toJson(supervision));
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_id")
 	public void deleteById(Long id) {
-		int update = 0;
 		try {
-			update = mainSupervisionService.deleteById(id);
+			mainSupervisionService.deleteById(id);
+			log.info("Deleted from main_Supervision where id = {}", id);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Supervision where id = {}", id);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("Deleted from main_Supervision where id = {}", id);
-		} else {
-			log.error("Error when deleting from main_Supervision where id = {}", id);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_trainee")
 	public void deleteByTrainee(Long trainee) {
-		int update = 0;
 		try {
-			update = mainSupervisionService.deleteByTrainee(trainee);
+			mainSupervisionService.deleteByTrainee(trainee);
+			log.info("Deleted from main_Supervision where trainee = {}", trainee);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Supervision where trainee = {}", trainee);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("Deleted {} records from main_Supervision where trainee = {}", update, trainee);
-		} else {
-			log.error("Error when deleting from main_Supervision where trainee = {}", trainee);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@PostMapping("/update")
 	public void update(@RequestBody MainSupervision supervision) {
-		int update = 0;
 		try {
-			update = mainSupervisionService.update(supervision);
+			MainSupervision updated = mainSupervisionService.update(supervision);
+			log.info("Supervision{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating supervision{}.", gson.toJson(supervision));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
-		}
-		if (update > 0) {
-			log.info("Supervision{} updated.", gson.toJson(supervision));
-		} else {
-			log.error("Error when updating supervision{}.", gson.toJson(supervision));
+			throw new ResponseStatusException(e.getStatus(),e.getReason());
 		}
 	}
 
 	@GetMapping("/find_all")
-	public List<MainSupervision> findAll() {
-		List<MainSupervision> list = new ArrayList<MainSupervision>();
+	public List<MainSupervision> findAll() {	
 		try {
-			list = mainSupervisionService.findAll();
+			List<MainSupervision> list = mainSupervisionService.findAll();
+			log.info("main_Supervision list:{}", gson.toJson(list));
+			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Supervision list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
-		log.info("main_Supervision list:{}", gson.toJson(list));
-		return list;
 	}
 
 	@GetMapping("/find_by_id")
 	public MainSupervision findById(Long id) {
-		MainSupervision supervision;
 		try {
-			supervision = mainSupervisionService.findById(id);
+			MainSupervision supervision = mainSupervisionService.findById(id);
+			log.info("Supervision{} found.", gson.toJson(supervision));
+			return supervision;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Supervision where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(),e.getReason());
 		}
-		log.info("Supervision{} found.", gson.toJson(supervision));
-		return supervision;
 	}
 
 	@GetMapping("/find_by_trainee")
 	public List<MainSupervision> findByTrainee(Long trainee) {
-		List<MainSupervision> list = new ArrayList<MainSupervision>();
 		try {
-			list = mainSupervisionService.findByTrainee(trainee);
+			List<MainSupervision> list =mainSupervisionService.findByTrainee(trainee);
+			log.info("main_Supervision list where trainee = {}:{}", trainee, gson.toJson(list));
+			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Supervision list where trainee = {}.", trainee);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(),e.getReason());
 		}
-		log.info("main_Supervision list where trainee = {}:{}", trainee, gson.toJson(list));
-		return list;
 	}
 }
