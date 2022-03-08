@@ -4,7 +4,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +32,7 @@ public class MainEventsController {
 			log.info("Event{} added to main_Events.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding event{} to main_Events.", gson.toJson(event));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -44,7 +43,7 @@ public class MainEventsController {
 			log.info("Deleted from main_Events where id = {}", id);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from main_Events where id = {}", id);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -55,7 +54,7 @@ public class MainEventsController {
 			log.info("Event{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating event{}.", gson.toJson(event));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN UPDATING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -67,7 +66,7 @@ public class MainEventsController {
 			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Events list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
@@ -79,7 +78,7 @@ public class MainEventsController {
 			return event;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding main_Events where id = {}.", id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(),e.getReason());
 		}
 	}
 }

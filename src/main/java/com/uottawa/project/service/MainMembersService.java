@@ -1,67 +1,64 @@
 package com.uottawa.project.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.uottawa.project.entity.MainEvents;
-import com.uottawa.project.repository.MainEventsRepository;
+import com.uottawa.project.entity.MainMembers;
+import com.uottawa.project.repository.MainMembersRepository;
 
 @Service
-public class MainEventsService {
+public class MainMembersService {
 
 	@Autowired
-	private MainEventsRepository mainEventsRepository;
+	private MainMembersRepository mainMembersRepositroy;
 
-	public MainEvents add(MainEvents event) {
+	public MainMembers add(MainMembers member) {
 		try {
-			if (event.getId() != null && mainEventsRepository.existsById(event.getId())) {
+			if (member.getId() != null && mainMembersRepositroy.existsById(member.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
 			}
-			return mainEventsRepository.save(event);
+			return mainMembersRepositroy.save(member);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteById(Long id) {
+	public MainMembers update(MainMembers member) {
 		try {
-			if (!mainEventsRepository.existsById(id)) {
+			if (member.getId() == null || !mainMembersRepositroy.existsById(member.getId())) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			mainEventsRepository.deleteById(id);
-			return;
+			return mainMembersRepositroy.save(member);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public MainEvents update(MainEvents event) {
+	public List<MainMembers> findAll() {
 		try {
-			if (event.getId() == null || !mainEventsRepository.existsById(event.getId())) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID ALREADY EXISTS");
-			}
-			return mainEventsRepository.save(event);
+			return mainMembersRepositroy.findAll();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<MainEvents> findAll() {
+	public MainMembers findById(Long id) {
 		try {
-			return mainEventsRepository.findAll();
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public MainEvents findById(Long id) {
-		try {
-			if (!mainEventsRepository.existsById(id)) {
+			if (!mainMembersRepositroy.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return mainEventsRepository.findById(id).get();
+			return mainMembersRepositroy.findById(id).get();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public List<String> getNames() {
+		try {
+			return mainMembersRepositroy.getNames();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

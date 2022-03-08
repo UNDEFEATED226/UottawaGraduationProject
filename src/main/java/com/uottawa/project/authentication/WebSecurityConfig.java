@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -20,8 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource datasource;
 	
-	@Value("${security.enable-csrf}")
-	private boolean csrfEnabled;
+	@Value("#{new Boolean('${global.isDebug:false}')}")
+	private boolean isDebug;
 
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -48,18 +49,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		if (!csrfEnabled) {
-			http.csrf().disable();
+		http.csrf().disable();
+		if(isDebug) {
+			http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+			.authorizeRequests().anyRequest().permitAll().and().logout().permitAll();
+		}else {
+			http.authorizeRequests()
+			.antMatchers("/users").authenticated()
+			.antMatchers("/main_events/**").authenticated()
+			.antMatchers("/main_grants/**").authenticated()
+			.antMatchers("/main_partners/**").authenticated()
+			.antMatchers("/main_supervision/**").authenticated()
+			.antMatchers("/main_members/**").authenticated()
+			.antMatchers("/main_products/**").authenticated()
+			.anyRequest().permitAll().and().formLogin()
+					.usernameParameter("email").defaultSuccessUrl("/").permitAll().and().logout().logoutSuccessUrl("/")
+					.permitAll();
 		}
-		http.authorizeRequests()
-		.antMatchers("/users").authenticated()
-		.antMatchers("/main_events/**").authenticated()
-		.antMatchers("/main_grants/**").authenticated()
-		.antMatchers("/main_partners/**").authenticated()
-		.antMatchers("/main_supervision/**").authenticated()
-		.anyRequest().permitAll().and().formLogin()
-				.usernameParameter("email").defaultSuccessUrl("/").permitAll().and().logout().logoutSuccessUrl("/")
-				.permitAll();
 	}
 }
