@@ -8,16 +8,25 @@ import { useTranslation } from 'react-i18next';
 
 const BasicInfomation = () => {
 
-    const [faculties, setFaculties] = useState([]);
     const { t } = useTranslation();
+
+    const [info, setInfo] = useState({});
+    const [faculties, setFaculties] = useState([]);
+    
+    async function fetchInfo(id) {
+        const response = await fetch(`/api/main_members/find_by_id?id=${id}`);
+        const body = await response.json();
+        setInfo(body);
+    }
     
     async function fetchFaculties() {
-        const response = await fetch('/types_faculty/find_all');
+        const response = await fetch('/api/types_faculty/find_all');
         const body = await response.json();
         setFaculties(body);
     }
 
     useEffect(() => {
+        fetchInfo(2);
         fetchFaculties();
     }, [])
 
