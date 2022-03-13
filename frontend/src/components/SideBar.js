@@ -1,13 +1,23 @@
 import './SideBar.css'
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const SideBar = ({ defaultSelect }) => {
 
     const [collapsed, setCollapsed] = useState(false);
     const [selected, setSelected] = useState(defaultSelect);
+    const location = useLocation();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        if (location.pathname === '/') setSelected("BasicInfo");
+        else if (location.pathname === '/my_products') setSelected("MyProducts");
+        else if (location.pathname === '/my_grants') setSelected("MyGrants");
+        else if (location.pathname === '/my_events') setSelected("MyEvents");
+        else if (location.pathname === '/my_supervisions') setSelected("MySupervisions");
+        else if (location.pathname === '/partners') setSelected("Partners");
+    }, [location])
 
     return (
         <div className={"SideBar" + (collapsed? " collapsed" : "")}>
