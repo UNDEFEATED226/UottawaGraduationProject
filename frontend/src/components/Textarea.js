@@ -1,13 +1,15 @@
 import './Textarea.css';
 import PropTypes from "prop-types";
 
-const Textarea = ({name, labelText, placeholderText, required, disabled, rows, cols}) => {
+const Textarea = ({name, labelText, text, placeholderText, required, disabled, rows, cols}) => {
     
     return (
         <div className='Textarea'>
             <label htmlFor={name}>{labelText}</label>
             <textarea 
-                   id={name} name={name} 
+                   id={name}
+                   name={name} 
+                   value={text}
                    placeholder={placeholderText} 
                    required={required} 
                    disabled={disabled}
@@ -21,6 +23,7 @@ const Textarea = ({name, labelText, placeholderText, required, disabled, rows, c
 Textarea.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    text: PropTypes.string,
     placeholderText: PropTypes.string,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
