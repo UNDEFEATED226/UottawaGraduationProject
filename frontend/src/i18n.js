@@ -28,6 +28,9 @@ i18n
                         sign_out: 'Sign Out',
                         collapse: 'Collapse'
                     },
+                    dropdown: {
+                        none: 'None'
+                    },
                     page_titles: {
                         basic_information: 'Basic Information',
                         my_products: 'My Products',
@@ -73,6 +76,9 @@ i18n
                         language: 'Langue',
                         sign_out: 'Se déconnecter',
                         collapse: 'Effondrement'
+                    },
+                    dropdown: {
+                        none: 'Aucune'
                     },
                     page_titles: {
                         basic_information: 'Informations de base',
