@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 const BasicInfomation = () => {
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const [info, setInfo] = useState({});
     const [faculties, setFaculties] = useState([]);
@@ -46,7 +46,7 @@ const BasicInfomation = () => {
                     <Textbox name='mobilePhone' labelText={t('basic_information.phone_mobile')} placeholderText={info.mobilePhone}/>
                     <Textbox name='businessPhone' labelText={t('basic_information.phone_business')} placeholderText={info.businessPhone}/>
                     <Dropdown name='faculty' labelText={t('basic_information.faculty')} selectedChoice={String(info.faculty)} choices={
-                        faculties.map(e => ({id: e.id, name: e.nameEn + ' / ' + e.nameFr}))
+                        faculties.map(e => ({id: e.id, name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr}))
                     }/>
                     <Textarea name='howHelp' labelText={t('basic_information.how_help')} placeholderText={info.howCanWeHelp} rows={10} cols={30}/>
                     <Textarea name='keywordsEn' labelText={t('basic_information.keyword_en')} placeholderText={info.keywordsEN} rows={10} cols={30}/>
