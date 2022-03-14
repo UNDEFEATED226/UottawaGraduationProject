@@ -7,7 +7,9 @@ const Dropdown = ({name, labelText, required, disabled, selected, choices, onCha
     const { t } = useTranslation();
 
     const handleChange = e => {
-        onChange(name, e.target.value);
+        let id = Number(e.target.value);
+        if (id === 0) id = null;
+        onChange(name, id);
     }
 
     return ( 
