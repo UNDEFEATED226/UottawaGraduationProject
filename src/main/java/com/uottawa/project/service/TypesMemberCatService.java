@@ -3,26 +3,24 @@ package com.uottawa.project.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.uottawa.project.authentication.CustomUserDetails;
-import com.uottawa.project.entity.MainEvents;
-import com.uottawa.project.repository.MainEventsRepository;
+import com.uottawa.project.entity.TypesMemberCat;
+import com.uottawa.project.repository.TypesMemberCatRepository;
 
 @Service
-public class MainEventsService {
+public class TypesMemberCatService {
 
 	@Autowired
-	private MainEventsRepository mainEventsRepository;
+	private TypesMemberCatRepository typesMemberCatRepository;
 
-	public MainEvents add(MainEvents event) {
+	public TypesMemberCat add(TypesMemberCat cat) {
 		try {
-			if (event.getId() != null && mainEventsRepository.existsById(event.getId())) {
+			if (cat.getId() != null && typesMemberCatRepository.existsById(cat.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
 			}
-			return mainEventsRepository.save(event);
+			return typesMemberCatRepository.save(cat);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -30,43 +28,40 @@ public class MainEventsService {
 
 	public void deleteById(Long id) {
 		try {
-			if (!mainEventsRepository.existsById(id)) {
+			if (!typesMemberCatRepository.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			mainEventsRepository.deleteById(id);
-			return;
+			typesMemberCatRepository.deleteById(id);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public MainEvents update(MainEvents event) {
+	public TypesMemberCat update(TypesMemberCat cat) {
 		try {
-			if (event.getId() == null || !mainEventsRepository.existsById(event.getId())) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID ALREADY EXISTS");
-			}
-			return mainEventsRepository.save(event);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public List<MainEvents> findAll() {
-		try {
-			return mainEventsRepository
-					.findAll(((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-							.getMemberId());
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public MainEvents findById(Long id) {
-		try {
-			if (!mainEventsRepository.existsById(id)) {
+			if (cat.getId() == null || !typesMemberCatRepository.existsById(cat.getId())) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return mainEventsRepository.findById(id).get();
+			return typesMemberCatRepository.save(cat);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public List<TypesMemberCat> findAll() {
+		try {
+			return typesMemberCatRepository.findAll();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public TypesMemberCat findById(Long id) {
+		try {
+			if (!typesMemberCatRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
+			}
+			return typesMemberCatRepository.findById(id).get();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

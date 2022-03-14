@@ -3,26 +3,23 @@ package com.uottawa.project.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.uottawa.project.authentication.CustomUserDetails;
-import com.uottawa.project.entity.MainEvents;
-import com.uottawa.project.repository.MainEventsRepository;
+import com.uottawa.project.entity.TypesGrantSource;
+import com.uottawa.project.repository.TypesGrantSourceRepository;
 
 @Service
-public class MainEventsService {
+public class TypesGrantSourceService {
 
 	@Autowired
-	private MainEventsRepository mainEventsRepository;
+	private TypesGrantSourceRepository typesGrantSourceRepository;
 
-	public MainEvents add(MainEvents event) {
+	public TypesGrantSource add(TypesGrantSource source) {
 		try {
-			if (event.getId() != null && mainEventsRepository.existsById(event.getId())) {
+			if (source.getId() != null && typesGrantSourceRepository.existsById(source.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
 			}
-			return mainEventsRepository.save(event);
+			return typesGrantSourceRepository.save(source);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -30,43 +27,40 @@ public class MainEventsService {
 
 	public void deleteById(Long id) {
 		try {
-			if (!mainEventsRepository.existsById(id)) {
+			if (!typesGrantSourceRepository.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			mainEventsRepository.deleteById(id);
-			return;
+			typesGrantSourceRepository.deleteById(id);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public MainEvents update(MainEvents event) {
+	public TypesGrantSource update(TypesGrantSource source) {
 		try {
-			if (event.getId() == null || !mainEventsRepository.existsById(event.getId())) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID ALREADY EXISTS");
-			}
-			return mainEventsRepository.save(event);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public List<MainEvents> findAll() {
-		try {
-			return mainEventsRepository
-					.findAll(((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-							.getMemberId());
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public MainEvents findById(Long id) {
-		try {
-			if (!mainEventsRepository.existsById(id)) {
+			if (source.getId() == null || !typesGrantSourceRepository.existsById(source.getId())) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return mainEventsRepository.findById(id).get();
+			return typesGrantSourceRepository.save(source);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public List<TypesGrantSource> findAll() {
+		try {
+			return typesGrantSourceRepository.findAll();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public TypesGrantSource findById(Long id) {
+		try {
+			if (!typesGrantSourceRepository.existsById(id)) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
+			}
+			return typesGrantSourceRepository.findById(id).get();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
