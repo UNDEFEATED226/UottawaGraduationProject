@@ -15,7 +15,6 @@ const BasicInfomation = () => {
 
     const handleFieldChange = (id, value) => {
         setInfo({ ...info, [id]: value });
-        console.log(info);
     }
 
     // FETCHING
@@ -101,7 +100,7 @@ const BasicInfomation = () => {
                     <Dropdown
                         name='faculty'
                         labelText={t('basic_information.faculty')}
-                        selectedChoice={String(info.faculty)}
+                        selected={String(info.faculty)}
                         choices={faculties.map(e => ({id: e.id, name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr}))}
                         onChange={handleFieldChange}/>
                     <Textarea

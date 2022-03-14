@@ -1,20 +1,13 @@
 import './Dropdown.css'
 import PropTypes from "prop-types";
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Dropdown = ({name, labelText, required, disabled, selectedChoice, choices, onChange}) => {
+const Dropdown = ({name, labelText, required, disabled, selected, choices, onChange}) => {
 
-    const [selected, setSelected] = useState('');
     const { t } = useTranslation();
 
-    useEffect(() => {
-        setSelected(selectedChoice);
-    }, [selectedChoice])
-
     const handleChange = e => {
-        setSelected(e.target.value);
-        onChange(name, selected);
+        onChange(name, e.target.value);
     }
 
     return ( 
@@ -35,7 +28,7 @@ Dropdown.propTypes = {
     labelText: PropTypes.string.isRequired,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
-    selectedChoice: PropTypes.string.isRequired,
+    selected: PropTypes.string.isRequired,
     choices: PropTypes.array
 }
  
