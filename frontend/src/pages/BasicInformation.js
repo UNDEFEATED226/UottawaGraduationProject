@@ -65,7 +65,7 @@ const BasicInfomation = () => {
                         required={true}
                         onChange={handleFieldChange}/>
                     <Textbox
-                        name='provinceState'
+                        name='province'
                         labelText={t('basic_information.province_state')}
                         text={info.province}
                         required={true}
@@ -104,35 +104,35 @@ const BasicInfomation = () => {
                         choices={faculties.map(e => ({id: e.id, name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr}))}
                         onChange={handleFieldChange}/>
                     <Textarea
-                        name='howHelp'
+                        name='howCanWeHelp'
                         labelText={t('basic_information.how_help')}
                         text={info.howCanWeHelp}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}/>
                     <Textarea
-                        name='keywordsEn'
+                        name='keywordsEN'
                         labelText={t('basic_information.keyword_en')}
                         text={info.keywordsEN}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}/>
                     <Textarea
-                        name='keywordsFr'
+                        name='keywordsFR'
                         labelText={t('basic_information.keyword_fr')}
                         text={info.keywordsFR}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}/>
                     <Textarea
-                        name='problemsEn'
+                        name='problemsEN'
                         labelText={t('basic_information.problem_en')}
                         text={info.problemsEN}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}/>
                     <Textarea
-                        name='problemsFr'
+                        name='problemsFR'
                         labelText={t('basic_information.problem_fr')}
                         text={info.problemsFR}
                         rows={10}
