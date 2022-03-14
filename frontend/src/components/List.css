@@ -1,0 +1,22 @@
+.List > table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.List thead th {
+    text-align: left;
+    line-height: 2.5;
+    padding-left: 10px;
+    border-bottom: 2px solid black;
+}
+
+.List tbody td {
+    line-height: 2;
+    padding-left: 10px;
+    border-bottom: 1px solid black;
+}
+
+.List tbody tr:hover {
+    background-color: lightgray;
+}
