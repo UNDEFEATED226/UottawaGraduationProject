@@ -13,7 +13,7 @@ const Textarea = ({name, labelText, text, placeholderText, required, disabled, r
             <textarea 
                    id={name}
                    name={name} 
-                   value={text ?? ""}
+                   defaultValue={text ?? ""}
                    placeholder={placeholderText} 
                    required={required} 
                    disabled={disabled}
