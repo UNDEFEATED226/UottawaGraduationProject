@@ -1,12 +1,25 @@
 import './Textbox.css'
 import PropTypes from "prop-types";
 
-const Textbox = ({name, labelText, text, placeholderText, required, disabled}) => {
-    
+const Textbox = ({name, labelText, text, placeholderText, required, disabled, onChange}) => {
+
+    const handleChange = e => {
+        onChange(name, e.target.value);
+    }
+
     return (
         <div className="Textbox">
             <label htmlFor={name}>{labelText}</label>
-            <input type="text" id={name} name={name} value={text} placeholder={placeholderText} required={required} disabled={disabled}/>
+            <input 
+                type="text" 
+                id={name} 
+                name={name} 
+                value={text ?? ""} 
+                placeholder={placeholderText} 
+                required={required} 
+                disabled={disabled}
+                onChange={handleChange}
+            />
         </div>
     );
 }
