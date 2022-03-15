@@ -16,16 +16,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "types_PartnershipType")
-public class TypesPartnershipType {
+@Table(name = "types_IndicatorFormat")
+public class TypesIndicatorFormat {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Long id;
-
-	@Column(name = "type_en")
-	private String typeEn;
-
-	@Column(name = "type_fr")
-	private String typeFr;
+	
+	private String name;
 }
