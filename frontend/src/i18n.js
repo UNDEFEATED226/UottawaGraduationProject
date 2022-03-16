@@ -34,6 +34,7 @@ i18n
                     page_titles: {
                         basic_information: 'Basic Information',
                         my_products: 'My Products',
+                        edit_product: 'Edit Product',
                         my_grants: 'My Grants',
                         my_events: 'My Events',
                         my_supervision: 'My Supervisions',
@@ -56,7 +57,21 @@ i18n
                         keyword_fr: 'Keywords (FR):',
                         problem_en: 'Problems (EN):',
                         problem_fr: 'Problems (FR):',
-                        notes: 'Notes'
+                        notes: 'Notes:'
+                    },
+                    edit_product: {
+                        title: 'Title',
+                        date: 'Date:',
+                        type: 'Type:',
+                        ongoing: 'On going',
+                        peer_review: 'Peer reviewed',
+                        doi: 'DOI:',
+                        all_authors: 'All Authors:',
+                        member_authors: 'Member Authors',
+                        partners: 'Partners:',
+                        topics: 'Topics:',
+                        target_stakeholders: 'Target Stakeholders:',
+                        notes: 'Notes:'
                     }
                 }
             },
@@ -83,29 +98,44 @@ i18n
                     page_titles: {
                         basic_information: 'Informations de base',
                         my_products: 'Mes produits',
+                        edit_product: 'Editer le produit',
                         my_grants: 'Mes subventions',
                         my_events: 'Mes événements',
                         my_supervision: 'Mes supervisions',
                         partners: 'Partenaires'
                     },
                     basic_information: {
-                        name_first: 'Prénom:',
-                        name_last: 'Nom de famille:',
-                        address: 'Adresse:',
-                        city: 'Ville:',
-                        province_state: 'Province/État:',
-                        country: 'Pays:',
-                        postal_code: 'Code postal:',
-                        email: 'Courriel:',
-                        phone_mobile: 'Numéro de téléphone mobile:',
-                        phone_business: 'Numéro de téléphone professionnel:',
-                        faculty: 'Faculté:',
+                        name_first: 'Prénom :',
+                        name_last: 'Nom de famille :',
+                        address: 'Adresse :',
+                        city: 'Ville :',
+                        province_state: 'Province/État :',
+                        country: 'Pays :',
+                        postal_code: 'Code postal :',
+                        email: 'Courriel :',
+                        phone_mobile: 'Numéro de téléphone mobile :',
+                        phone_business: 'Numéro de téléphone professionnel :',
+                        faculty: 'Faculté :',
                         how_help: 'Comment l\'institut peut-il vous aider ?',
-                        keyword_en: 'Mots clés (EN):',
-                        keyword_fr: 'Mots clés (FR):',
-                        problem_en: 'Problèmes (EN):',
-                        problem_fr: 'Problèmes (FR):',
+                        keyword_en: 'Mots clés (EN) :',
+                        keyword_fr: 'Mots clés (FR) :',
+                        problem_en: 'Problèmes (EN) :',
+                        problem_fr: 'Problèmes (FR) :',
                         notes: 'Notes'
+                    },
+                    edit_product: {
+                        title: 'Titre :',
+                        date: 'Date :',
+                        type: 'Type :',
+                        ongoing: 'En cours',
+                        peer_review: 'Révision par les pairs',
+                        doi: 'Identificateur d\'objet numérique :',
+                        all_authors: 'Tous les auteurs :',
+                        member_authors: 'Auteurs membres :',
+                        partners: 'Partenaires :',
+                        topics: 'Sujets :',
+                        target_stakeholders: 'Parties prenantes cibles :',
+                        notes: 'Notes :'
                     }
                 }
             }
