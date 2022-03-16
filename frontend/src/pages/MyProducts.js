@@ -19,7 +19,7 @@ const MyProducts = () => {
     return (
         <div className="MyProducts">
             <h2>My Products</h2>
-            <List items={products} columns={['title', 'date']}/>
+            <List items={products} columns={['title', 'date']} fixedUrl='edit_product'/>
         </div>
     );
 }

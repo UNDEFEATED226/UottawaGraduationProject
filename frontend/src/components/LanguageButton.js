@@ -15,7 +15,7 @@ const LanguageButton = () => {
         var keys = Object.keys(languages)
         var lng = i18n.resolvedLanguage === keys[0]? keys[1] : keys[0]
         return lng
-    }
+    };
     
     return ( 
         <Button text={languages[getOtherLanguage()].nativeName} clickHandler={() => i18n.changeLanguage(getOtherLanguage())}/>

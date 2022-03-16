@@ -13,7 +13,7 @@ const Button = ({text, type, disabled, clickHandler}) => {
     const className = prepClassName.join(" ").trim();
 
     return ( // Look into when to disable, like tied to the submit state
-        <button className = { className } onClick={() => clickHandler(text)} disabled={ disabled }>{ text }</button>
+        <button className = { className } onClick={() => clickHandler()} disabled={ disabled }>{ text }</button>
     );
 }
 

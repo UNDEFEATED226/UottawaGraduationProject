@@ -5,6 +5,7 @@ import Header from 'components/Header';
 import SideBar from 'components/SideBar';
 import BasicInformation from 'pages/BasicInformation';
 import MyProducts from 'pages/MyProducts';
+import EditProduct from 'pages/EditProduct';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
         <Routes>
           <Route path="/" element={<BasicInformation />} />
           <Route path="/my_products" element={<MyProducts />} />
+          <Route path="/edit_product/:productId" element={<EditProduct />} />
         </Routes>
       </div>
     );
