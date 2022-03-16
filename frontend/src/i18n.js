@@ -36,6 +36,7 @@ i18n
                         my_products: 'My Products',
                         edit_product: 'Edit Product',
                         my_grants: 'My Grants',
+                        edit_grant: 'Edit Grant',
                         my_events: 'My Events',
                         my_supervision: 'My Supervisions',
                         partners: 'Partners'
@@ -72,6 +73,21 @@ i18n
                         topics: 'Topics:',
                         target_stakeholders: 'Target Stakeholders:',
                         notes: 'Notes:'
+                    },
+                    edit_grant: {
+                        title: 'Title:',
+                        amount: 'Amount:',
+                        through_lri: 'Through LRI:',
+                        status: 'Status:',
+                        submission_date: 'Submission date:',
+                        obtained_date: 'Obtained date:',
+                        completed_date: 'Completed date:',
+                        topics: 'Topics:',
+                        notes: 'Notes:',
+                        source: 'Source:',
+                        investigators_all: 'Investigators (all):',
+                        investigators_members: 'Investigators (members):',
+                        member_involved: 'Members involved:'
                     }
                 }
             },
@@ -100,6 +116,7 @@ i18n
                         my_products: 'Mes produits',
                         edit_product: 'Editer le produit',
                         my_grants: 'Mes subventions',
+                        edit_grant: 'Editer la subvention',
                         my_events: 'Mes événements',
                         my_supervision: 'Mes supervisions',
                         partners: 'Partenaires'
@@ -136,6 +153,21 @@ i18n
                         topics: 'Sujets :',
                         target_stakeholders: 'Parties prenantes cibles :',
                         notes: 'Notes :'
+                    },
+                    edit_grant: {
+                        title: 'Titre :',
+                        amount: 'Montant :',
+                        through_lri: 'Par le biais de IRL :',
+                        status: 'Statut :',
+                        submission_date: 'Date de soumission :',
+                        obtained_date: 'Date d\'obtention :',
+                        completed_date: 'Date d\'achèvement :',
+                        topics: 'Sujets :',
+                        notes: 'Notes :',
+                        source: 'Source :',
+                        investigators_all: 'Investigateurs (tous) :',
+                        investigators_members: 'Investigateurs (membres) :',
+                        member_involved: 'Membres impliqués :'
                     }
                 }
             }

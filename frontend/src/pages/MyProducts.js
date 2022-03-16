@@ -1,9 +1,11 @@
 import './MyProducts.css';
 import List from 'components/List';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MyProducts = () => {
 
+    const { t } = useTranslation();
     const [products, setProducts] = useState([]);
 
     async function fetchProducts() {
@@ -18,7 +20,7 @@ const MyProducts = () => {
 
     return (
         <div className="MyProducts">
-            <h2>My Products</h2>
+            <h2>{t('page_titles.my_products')}</h2>
             <List items={products} columns={['title', 'date']} fixedUrl='edit_product'/>
         </div>
     );

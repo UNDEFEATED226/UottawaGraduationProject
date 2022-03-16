@@ -27,7 +27,6 @@ const Textbox = ({name, labelText, text, placeholderText, required, disabled, on
 Textbox.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
-    text: PropTypes.string,
     placeholderText: PropTypes.string,
     required: PropTypes.bool,
     disabled: PropTypes.bool
