@@ -16,8 +16,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "types_TargetSkateholder")
-public class TypesTargetSkateholder {
+@Table(name = "types_TargetStakeholder")
+public class TypesTargetStakeholder {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

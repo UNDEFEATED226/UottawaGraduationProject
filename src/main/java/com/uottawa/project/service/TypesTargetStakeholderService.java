@@ -5,22 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.uottawa.project.entity.TypesTargetSkateholder;
-import com.uottawa.project.repository.TypesTargetSkateholderRepository;
+import com.uottawa.project.entity.TypesTargetStakeholder;
+import com.uottawa.project.repository.TypesTargetStakeholderRepository;
 
 @Service
-public class TypesTargetSkateholderService {
+public class TypesTargetStakeholderService {
 
 	@Autowired
-	private TypesTargetSkateholderRepository typesTargetSkateholderRepository;
+	private TypesTargetStakeholderRepository typesTargetStakeholderRepository;
 
-	public TypesTargetSkateholder add(TypesTargetSkateholder skateholder) {
+	public TypesTargetStakeholder add(TypesTargetStakeholder skateholder) {
 		try {
-			if (skateholder.getId() != null && typesTargetSkateholderRepository.existsById(skateholder.getId())) {
+			if (skateholder.getId() != null && typesTargetStakeholderRepository.existsById(skateholder.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID ALREADY EXISTS");
 			}
-			return typesTargetSkateholderRepository.save(skateholder);
+			return typesTargetStakeholderRepository.save(skateholder);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -28,40 +27,40 @@ public class TypesTargetSkateholderService {
 
 	public void deleteById(Long id) {
 		try {
-			if (!typesTargetSkateholderRepository.existsById(id)) {
+			if (!typesTargetStakeholderRepository.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			typesTargetSkateholderRepository.deleteById(id);
+			typesTargetStakeholderRepository.deleteById(id);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public TypesTargetSkateholder update(TypesTargetSkateholder skateholder) {
+	public TypesTargetStakeholder update(TypesTargetStakeholder skateholder) {
 		try {
-			if (skateholder.getId() == null || !typesTargetSkateholderRepository.existsById(skateholder.getId())) {
+			if (skateholder.getId() == null || !typesTargetStakeholderRepository.existsById(skateholder.getId())) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return typesTargetSkateholderRepository.save(skateholder);
+			return typesTargetStakeholderRepository.save(skateholder);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<TypesTargetSkateholder> findAll() {
+	public List<TypesTargetStakeholder> findAll() {
 		try {
-			return typesTargetSkateholderRepository.findAll();
+			return typesTargetStakeholderRepository.findAll();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public TypesTargetSkateholder findById(Long id) {
+	public TypesTargetStakeholder findById(Long id) {
 		try {
-			if (!typesTargetSkateholderRepository.existsById(id)) {
+			if (!typesTargetStakeholderRepository.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");
 			}
-			return typesTargetSkateholderRepository.findById(id).get();
+			return typesTargetStakeholderRepository.findById(id).get();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
