@@ -2,7 +2,7 @@ import './Dropdown.css'
 import PropTypes from "prop-types";
 import { useTranslation } from 'react-i18next';
 
-const Dropdown = ({name, labelText, required, disabled, selected, choices, onChange}) => {
+const Dropdown = ({name, labelText, hideLabel, noneOptionText, required, disabled, selected, choices, onChange}) => {
 
     const { t } = useTranslation();
 
@@ -14,9 +14,9 @@ const Dropdown = ({name, labelText, required, disabled, selected, choices, onCha
 
     return ( 
         <div className="Dropdown">
-            <label htmlFor={name}>{labelText}</label>
+            <label htmlFor={name} className={hideLabel ? 'visuallyhidden' : ''}>{labelText}</label>
             <select id={name} name={name} required={required} disabled={disabled} value={selected} onChange={handleChange}>
-                <option value=''>{t("dropdown.none")}</option>
+                <option value=''>{noneOptionText ?? t("dropdown.none")}</option>
                 {choices.map(({id, name}) => (
                     <option key={id} value={id}>{name}</option>
                 ))}

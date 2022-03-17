@@ -1,0 +1,23 @@
+.DropdownSelectList .selectBox {
+    height: 200px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.DropdownSelectList .selectedItem {
+    display: flex;
+    justify-content: space-between;
+    line-height: 2rem;
+    height: 2rem;
+    padding-left: 10px;
+    border-bottom: 1px solid black;
+}
+
+.DropdownSelectList .selectedItem button {
+    margin: 0.5em;
+}
+
+.DropdownSelectList .Dropdown {
+    padding: 1px;
+    border-bottom: 1px solid black;
+}
