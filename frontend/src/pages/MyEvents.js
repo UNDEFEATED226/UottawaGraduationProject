@@ -1,3 +1,4 @@
+import './TablePage.css';
 import List from 'components/List';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +19,7 @@ const MyEvents = () => {
     }, [])
 
     return ( 
-        <div className="MyEvents">
+        <div className="MyEvents TablePage">
             <h2>{t('page_titles.my_events')}</h2>
             <List items={events} columns={['nameEn', 'nameFr', 'startDate', 'endDate']} fixedUrl='edit_event'/>
         </div>

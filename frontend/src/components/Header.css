@@ -1,49 +1,57 @@
-.header {
-    background: #ffffff;
+.Header {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    /* height: 7%; */
-    padding: 5px 5px;
-    text-align: center;
-    border-bottom: 0.5em solid #890815;
+    flex-direction: column;
+    height: 100%;
+    /* #890815 */
+    /* border-bottom: 0.5em solid;
+    border-image-slice: 1;
+    border-image-slice: linear-gradient(90deg, #fdd63d 33%, #39b24b 66%, #0248a5);
+    border-image-slice: -moz-linear-gradient(left, #fdd63d 33%, #39b24b 66%, #0248a5); */
 }
 
-.header .left{
+.Header .container {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    height: 135px;
+}
+
+.Header .separator {
+    background: linear-gradient(90deg, #fdd63d 33%, #39b24b 66%, #0248a5);
+    height: 5px;
+}
+
+.Header .titles {
+    padding-left: 2em;
     order: 1;
     flex-grow: 6;
 }
 
-.header .right{
+.Header .buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
     order: 2;
     flex-grow: 1;
     /* background-color: blueviolet; */
 }
 
-.header .logo{
+.Header .logo {
     order: 3;
     flex-grow: 1;
-    margin-left: auto;
-    margin-right: 0;
+    padding-left: 1em;
     /* background-color: aqua; */
 }
 
-.header h1{
+.Header h1,
+.Header h2 {
     color: #000000;
-    padding-left: 5%;
+    white-space: nowrap;
     text-align: left;
 }
 
-.header h2{
-    color: #000000;
-    padding-left: 5%;
-    text-align: left;
-}
-
-.header img {
+.Header img {
     height: 5em;
-}
-
-.header .btn{
-    padding: 1em;
 }

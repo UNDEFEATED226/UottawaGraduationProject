@@ -1,3 +1,4 @@
+import './FormPage.css';
 import Checkbox from 'components/Checkbox';
 import Date from 'components/Date';
 import Dropdown from 'components/Dropdown';
@@ -105,7 +106,7 @@ const EditEvent = ({userId}) => {
     }, [])
 
     return ( 
-        <div className="EditEvent">
+        <div className="EditEvent FormPage">
             <h2>{t('page_titles.edit_event')}</h2>
             <form>
                 <div className='fields'>

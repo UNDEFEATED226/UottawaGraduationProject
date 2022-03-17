@@ -1,4 +1,4 @@
-import './BasicInformation.css'
+import './FormPage.css';
 import Dropdown from 'components/Dropdown';
 import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
@@ -13,8 +13,67 @@ const BasicInfomation = () => {
     const [info, setInfo] = useState({});
     const [faculties, setFaculties] = useState([]);
 
+    const [errors, setErrors] = useState({}); // Holds errors
+
     const handleFieldChange = (id, value) => {
         setInfo({ ...info, [id]: value });
+    }
+
+    const handleSubmit = (event) => {
+        if (event) {
+            event.preventDefault();
+        }
+        
+        handleValidation();
+
+        if(Object.keys(errors).length === 0 && Object.keys(info).length !==0 ){
+            // DO SOMETHING ON SUBMIT
+        }
+    }
+
+    const handleValidation = () => {
+
+        let newErrors = {};
+
+        if (!info.firstName || info.firstName.length === 0) {
+            newErrors.firstName = 'First name cannot be empty.';
+        } else {
+            newErrors.firstName = undefined;
+        }
+        
+        if (!info.lastName || info.lastName.length === 0) {
+            newErrors.lastName = 'Last name cannot be empty.';
+        } else {
+            newErrors.lastName = undefined;
+        }
+        
+        if (!info.city || info.city.length === 0) { 
+            newErrors.city = 'City cannot be empty.';
+        } else {
+            newErrors.city = undefined;
+        }
+            
+        if (!info.province || info.province.length === 0) {
+            newErrors.province = 'Province cannot be empty.';
+        } else {
+            newErrors.province = undefined;
+        }
+        
+        if (!info.country || info.country.length === 0) {
+            newErrors.country = 'Country cannot be empty.';
+        } else {
+            newErrors.country = undefined;
+        }
+            
+        if (!info.email || info.email.length === 0) {
+            newErrors.email = 'Email cannot be empty.';
+        } else if (!new RegExp( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(info.email)) {
+            newErrors.email = 'Email format is invalid.';
+        } else {
+            newErrors.email = undefined;
+        }
+
+        setErrors(newErrors);
     }
 
     // FETCHING
@@ -37,56 +96,82 @@ const BasicInfomation = () => {
     }, [])
 
     return (
-        <div className="BasicInformation">
+        <div className="BasicInformation FormPage">
             <h2>{t('page_titles.basic_information')}</h2>
-            <form>
+            <form onSubmit={ (e) => handleSubmit(e)}>
                 <div className='fields'>
-                    <Textbox
-                        name='firstName'
-                        labelText={t('basic_information.name_first')}
-                        text={info.firstName}
-                        required={true}
-                        onChange={handleFieldChange}/>
-                    <Textbox
-                        name='lastName'
-                        labelText={t('basic_information.name_last')}
-                        text={info.lastName}
-                        required={true}
-                        onChange={handleFieldChange}/>
+                    <div>
+                        <Textbox
+                            name='firstName'
+                            labelText={t('basic_information.name_first')}
+                            text={info.firstName}
+                            // required={true}
+                            onChange={handleFieldChange} />
+                        <span style={{ color: "red" }}>{errors.firstName}</span>
+                    </div>
+                    
+                    <div>
+                        <Textbox
+                            name='lastName'
+                            labelText={t('basic_information.name_last')}
+                            text={info.lastName}
+                            //required={true}
+                            onChange={handleFieldChange} />
+                        <span style={{ color: "red" }}>{errors.lastName}</span>
+                    </div>
+                    
                     <Textbox
                         name='address'
                         labelText={t('basic_information.address')}
                         text={info.address}
-                        onChange={handleFieldChange}/>
-                    <Textbox
-                        name='city'
-                        labelText={t('basic_information.city')}
-                        text={info.city}
-                        required={true}
-                        onChange={handleFieldChange}/>
-                    <Textbox
-                        name='province'
-                        labelText={t('basic_information.province_state')}
-                        text={info.province}
-                        required={true}
-                        onChange={handleFieldChange}/>
-                    <Textbox
-                        name='country'
-                        labelText={t('basic_information.country')}
-                        text={info.country}
-                        required={true}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange} />
+
+                    <div>
+                        <Textbox
+                            name='city'
+                            labelText={t('basic_information.city')}
+                            text={info.city}
+                            //required={true}
+                            onChange={handleFieldChange} />
+                        <span style={{ color: "red" }}>{errors.city}</span>
+                    </div>
+
+                    <div>
+                        <Textbox
+                            name='province'
+                            labelText={t('basic_information.province_state')}
+                            text={info.province}
+                            //required={true}
+                            onChange={handleFieldChange}/>
+                        <span style={{ color: "red" }}>{errors.province}</span>
+                    </div>
+                    
+                    <div>
+                        <Textbox
+                            name='country'
+                            labelText={t('basic_information.country')}
+                            text={info.country}
+                            //required={true}
+                            onChange={handleFieldChange}/>
+                        <span style={{ color: "red" }}>{errors.country}</span>
+                    </div>
+                    
                     <Textbox
                         name='postalCode'
                         labelText={t('basic_information.postal_code')}
                         text={info.postalCode}
                         onChange={handleFieldChange}/>
-                    <Textbox
-                        name='email'
-                        labelText={t('basic_information.email')}
-                        text={info.email}
-                        required={true}
-                        onChange={handleFieldChange}/>
+
+                    <div>
+                        <Textbox
+                            name='email'
+                            labelText={t('basic_information.email')}
+                            text={info.email}
+                            //required={true}
+                            onChange={handleFieldChange}/>
+                        <span style={{ color: "red" }}>{errors.email}</span>
+                    </div>
+                    
                     <Textbox
                         name='mobilePhone'
                         labelText={t('basic_information.phone_mobile')}

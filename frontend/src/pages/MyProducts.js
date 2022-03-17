@@ -1,4 +1,4 @@
-import './MyProducts.css';
+import './TablePage.css';
 import List from 'components/List';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const MyProducts = () => {
     }, [])
 
     return (
-        <div className="MyProducts">
+        <div className="MyProducts TablePage">
             <h2>{t('page_titles.my_products')}</h2>
             <List items={products} columns={['title', 'date']} fixedUrl='edit_product'/>
         </div>

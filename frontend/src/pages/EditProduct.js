@@ -1,3 +1,4 @@
+import './FormPage.css';
 import Checkbox from 'components/Checkbox';
 import Date from 'components/Date';
 import Dropdown from 'components/Dropdown';
@@ -104,7 +105,7 @@ const EditProduct = ({userId}) => {
     // Example: {"id":2,"title":"DASH requirements and database","date":"2021-05-01","onGoing":0,"peerReviewed":0,"doi":null,"authorsAll":"Shadi Fasihi Lahroudi","notes":null,"type":41}
 
     return ( 
-        <div className="EditProduct">
+        <div className="EditProduct FormPage">
             <h2>{t('page_titles.edit_product')}</h2>
             <form>
                 <div className='fields'>

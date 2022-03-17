@@ -4,7 +4,7 @@
     width: 240px;
     height: 100%;
     border-right: 1px solid black;
-    background-color: rgb(128, 128, 128);
+    background-color: rgb(170, 201, 174);
     transition: width ease-out 0.3s;
 }
 
@@ -16,7 +16,11 @@
     width: fit-content;
     min-width: 1.5rem;
     height: 1.5rem;
+    padding: 0.5em 0.5em;
     cursor: pointer;
+    border: none;
+    background: #2b6be2;
+    color: white;
 }
 
 .SideBar div {
@@ -26,17 +30,17 @@
     white-space: nowrap;
     padding-right: 1em;
     border-top: 1px solid black;
-    background-color: aquamarine;
+    background-color: rgb(158, 226, 167);
     direction: rtl;
     cursor: pointer;
 }
 
 .SideBar .selected {
-    background-color: gold;
+    background-color: #fdd63d;
 }
 
 .SideBar div:hover {
-    background-color: rgb(70, 172, 133);
+    background-color: rgb(142, 197, 149);
 }
 
 .SideBar a {

@@ -1,3 +1,4 @@
+import './FormPage.css';
 import Checkbox from 'components/Checkbox';
 import Date from 'components/Date';
 import Dropdown from 'components/Dropdown';
@@ -89,7 +90,7 @@ const EditGrant = ({userId}) => {
     // Example: {"id":1,"title":"Making IT Count: DASH","amount":100000.0000,"isThroughLRI":0,"status":4,"submissionDate":"2021-01-20","receivedDate":null,"finishedDate":null,"source":7,"investigatorsAll":"Katrine Sauvé-Schenk\r\nDaniel Amyot\r\nLysanne Lessard\r\nJohn Sylvestre","notes":"Housing, submitted to CMHC/SCHL. Resubmitted to SSHRC."}
 
     return ( 
-        <div className="EditGrant">
+        <div className="EditGrant FormPage">
             <h2>{t('page_titles.edit_grant')}</h2>
             <form>
                 <div className='fields'>

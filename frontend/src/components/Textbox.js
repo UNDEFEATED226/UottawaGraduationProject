@@ -19,6 +19,7 @@ const Textbox = ({name, labelText, text, placeholderText, required, disabled, on
                 required={required} 
                 disabled={disabled}
                 onChange={handleChange}
+                onBlur={handleChange}
             />
         </div>
     );

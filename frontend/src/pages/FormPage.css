@@ -1,15 +1,15 @@
-.BasicInformation {
+.FormPage {
     padding: 1em;
-    background-color: pink;
+    background-color: #c0eec7;
 }
 
-.BasicInformation .fields {
+.FormPage .fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
 }
 
-.BasicInformation .buttons {
+.FormPage .buttons {
     display: flex;
     gap: 1em;
     margin-top: 1em;

@@ -1,0 +1,8 @@
+.Date {
+    display: flex;
+    flex-direction: column;
+}
+
+.Date > input{
+    height: 2rem;
+}
