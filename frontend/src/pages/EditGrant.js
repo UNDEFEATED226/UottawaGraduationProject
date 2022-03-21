@@ -95,25 +95,25 @@ const EditGrant = ({userId}) => {
             <form>
                 <div className='fields'>
                     <Textbox name='title' 
-                        labelText={t('edit_grant.title')} 
+                        labelText={t('grant.title')} 
                         text={grant.title} 
                         required={true}
                         onChange={handleFieldChange}/>
 
                     <Textbox name='amount' 
-                        labelText={t('edit_grant.amount')} 
+                        labelText={t('grant.amount')} 
                         text={grant.amount} 
                         required={true}
                         onChange={handleFieldChange}/>
 
-                    <Checkbox name='throughLri' labelText={t('edit_grant.through_lri')} checkedNum={grant.isThroughLRI} />
+                    <Checkbox name='throughLri' labelText={t('grant.through_lri')} checkedNum={grant.isThroughLRI} />
 
-                    <Date name='submissionDate' labelText={t('edit_grant.submission_date')} textValue={grant.submissionDate} onChange={handleFieldChange} />
-                    <Date name='obtainedDate' labelText={t('edit_grant.obtained_date')} textValue={grant.receivedDate} onChange={handleFieldChange} />
-                    <Date name='completedDate' labelText={t('edit_grant.completed_date')} textValue={grant.finishedDate} onChange={handleFieldChange} />
+                    <Date name='submissionDate' labelText={t('grant.submission_date')} textValue={grant.submissionDate} onChange={handleFieldChange} />
+                    <Date name='obtainedDate' labelText={t('grant.obtained_date')} textValue={grant.receivedDate} onChange={handleFieldChange} />
+                    <Date name='completedDate' labelText={t('grant.completed_date')} textValue={grant.finishedDate} onChange={handleFieldChange} />
 
                     <Textarea name='investigatorsAll' 
-                        labelText={t('edit_grant.investigators_all')} 
+                        labelText={t('grant.investigators_all')} 
                         text={grant.investigatorsAll} 
                         rows={10} cols={30}
                         onChange={handleFieldChange}/>
@@ -122,7 +122,7 @@ const EditGrant = ({userId}) => {
                     {/* NEED MULTI-SELECT DROPDOWNS: TOPICS, INVESTIGATORS (MEMBERS), MEMBERS INVOLVED */}
 
                     <Textarea name='notes' 
-                        labelText={t('edit_grant.notes')} 
+                        labelText={t('grant.notes')} 
                         text={grant.notes} 
                         rows={10} cols={30}
                         onChange={handleFieldChange}/>

@@ -111,25 +111,25 @@ const EditEvent = ({userId}) => {
             <form>
                 <div className='fields'>
                     <Textbox name='nameEn' 
-                        labelText={t('edit_event.name_en')} 
+                        labelText={t('event.name_en')} 
                         text={event.nameEn} 
                         required={true}
                         onChange={handleFieldChange}/>
 
                     <Textbox name='nameFr' 
-                        labelText={t('edit_event.name_fr')} 
+                        labelText={t('event.name_fr')} 
                         text={event.nameFr} 
                         required={true}
                         onChange={handleFieldChange}/>
                     
-                    <Date name='startDate' labelText={t('edit_event.start_date')} textValue={event.startDate} onChange={handleFieldChange} />
-                    <Date name='endDate' labelText={t('edit_event.end_date')} textValue={event.endDate} onChange={handleFieldChange} />
+                    <Date name='startDate' labelText={t('event.start_date')} textValue={event.startDate} onChange={handleFieldChange} />
+                    <Date name='endDate' labelText={t('event.end_date')} textValue={event.endDate} onChange={handleFieldChange} />
 
                     {/* NEED DROPDOWNS: TYPE */}
                     {/* NEED MULTI-SELECT DROPDOWNS: TOPICS, PRODUCTS RESULTED, PARTNERS INVOLVED, GRANTS RESULTED, PAST EVENTS, FUTURE EVENTS, MEMBERS INVOLVED */}
 
                     <Textarea name='notes' 
-                        labelText={t('edit_event.notes')} 
+                        labelText={t('event.notes')} 
                         text={event.notes} 
                         rows={10} cols={30}
                         onChange={handleFieldChange}/>

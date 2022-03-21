@@ -3,7 +3,7 @@ import Button from "./Button";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const List = ({items, columns, fixedUrl}) => {
+const List = ({items, columns, columnTitles, fixedUrl}) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ const List = ({items, columns, fixedUrl}) => {
                 <thead>
                     <tr className="ListHeader">
                         {columns.map(column => (
-                            <th key={column}>{column}</th>
+                            <th key={column}>{columnTitles[column]}</th>
                         ))}
                         <th key={"buttons"}></th>
                     </tr>

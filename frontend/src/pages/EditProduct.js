@@ -110,23 +110,23 @@ const EditProduct = ({userId}) => {
             <form>
                 <div className='fields'>
                     <Textbox name='title' 
-                        labelText={t('edit_product.title')} 
+                        labelText={t('product.title')} 
                         text={product.title} 
                         required={true}
                         onChange={handleFieldChange}/>
 
-                    <Date name='date' labelText={t('edit_product.date')} textValue={product.date} onChange={handleFieldChange} />
-                    <Checkbox name='ongoing' labelText={t('edit_product.ongoing')} checkedNum={product.onGoing} />
-                    <Checkbox name='peerReview' labelText={t('edit_product.peer_review')} checkedNum={product.peerReviewed} />
+                    <Date name='date' labelText={t('product.date')} textValue={product.date} onChange={handleFieldChange} />
+                    <Checkbox name='ongoing' labelText={t('product.ongoing')} checkedNum={product.onGoing} />
+                    <Checkbox name='peerReview' labelText={t('product.peer_review')} checkedNum={product.peerReviewed} />
                     
                     <Textbox name='doi' 
-                        labelText={t('edit_product.doi')} 
+                        labelText={t('product.doi')} 
                         placeholderText={product.doi} 
                         required={true}
                         onChange={handleFieldChange}/>
 
                     <Textarea name='allAuthors' 
-                        labelText={t('edit_product.all_authors')} 
+                        labelText={t('product.all_authors')} 
                         text={product.authorsAll} 
                         rows={10} cols={30}
                         onChange={handleFieldChange}/>
@@ -135,7 +135,7 @@ const EditProduct = ({userId}) => {
                     {/* NEED MULTI-SELECT DROPDOWNS: TOPICS, MEMBER AUTHORS, TARGET STAKEHOLDER, PARTNERS */}
 
                     <Textarea name='notes' 
-                        labelText={t('edit_product.notes')} 
+                        labelText={t('product.notes')} 
                         text={product.notes} 
                         rows={10} cols={30}
                         onChange={handleFieldChange}/>
