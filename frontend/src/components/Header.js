@@ -1,5 +1,6 @@
 import './Header.css';
 import Logo from '../assets/life-logo-placeholder.jpg';
+import uoLogo from '../assets/university-of-ottawa-logo.png';
 import Button from './Button';
 import LanguageButton from './LanguageButton';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +24,7 @@ const Header = ({ username }) => {
                 </div>
                 <div className='logo'>
                     <img src={Logo} alt={t('header.logo_alt')}/>
+                    <img src={uoLogo} alt={t('header.logo_alt')}/>
                 </div>
             </div>
             <div className='separator'></div>

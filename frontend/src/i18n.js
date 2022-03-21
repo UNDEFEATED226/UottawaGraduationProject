@@ -17,7 +17,8 @@ i18n
                     header: {
                         title: 'Member Account Information',
                         subtitle: 'Profile',
-                        logo_alt: 'LIFE Research Institute'
+                        logo_alt: 'LIFE Research Institute',
+                        logo_alt_uo: 'University of Ottawa'
                     },
                     button: {
                         edit: 'Edit',
@@ -38,6 +39,7 @@ i18n
                         my_grants: 'My Grants',
                         edit_grant: 'Edit Grant',
                         my_events: 'My Events',
+                        edit_event: 'Edit Event',
                         my_supervision: 'My Supervisions',
                         partners: 'Partners'
                     },
@@ -60,8 +62,10 @@ i18n
                         problem_fr: 'Problems (FR):',
                         notes: 'Notes:'
                     },
-                    edit_product: {
-                        title: 'Title',
+                    product: {
+                        column_title: 'Product Title',
+                        column_date: 'Date',
+                        title: 'Title:',
                         date: 'Date:',
                         type: 'Type:',
                         ongoing: 'On going',
@@ -74,7 +78,9 @@ i18n
                         target_stakeholders: 'Target Stakeholders:',
                         notes: 'Notes:'
                     },
-                    edit_grant: {
+                    grant: {
+                        column_title: 'Grant Title',
+                        column_submission_date: 'Submission Date',
                         title: 'Title:',
                         amount: 'Amount:',
                         through_lri: 'Through LRI:',
@@ -88,6 +94,26 @@ i18n
                         investigators_all: 'Investigators (all):',
                         investigators_members: 'Investigators (members):',
                         member_involved: 'Members involved:'
+                    },
+                    event : {
+                        column_name_en: 'English Name',
+                        column_name_fr: 'French Name',
+                        column_start_date: 'Start Date',
+                        column_end_date: 'End Date',
+                        name_en: 'Name (EN):',
+                        name_fr: 'Name (FR):',
+                        start_date: 'Start date:',
+                        end_date: 'End date:',
+                        type: 'Type of Event:',
+                        topics: 'Topics:',
+                        products_resulted: 'Product resulted:',
+                        partners_involved: 'Partners involved:',
+                        grants_resulted: 'Grants resulted:',
+                        past_events: 'Past events:',
+                        future_events: 'Future events:',
+                        members_involved: 'Members involved:',
+                        notes: 'Notes:'
+
                     }
                 }
             },
@@ -97,7 +123,8 @@ i18n
                     header: {
                         title: 'Informations sur le compte des membres',
                         subtitle: 'Profil',
-                        logo_alt: 'Institut de recherche LIFE'
+                        logo_alt: 'Institut de recherche LIFE',
+                        logo_alt_uo: 'Université d\'Ottawa'
                     },
                     button: {
                         edit: 'Éditer',
@@ -118,6 +145,7 @@ i18n
                         my_grants: 'Mes subventions',
                         edit_grant: 'Editer la subvention',
                         my_events: 'Mes événements',
+                        edit_event: 'Editer l\'événement',
                         my_supervision: 'Mes supervisions',
                         partners: 'Partenaires'
                     },
@@ -140,7 +168,9 @@ i18n
                         problem_fr: 'Problèmes (FR) :',
                         notes: 'Notes'
                     },
-                    edit_product: {
+                    product: {
+                        column_title: 'Titre du produit',
+                        column_date: 'Date',
                         title: 'Titre :',
                         date: 'Date :',
                         type: 'Type :',
@@ -154,7 +184,9 @@ i18n
                         target_stakeholders: 'Parties prenantes cibles :',
                         notes: 'Notes :'
                     },
-                    edit_grant: {
+                    grant: {
+                        column_title: 'Titre de la subvention',
+                        column_submission_date: 'Date de soumission',
                         title: 'Titre :',
                         amount: 'Montant :',
                         through_lri: 'Par le biais de IRL :',
@@ -168,6 +200,25 @@ i18n
                         investigators_all: 'Investigateurs (tous) :',
                         investigators_members: 'Investigateurs (membres) :',
                         member_involved: 'Membres impliqués :'
+                    },
+                    event : {
+                        column_name_en: 'Nom anglais',
+                        column_name_fr: 'Nom français',
+                        column_start_date: 'Date de début',
+                        column_end_date: 'Date de fin',
+                        name_en: 'Nom (EN):',
+                        name_fr: 'Nom (FR):',
+                        start_date: 'Date de début :',
+                        end_date: 'Date de fin :',
+                        type: 'Type d\'événement :',
+                        topics: 'Sujets :',
+                        products_resulted: 'Résultat du produit :',
+                        partners_involved: 'Partenaires impliqués :',
+                        grants_resulted: 'Des subventions ont été accordées :',
+                        past_events: 'Événements passés :',
+                        future_events: 'Événements futurs :',
+                        members_involved: 'Membres impliqués :',
+                        notes: 'Notes :'
                     }
                 }
             }
