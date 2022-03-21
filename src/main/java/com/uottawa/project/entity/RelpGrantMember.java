@@ -1,32 +1,20 @@
 package com.uottawa.project.entity;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Relp_Grant_Member")
 public class RelpGrantMember {
-	private Long memberId;
-	
-	private Long grantId;
-
-	public RelpGrantMember(Long memberId, Long grantId) {
-		this.memberId = memberId;
-		this.grantId = grantId;
-	}
-	
-	public RelpGrantMember() {
-		
-	}
-
-	public Long getMemberId() {
-		return memberId;
-	}
-
-	public void setMemberId(Long memberId) {
-		this.memberId = memberId;
-	}
-
-	public Long getGrantId() {
-		return grantId;
-	}
-
-	public void setGrantId(Long grantId) {
-		this.grantId = grantId;
-	}
+	@EmbeddedId
+	RelpGrantMemberPK id;
 }

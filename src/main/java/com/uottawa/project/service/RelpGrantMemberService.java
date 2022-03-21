@@ -1,115 +1,87 @@
 package com.uottawa.project.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.uottawa.project.entity.RelpGrantMember;
 import com.uottawa.project.repository.RelpGrantMemberRepository;
 
 @Service
-public class RelpGrantMemberService implements RelpGrantMemberRepository {
-
+public class RelpGrantMemberService {
 	@Autowired
-	JdbcTemplate template;
+	private RelpGrantMemberRepository relpGrantMemberRepository;
 
-	RowMapper<RelpGrantMember> rowMapper = (grantMember, rowNum) -> {
-		RelpGrantMember relpGrantMember = new RelpGrantMember();
-		relpGrantMember.setGrantId(grantMember.getLong("grant_id"));
-		relpGrantMember.setMemberId(grantMember.getLong("member_id"));
-		return relpGrantMember;
-	};
-
-	public int add(RelpGrantMember relpGrantMember) {
-		String qry = "INSERT INTO relp_Grant_Member(grant_id,member_id) VALUES (?,?)";
-		int update = 0;
+	public RelpGrantMember add(RelpGrantMember relation) {
+		Long grantId = relation.getId().getGrantId();
+		Long memberId = relation.getId().getMemberId();
 		try {
-			update = template.update(qry, relpGrantMember.getGrantId(), relpGrantMember.getMemberId());
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
+			if (grantId == null || memberId == null) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "BOTH IDs CANNOT BE NULL");
+			}
+			if (relpGrantMemberRepository.existsById(relation.getId())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RELATION ALREADY EXISTS");
+			}
+			return relpGrantMemberRepository.save(relation);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return update;
-	};
-
-	public int deleteById(Long grantId, Long memberId) {
-		int update = 0;
-		String qry = "DELETE * FROM relp_Grant_Member WHERE grant_id = " + grantId + " AND member_id=" + memberId;
-		try {
-			update = template.update(qry);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
-		}
-		return update;
 	}
 
-	public int deleteByGrantId(Long grantId) {
-		int update = 0;
-		String qry = "DELETE * FROM relp_Grant_Member WHERE grant_id = " + grantId;
+	public void deleteById(Long grantId, Long memberId) {
 		try {
-			update = template.update(qry);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			relpGrantMemberRepository.deleteById(grantId, memberId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return update;
-	};
+	}
 
-	public int deleteByMemberId(Long memberId) {
-		int update = 0;
-		String qry = "DELETE * FROM relp_Grant_Member WHERE member_id =" + memberId;
+	public void deleteByGrantId(Long grantId) {
 		try {
-			update = template.update(qry);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN DELETING");
+			relpGrantMemberRepository.deleteByGrantId(grantId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return update;
-	};
+	}
+
+	public void deleteByMemberId(Long memberId) {
+		try {
+			relpGrantMemberRepository.deleteByMemberId(memberId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
 
 	public List<RelpGrantMember> findAll() {
-		String qry = "SELECT * FROM relp_Grant_Member";
-		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
 		try {
-			list = template.query(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			return relpGrantMemberRepository.findAll();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return list;
-	};
-
-	public RelpGrantMember findById(Long grantId, Long memberId) {
-		RelpGrantMember relpGrantMember;
-		String qry = "SELECT * FROM relp_Grant_Member WHERE grant_id = " + grantId + " AND member_id = " + memberId;
-		try {
-			relpGrantMember = template.queryForObject(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-		}
-		return relpGrantMember;
 	}
 
-	public List<RelpGrantMember> findByGrantId(Long grantId) {
-		String qry = "SELECT * FROM relp_Grant_Member WHERE grant_id = " + grantId;
-		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
+	public List<RelpGrantMember> findAllByGrantId(Long grantId) {
 		try {
-			list = template.query(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			return relpGrantMemberRepository.findAllByGrantId(grantId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return list;
-	};
+	}
 
-	public List<RelpGrantMember> findByMemberId(Long memberId) {
-		String qry = "SELECT * FROM relp_Grant_Member WHERE member_id = " + memberId;
-		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
+	public List<RelpGrantMember> findAllByMemberId(Long memberId) {
 		try {
-			list = template.query(qry, rowMapper);
-		} catch (DataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			return relpGrantMemberRepository.findAllByMemberId(memberId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-		return list;
-	};
+	}
+
+	public RelpGrantMember findById(Long grantId, Long memberId) {
+		try {
+			return relpGrantMemberRepository.findById(grantId, memberId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
 }

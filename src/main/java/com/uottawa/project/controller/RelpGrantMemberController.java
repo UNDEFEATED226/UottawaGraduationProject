@@ -1,11 +1,9 @@
 package com.uottawa.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,121 +26,97 @@ public class RelpGrantMemberController {
 	private Gson gson = new Gson();
 
 	@PostMapping("/add")
-	public void add(@RequestBody RelpGrantMember relpGrantMember) {
-		int update = 0;
+	public void add(@RequestBody RelpGrantMember relation) {
 		try {
-			update = relpGrantMemberService.add(relpGrantMember);
+			RelpGrantMember added = relpGrantMemberService.add(relation);
+			log.info("Relation{} added to relp_Grant_Member.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
-			log.error("Error when adding relpGrantMember{} to relp_Grant_Member", gson.toJson(relpGrantMember));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
-		}
-		if (update > 0) {
-			log.info("RelpGrantMember{} added to relp_Grant_Member.", gson.toJson(relpGrantMember));
-		} else {
-			log.error("Error when adding relpGrantMember{} to relp_Grant_Member", gson.toJson(relpGrantMember));
+			log.error("Error when adding relation{} to relp_Grant_Member", gson.toJson(relation));
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_id")
 	public void deleteById(Long grantId, Long memberId) {
-		int update = 0;
 		try {
-			update = relpGrantMemberService.deleteById(grantId, memberId);
+			relpGrantMemberService.deleteById(grantId, memberId);
+			log.info("Deleted from relp_Grant_Member where grant_id={} and member_id={}.", grantId, memberId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from relp_Grant_Member where grant_id={} and member_id={}", grantId,
 					memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("{} rows in relp_Grant_Member where grant_id={} and member_id={} are deleted.", update, grantId,
-					memberId);
-		} else {
-			log.error("Error when deleting from relp_Grant_Member where grant_id={} and member_id={}", grantId,
-					memberId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_grant_id")
 	public void deleteByGrantId(Long grantId) {
-		int update = 0;
 		try {
-			update = relpGrantMemberService.deleteByGrantId(grantId);
+			relpGrantMemberService.deleteByGrantId(grantId);
+			log.info("Deleted from relp_Grant_Member where grant_id = {}.", grantId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from relp_Grant_Member where grant_id={}", grantId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("{} rows in relp_Grant_Member where grant_id = {} are deleted.", update, grantId);
-		} else {
-			log.error("Error when deleting from relp_Grant_Member where grant_id={}", grantId);
+
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_member_id")
 	public void deleteByMemberId(Long memberId) {
-		int update = 0;
 		try {
-			update = relpGrantMemberService.deleteByMemberId(memberId);
+			relpGrantMemberService.deleteByMemberId(memberId);
+			log.info("Deleted from relp_Grant_Member where member_id = {}.", memberId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from relp_Grant_Member where member_id={}", memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("{} rows in relp_Grant_Member where member_id = {} are deleted.", update, memberId);
-		} else {
-			log.error("Error when deleting from relp_Grant_Member where member_id={}", memberId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/find_all")
 	public List<RelpGrantMember> findAll() {
-		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
 		try {
-			list = relpGrantMemberService.findAll();
+			List<RelpGrantMember> list = relpGrantMemberService.findAll();
+			log.info("relp_Grant_Member list:{}", gson.toJson(list));
+			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding relp_Grant_Member list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
-		log.info("relp_Grant_Member list:{}", gson.toJson(list));
-		return list;
+
+	}
+
+	@GetMapping("/find_all_by_grant_id")
+	public List<RelpGrantMember> findAllByGrantId(Long grantId) {
+		try {
+			List<RelpGrantMember> list = relpGrantMemberService.findAllByGrantId(grantId);
+			log.info("relp_Grant_Member list where grant_id={}: {}", grantId, gson.toJson(list));
+			return list;
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding relp_Grant_Member list where grant_id = {}.", grantId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
+		}
+	}
+
+	@GetMapping("/find_all_by_member_id")
+	public List<RelpGrantMember> findAllByMemberId(Long memberId) {
+		try {
+			List<RelpGrantMember> list = relpGrantMemberService.findAllByMemberId(memberId);
+			log.info("relp_Grant_Member list where member_id={}: {}", memberId, gson.toJson(list));
+			return list;
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding relp_Grant_Member list where member_id = {}.", memberId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
+		}
 	}
 
 	@GetMapping("/find_by_id")
 	public RelpGrantMember findById(Long grantId, Long memberId) {
-		RelpGrantMember relpGrantMember;
 		try {
-			relpGrantMember = relpGrantMemberService.findById(grantId, memberId);
+			RelpGrantMember relation = relpGrantMemberService.findById(grantId, memberId);
+			log.info("Relp_Grant_Member{} found.", gson.toJson(relation));
+			return relation;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding relp_Grant_Member where grant_id = {} and member_id={}.", grantId, memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
-		log.info("Relp_Grant_Member{} found.", gson.toJson(relpGrantMember));
-		return relpGrantMember;
-	}
-
-	@GetMapping("/find_by_grant_id")
-	public List<RelpGrantMember> findByGrantId(Long grantId) {
-		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
-		try {
-			list = relpGrantMemberService.findByGrantId(grantId);
-		} catch (ResponseStatusException e) {
-			log.error("Error when finding relp_Grant_Member list where grant_id = {}.", grantId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-		}
-		log.info("relp_Grant_Member list where garnt_id={}: {}", grantId, gson.toJson(list));
-		return list;
-	}
-
-	@GetMapping("/find_by_member_id")
-	public List<RelpGrantMember> findByMemberId(Long memberId) {
-		List<RelpGrantMember> list = new ArrayList<RelpGrantMember>();
-		try {
-			list = relpGrantMemberService.findByMemberId(memberId);
-		} catch (ResponseStatusException e) {
-			log.error("Error when finding relp_Grant_Member list where member_id = {}.", memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-		}
-		log.info("relp_Grant_Member list where member_id={}: {}", memberId, gson.toJson(list));
-		return list;
 	}
 }
