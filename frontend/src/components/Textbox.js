@@ -1,7 +1,7 @@
 import './Textbox.css'
 import PropTypes from "prop-types";
 
-const Textbox = ({name, labelText, text, placeholderText, required, disabled, onChange}) => {
+const Textbox = ({name, labelText, text, placeholderText, errorMessage, required, disabled, onChange}) => {
 
     const handleChange = e => {
         onChange(name, e.target.value);
@@ -21,6 +21,7 @@ const Textbox = ({name, labelText, text, placeholderText, required, disabled, on
                 onChange={handleChange}
                 onBlur={handleChange}
             />
+            {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
         </div>
     );
 }
@@ -28,9 +29,12 @@ const Textbox = ({name, labelText, text, placeholderText, required, disabled, on
 Textbox.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    text: PropTypes.string,
     placeholderText: PropTypes.string,
+    errorMessage: PropTypes.string,
     required: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func
 }
  
 export default Textbox;

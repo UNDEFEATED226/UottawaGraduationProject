@@ -6,74 +6,75 @@ import Button from 'components/Button';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+const emailRE = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
 const BasicInfomation = () => {
 
     const { t, i18n } = useTranslation();
 
     const [info, setInfo] = useState({});
     const [faculties, setFaculties] = useState([]);
-
     const [errors, setErrors] = useState({}); // Holds errors
 
     const handleFieldChange = (id, value) => {
         setInfo({ ...info, [id]: value });
     }
 
-    const handleSubmit = (event) => {
-        if (event) {
-            event.preventDefault();
+    async function postInfo() {
+        const response = await fetch('/api/main_members/update', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(info)
+        });
+        if (!response.ok) {
+            console.error("Member Info POST request responded with failure.");
         }
-        
-        handleValidation();
+    }
 
-        if(Object.keys(errors).length === 0 && Object.keys(info).length !==0 ){
-            // DO SOMETHING ON SUBMIT
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (handleValidation() && Object.keys(info).length !== 0) {
+            console.log(info);
+            postInfo();
         }
     }
 
     const handleValidation = () => {
-
         let newErrors = {};
 
         if (!info.firstName || info.firstName.length === 0) {
             newErrors.firstName = 'First name cannot be empty.';
-        } else {
-            newErrors.firstName = undefined;
         }
-        
+
         if (!info.lastName || info.lastName.length === 0) {
             newErrors.lastName = 'Last name cannot be empty.';
-        } else {
-            newErrors.lastName = undefined;
         }
-        
+
         if (!info.city || info.city.length === 0) { 
             newErrors.city = 'City cannot be empty.';
-        } else {
-            newErrors.city = undefined;
         }
-            
+
         if (!info.province || info.province.length === 0) {
             newErrors.province = 'Province cannot be empty.';
-        } else {
-            newErrors.province = undefined;
         }
-        
+
         if (!info.country || info.country.length === 0) {
             newErrors.country = 'Country cannot be empty.';
-        } else {
-            newErrors.country = undefined;
         }
-            
+        
         if (!info.email || info.email.length === 0) {
             newErrors.email = 'Email cannot be empty.';
-        } else if (!new RegExp( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(info.email)) {
+        }
+        else if (!emailRE.test(info.email)) {
             newErrors.email = 'Email format is invalid.';
-        } else {
-            newErrors.email = undefined;
         }
 
         setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
     }
 
     // FETCHING
@@ -98,80 +99,54 @@ const BasicInfomation = () => {
     return (
         <div className="BasicInformation FormPage">
             <h2>{t('page_titles.basic_information')}</h2>
-            <form onSubmit={ (e) => handleSubmit(e)}>
+            <form onSubmit={handleSubmit}>
                 <div className='fields'>
-                    <div>
-                        <Textbox
-                            name='firstName'
-                            labelText={t('basic_information.name_first')}
-                            text={info.firstName}
-                            // required={true}
-                            onChange={handleFieldChange} />
-                        <span style={{ color: "red" }}>{errors.firstName}</span>
-                    </div>
-                    
-                    <div>
-                        <Textbox
-                            name='lastName'
-                            labelText={t('basic_information.name_last')}
-                            text={info.lastName}
-                            //required={true}
-                            onChange={handleFieldChange} />
-                        <span style={{ color: "red" }}>{errors.lastName}</span>
-                    </div>
-                    
+                    <Textbox
+                        name='firstName'
+                        labelText={t('basic_information.name_first')}
+                        text={info.firstName}
+                        errorMessage={errors.firstName}
+                        onChange={handleFieldChange}/>
+                    <Textbox
+                        name='lastName'
+                        labelText={t('basic_information.name_last')}
+                        text={info.lastName}
+                        errorMessage={errors.lastName}
+                        onChange={handleFieldChange}/>
                     <Textbox
                         name='address'
                         labelText={t('basic_information.address')}
                         text={info.address}
-                        onChange={handleFieldChange} />
-
-                    <div>
-                        <Textbox
-                            name='city'
-                            labelText={t('basic_information.city')}
-                            text={info.city}
-                            //required={true}
-                            onChange={handleFieldChange} />
-                        <span style={{ color: "red" }}>{errors.city}</span>
-                    </div>
-
-                    <div>
-                        <Textbox
-                            name='province'
-                            labelText={t('basic_information.province_state')}
-                            text={info.province}
-                            //required={true}
-                            onChange={handleFieldChange}/>
-                        <span style={{ color: "red" }}>{errors.province}</span>
-                    </div>
-                    
-                    <div>
-                        <Textbox
-                            name='country'
-                            labelText={t('basic_information.country')}
-                            text={info.country}
-                            //required={true}
-                            onChange={handleFieldChange}/>
-                        <span style={{ color: "red" }}>{errors.country}</span>
-                    </div>
-                    
+                        onChange={handleFieldChange}/>
+                    <Textbox
+                        name='city'
+                        labelText={t('basic_information.city')}
+                        text={info.city}
+                        errorMessage={errors.city}
+                        onChange={handleFieldChange}/>
+                    <Textbox
+                        name='province'
+                        labelText={t('basic_information.province_state')}
+                        text={info.province}
+                        errorMessage={errors.province}
+                        onChange={handleFieldChange}/>
+                    <Textbox
+                        name='country'
+                        labelText={t('basic_information.country')}
+                        text={info.country}
+                        errorMessage={errors.country}
+                        onChange={handleFieldChange}/>
                     <Textbox
                         name='postalCode'
                         labelText={t('basic_information.postal_code')}
                         text={info.postalCode}
                         onChange={handleFieldChange}/>
-
-                    <div>
-                        <Textbox
-                            name='email'
-                            labelText={t('basic_information.email')}
-                            text={info.email}
-                            //required={true}
-                            onChange={handleFieldChange}/>
-                        <span style={{ color: "red" }}>{errors.email}</span>
-                    </div>
-                    
+                    <Textbox
+                        name='email'
+                        labelText={t('basic_information.email')}
+                        text={info.email}
+                        errorMessage={errors.email}
+                        onChange={handleFieldChange}/>
                     <Textbox
                         name='mobilePhone'
                         labelText={t('basic_information.phone_mobile')}
@@ -232,7 +207,7 @@ const BasicInfomation = () => {
                         onChange={handleFieldChange}/>
                 </div>
                 <div className='buttons'>
-                    <Button text={t('button.submit')} type={1} />
+                    <Button text={t('button.submit')} type={1} htmlButtonType='submit'/>
                     <Button text={t('button.cancel')} type={2} />
                 </div>
             </form>
