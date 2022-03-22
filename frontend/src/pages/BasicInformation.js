@@ -185,7 +185,7 @@ const BasicInfomation = () => {
                     <Dropdown
                         name='faculty'
                         labelText={t('basic_information.faculty')}
-                        selected={String(info.faculty)}
+                        selectedChoice={info.faculty}
                         choices={faculties.map(e => ({id: e.id, name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr}))}
                         onChange={handleFieldChange}/>
                     <Textarea

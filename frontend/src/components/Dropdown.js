@@ -1,26 +1,75 @@
 import './Dropdown.css'
 import PropTypes from "prop-types";
 import { useTranslation } from 'react-i18next';
+import { useCallback, useEffect, useState } from 'react';
 
-const Dropdown = ({name, labelText, hideLabel, noneOptionText, required, disabled, selected, choices, onChange}) => {
+const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption, required, disabled, selectedChoice, choices, onChange}) => {
 
     const { t } = useTranslation();
 
-    const handleChange = e => {
-        let id = Number(e.target.value);
-        if (id === 0) id = null;
+    const [showOptionsList, setShowOptionsList] = useState(false);
+    const [searchBoxText, setSearchBoxText] = useState('');
+    const [filteredChoices, setFilteredChoices] = useState([]);
+
+    const getNameFromID = useCallback(id => {
+        let foundName = choices.find(choice => choice.id === id)?.name;
+        return foundName ?? noneOptionText ?? t("dropdown.none");
+    }, [choices, noneOptionText, t])
+
+    // Set search box text upon load
+    useEffect(() => {
+        setSearchBoxText(getNameFromID(selectedChoice));
+    }, [getNameFromID, selectedChoice]);
+
+    // Updates filtered choices on search
+    useEffect(() => {
+        setFilteredChoices(choices.filter(choice => {
+            return choice.name.toLowerCase().includes(searchBoxText.toLowerCase());
+        }));
+    }, [choices, searchBoxText]);
+
+    const handleSearch = e => {
+        setSearchBoxText(e.target.value);
+    }
+
+    const handleInputFocus = _ => {
+        setShowOptionsList(true);
+        setSearchBoxText('');
+    }
+
+    const handleBlur = e => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+            setShowOptionsList(false);
+            setSearchBoxText(getNameFromID(selectedChoice));
+        }
+    }
+
+    const handleSelect = e => {
+        setShowOptionsList(false);
+        let id = Number(e.target.getAttribute('data-id'));
+        if (id === -1) id = null;
+        setSearchBoxText(getNameFromID(id));
         onChange(name, id);
     }
 
-    return ( 
-        <div className="Dropdown">
+    return (
+        <div className="Dropdown" onBlur={handleBlur}>
             <label htmlFor={name} className={hideLabel ? 'visuallyhidden' : ''}>{labelText}</label>
-            <select id={name} name={name} required={required} disabled={disabled} value={selected} onChange={handleChange}>
-                <option value=''>{noneOptionText ?? t("dropdown.none")}</option>
-                {choices.map(({id, name}) => (
-                    <option key={id} value={id}>{name}</option>
+            <div className="dropdownArrow">&#9660;</div>
+            <input type="text"
+                name={name}
+                id={name}
+                value={searchBoxText ?? ''}
+                onChange={handleSearch}
+                onFocus={handleInputFocus}
+                required={required}
+                disabled={disabled}/>
+            {showOptionsList && <div className="optionsList">
+                {hideNoneOption || <div tabIndex={0} data-id='-1' onClick={handleSelect}>{noneOptionText ?? t("dropdown.none")}</div>}
+                {filteredChoices.map(({id, name}, idx) => (
+                    <div key={id} tabIndex={idx + 1} data-id={id} onClick={handleSelect}>{name}</div>
                 ))}
-            </select>
+            </div>}
         </div>
     );
 }
@@ -30,8 +79,8 @@ Dropdown.propTypes = {
     labelText: PropTypes.string.isRequired,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
-    selected: PropTypes.string.isRequired,
+    selectedChoice: PropTypes.number,
     choices: PropTypes.array
 }
- 
+
 export default Dropdown;

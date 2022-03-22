@@ -1,23 +1,23 @@
-.DropdownSelectList .selectBox {
-    height: 200px;
-    border: 1px solid black;
+.DropdownSelectList .selectedItems {
+    height: 10em;
+    border: 1px solid gray;
     background-color: white;
+    overflow: auto;
 }
 
 .DropdownSelectList .selectedItem {
     display: flex;
     justify-content: space-between;
-    line-height: 2rem;
-    height: 2rem;
-    padding-left: 10px;
-    border-bottom: 1px solid black;
+    line-height: 2em;
+    height: 2em;
+    padding-left: 5px;
+    border-bottom: 1px solid gray;
 }
 
 .DropdownSelectList .selectedItem button {
-    margin: 0.5em;
+    margin: 5px 5px;
 }
 
 .DropdownSelectList .Dropdown {
-    padding: 1px;
-    border-bottom: 1px solid black;
+    margin-top: 2px;
 }
