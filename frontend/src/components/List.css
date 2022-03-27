@@ -1,22 +1,47 @@
 .List > table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
 }
 
-.List thead th {
+.List th {
+    position: relative;
     text-align: left;
     line-height: 2.5;
     padding-left: 10px;
+    white-space: nowrap;
     border-bottom: 2px solid black;
 }
 
-.List tbody td {
+.List .columnTitle {
+    width: fit-content;
+    cursor: pointer;
+}
+
+.List .columnTitle::after {
+    position: absolute;
+    padding-left: 0.5em;
+    content: '\0021F3';
+}
+
+.List .columnTitle.ascending::after {
+    content: '\0021E9';
+}
+
+.List .columnTitle.descending::after {
+    content: '\0021E7';
+}
+
+.List td {
     line-height: 2;
     padding-left: 10px;
+    white-space: nowrap;
     border-bottom: 1px solid black;
 }
 
 .List tbody tr:hover {
-    background-color: lightgray;
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.List > .Button {
+    margin-top: 1em;
 }
