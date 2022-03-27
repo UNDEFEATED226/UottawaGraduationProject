@@ -11,18 +11,20 @@
 
 .Header .container {
     display: flex;
-    flex-direction: row;
     gap: 1em;
     align-items: center;
-    height: 135px;
+    flex-grow: 1;
 }
 
 .Header .separator {
-    background: linear-gradient(90deg, #fdd63d 33%, #39b24b 66%, #0248a5);
+    background: linear-gradient(90deg, #fdd63d 20%, #39b24b 50%, #0248a5);
     height: 5px;
 }
 
 .Header .titles {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
     padding-left: 2em;
     order: 1;
     flex-grow: 6;
@@ -39,6 +41,8 @@
 }
 
 .Header .logo {
+    display: flex;
+    gap: 1em;
     order: 3;
     flex-grow: 1;
     padding-left: 1em;
@@ -47,7 +51,7 @@
 
 .Header h1,
 .Header h2 {
-    color: #000000;
+    margin: 0;
     white-space: nowrap;
     text-align: left;
 }
