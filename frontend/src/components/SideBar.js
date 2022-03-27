@@ -53,7 +53,7 @@ const SideBar = ({ defaultSelect }) => {
             </Link>
             <Link to='/my_supervisions' onClick={() => setSelected('MySupervisions')}>
                 <div className={selected === "MySupervisions"? "selected" : ""}>
-                    {t('page_titles.my_supervision')}
+                    {t('page_titles.my_supervisions')}
                 </div>
             </Link>
             <Link to='/partners' onClick={() => setSelected('Partners')}>

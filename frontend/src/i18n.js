@@ -33,6 +33,7 @@ i18n
                         none: 'None'
                     },
                     page_titles: {
+                        home_page: 'Welcome',
                         basic_information: 'Basic Information',
                         my_products: 'My Products',
                         edit_product: 'Edit Product',
@@ -40,8 +41,10 @@ i18n
                         edit_grant: 'Edit Grant',
                         my_events: 'My Events',
                         edit_event: 'Edit Event',
-                        my_supervision: 'My Supervisions',
-                        partners: 'Partners'
+                        my_supervisions: 'My Supervisions',
+                        edit_supervision: 'Edit Supervision',
+                        partners: 'Partners',
+                        edit_partner: 'Edit Partner'
                     },
                     basic_information: {
                         name_first: 'First Name:',
@@ -95,7 +98,7 @@ i18n
                         investigators_members: 'Investigators (members):',
                         member_involved: 'Members involved:'
                     },
-                    event : {
+                    event: {
                         column_name_en: 'English Name',
                         column_name_fr: 'French Name',
                         column_start_date: 'Start Date',
@@ -114,6 +117,33 @@ i18n
                         members_involved: 'Members involved:',
                         notes: 'Notes:'
 
+                    },
+                    partner: {
+                        column_name: 'Name',
+                        column_type: 'Type',
+                        column_scope: 'Scope',
+                        name: 'Name:',
+                        type: 'Type:',
+                        scope: 'Scope:',
+                        members_involved: 'Members involved:',
+                        notes: 'Notes:'
+                    },
+                    supervision: {
+                        column_name_first: 'Trainee First Name',
+                        column_name_last: 'Trainee Last Name',
+                        column_start_date: 'Start Date',
+                        column_level: 'Level',
+                        trainee: 'Trainee:',
+                        name_first: 'First name:',
+                        name_last: 'Last name:',
+                        start_date: 'Start date:',
+                        end_date: 'End date:',
+                        level: 'Level:',
+                        faculty: 'Faculty:',
+                        supervisor_principal: 'Principal Supervisor:',
+                        supervisor_co: 'Co-Supervisor:',
+                        thesis_advisory_committee: 'Thesis Advisory Committee',
+                        notes: 'Notes'
                     }
                 }
             },
@@ -139,6 +169,7 @@ i18n
                         none: 'Aucune'
                     },
                     page_titles: {
+                        home_page: 'Bienvenue',
                         basic_information: 'Informations de base',
                         my_products: 'Mes produits',
                         edit_product: 'Editer le produit',
@@ -147,7 +178,9 @@ i18n
                         my_events: 'Mes événements',
                         edit_event: 'Editer l\'événement',
                         my_supervision: 'Mes supervisions',
-                        partners: 'Partenaires'
+                        edit_supervision: 'Supervision de l\'édition',
+                        partners: 'Partenaires',
+                        edit_partner: 'Partenaire d\'édition'
                     },
                     basic_information: {
                         name_first: 'Prénom :',
@@ -201,7 +234,7 @@ i18n
                         investigators_members: 'Investigateurs (membres) :',
                         member_involved: 'Membres impliqués :'
                     },
-                    event : {
+                    event: {
                         column_name_en: 'Nom anglais',
                         column_name_fr: 'Nom français',
                         column_start_date: 'Date de début',
@@ -218,6 +251,33 @@ i18n
                         past_events: 'Événements passés :',
                         future_events: 'Événements futurs :',
                         members_involved: 'Membres impliqués :',
+                        notes: 'Notes :'
+                    },
+                    partner: {
+                        column_name: 'Nom',
+                        column_type: 'Type',
+                        column_scope: 'Portée',
+                        name: 'Nom :',
+                        type: 'Type :',
+                        scope: 'Portée :',
+                        members_involved: 'Membres impliqués :',
+                        notes: 'Notes :'
+                    },
+                    supervision: {
+                        column_name_first: 'Prénom du stagiaire',
+                        column_name_last: 'Nom de famille du stagiaire',
+                        column_start_date: 'Date de début',
+                        column_level: 'Niveau',
+                        trainee: 'Stagiaire :',
+                        name_first: 'Prénom :',
+                        name_last: 'Nom de famille :',
+                        start_date: 'Date de début :',
+                        end_date: 'Date de fin :',
+                        level: 'Niveau :',
+                        faculty: 'La faculté :',
+                        supervisor_principal: 'Superviseur principal :',
+                        supervisor_co: 'Co-superviseur :',
+                        thesis_advisory_committee: 'Comité consultatif de thèse :',
                         notes: 'Notes :'
                     }
                 }
