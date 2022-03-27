@@ -5,7 +5,7 @@ const Button = ({text, type, htmlButtonType, disabled, clickHandler}) => {
     /* source of inspiration: https://github.com/ahfarmer/calculator */
 
     const prepClassName = [
-        "component-button",
+        "Button",
         type === 1 ? "positive" : "",
         type === 2 ? "negative" : ""
     ];

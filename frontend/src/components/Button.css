@@ -1,6 +1,6 @@
 /* CSS */
 /* source: https://getcssscan.com/css-buttons-examples */
-.component-button {
+.Button {
   appearance: none;
   background-color: #2b6be2;
   border: 1px solid rgba(27, 31, 35, .15);
@@ -25,72 +25,72 @@
   white-space: nowrap;
 }
 
-.component-button:focus:not(:focus-visible):not(.focus-visible) {
+.Button:focus:not(:focus-visible):not(.focus-visible) {
   box-shadow: none;
   outline: none;
 }
 
-.component-button:hover {
+.Button:hover {
   background-color: #2457b6;
 }
 
-.component-button:focus {
+.Button:focus {
   box-shadow: rgb(26, 65, 138) 0 0 0 3px;
   outline: none;
 }
 
-.component-button:disabled {
+.Button:disabled {
   background-color: #789adb;
   border-color: rgba(27, 31, 35, .1);
   color: rgba(255, 255, 255, .8);
   cursor: default;
 }
 
-.component-button:active {
+.Button:active {
   background-color: #204da1;
   box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 
 /* POSITIVE BUTTON STYLE */
 
-.component-button.positive {
-    background-color: #39b24b;
-  }
-  
-  .component-button.positive:hover {
-    background-color: #2b8b46;
-  }
-  
-  .component-button.positive:focus {
-    box-shadow: #298036 0 0 0 3px;
-  }
-  
-  .component-button.positive:disabled {
-    background-color: #45d85b;
-  }
-  
-  .component-button.positive:active {
-    background-color: #24793c;
-  }
+.Button.positive {
+  background-color: #39b24b;
+}
+
+.Button.positive:hover {
+  background-color: #2b8b46;
+}
+
+.Button.positive:focus {
+  box-shadow: #298036 0 0 0 3px;
+}
+
+.Button.positive:disabled {
+  background-color: #45d85b;
+}
+
+.Button.positive:active {
+  background-color: #24793c;
+}
 
 /* NEGATIVE BUTTON STYLE */
 
-.component-button.negative {
-    background-color: #e02c2c;
-  }
-  
-  .component-button.negative:hover {
-    background-color: #b62323;
-  }
-  
-  .component-button.negative:focus {
-    box-shadow: rgb(119, 18, 18) 0 0 0 3px;
-  }
-  
-  .component-button.negative:disabled {
-    background-color: #f87272;
-  }
-  
-  .component-button.negative:active {
-    background-color: #992121;
-  }
+.Button.negative {
+  background-color: #e02c2c;
+}
+
+.Button.negative:hover {
+  background-color: #b62323;
+}
+
+.Button.negative:focus {
+  box-shadow: rgb(119, 18, 18) 0 0 0 3px;
+}
+
+.Button.negative:disabled {
+  background-color: #f87272;
+}
+
+.Button.negative:active {
+  background-color: #992121;
+}
