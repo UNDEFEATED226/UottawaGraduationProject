@@ -11,12 +11,19 @@ const SideBar = ({ defaultSelect }) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        if (location.pathname === '/') setSelected("BasicInfo");
-        else if (location.pathname === '/my_products') setSelected("MyProducts");
-        else if (location.pathname === '/my_grants') setSelected("MyGrants");
-        else if (location.pathname === '/my_events') setSelected("MyEvents");
-        else if (location.pathname === '/my_supervisions') setSelected("MySupervisions");
-        else if (location.pathname === '/partners') setSelected("Partners");
+        let path = location.pathname;
+        if (path === '/')
+            setSelected("BasicInfo");
+        else if (path.startsWith('/my_products') || path.startsWith('/edit_product'))
+            setSelected("MyProducts");
+        else if (path.startsWith('/my_grants') || path.startsWith('/edit_grant'))
+            setSelected("MyGrants");
+        else if (path.startsWith('/my_events') || path.startsWith('/edit_event'))
+            setSelected("MyEvents");
+        else if (path.startsWith('/my_supervisions') || path.startsWith('/edit_supervision'))
+            setSelected("MySupervisions");
+        else if (path.startsWith('/partners') || path.startsWith('/edit_partner'))
+            setSelected("Partners");
     }, [location])
 
     return (
