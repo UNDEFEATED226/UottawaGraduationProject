@@ -5,33 +5,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.uottawa.project.entity.RelpProductMember;
-import com.uottawa.project.repository.RelpProductMemberRepository;
+import com.uottawa.project.entity.RelpProductPartner;
+import com.uottawa.project.repository.RelpProductPartnerRepository;
 
 @Service
-public class RelpProductMemberService {
+public class RelpProductPartnerService {
 	@Autowired
-	private RelpProductMemberRepository relpProductMemberRepository;
+	private RelpProductPartnerRepository relpProductPartnerRepository;
 
-	public RelpProductMember add(RelpProductMember relation) {
+	public RelpProductPartner add(RelpProductPartner relation) {
 		Long productId = relation.getId().getProductId();
-		Long memberId = relation.getId().getMemberId();
+		Long partnerId = relation.getId().getPartnerId();
 		try {
-			if (productId == null || memberId == null) {
+			if (productId == null || partnerId == null) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "BOTH IDs CANNOT BE NULL");
 			}
-			if (relpProductMemberRepository.existsById(relation.getId())) {
+			if (relpProductPartnerRepository.existsById(relation.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RELATION ALREADY EXISTS");
 			}
-			return relpProductMemberRepository.save(relation);
+			return relpProductPartnerRepository.save(relation);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteById(Long productId, Long memberId) {
+	public void deleteById(Long productId, Long partnerId) {
 		try {
-			relpProductMemberRepository.deleteById(productId, memberId);
+			relpProductPartnerRepository.deleteById(productId, partnerId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -39,47 +39,47 @@ public class RelpProductMemberService {
 
 	public void deleteByProductId(Long productId) {
 		try {
-			relpProductMemberRepository.deleteByProductId(productId);
+			relpProductPartnerRepository.deleteByProductId(productId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteByMemberId(Long memberId) {
+	public void deleteByPartnerId(Long partnerId) {
 		try {
-			relpProductMemberRepository.deleteByMemberId(memberId);
+			relpProductPartnerRepository.deleteByPartnerId(partnerId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAll() {
+	public List<RelpProductPartner> findAll() {
 		try {
-			return relpProductMemberRepository.findAll();
+			return relpProductPartnerRepository.findAll();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAllByProductId(Long productId) {
+	public List<RelpProductPartner> findAllByProductId(Long productId) {
 		try {
-			return relpProductMemberRepository.findAllByProductId(productId);
+			return relpProductPartnerRepository.findAllByProductId(productId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAllByMemberId(Long memberId) {
+	public List<RelpProductPartner> findAllByPartnerId(Long partnerId) {
 		try {
-			return relpProductMemberRepository.findAllByMemberId(memberId);
+			return relpProductPartnerRepository.findAllByPartnerId(partnerId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public RelpProductMember findById(Long productId, Long memberId) {
+	public RelpProductPartner findById(Long productId, Long partnerId) {
 		try {
-			return relpProductMemberRepository.findById(productId, memberId);
+			return relpProductPartnerRepository.findById(productId, partnerId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

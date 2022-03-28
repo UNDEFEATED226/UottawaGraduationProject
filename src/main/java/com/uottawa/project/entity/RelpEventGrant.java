@@ -11,10 +11,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "Relp_Partner_Member")
-public class RelpPartnerMember {
-	@EmbeddedId
-	RelpPartnerMemberPK id;
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Table(name = "Relp_Event_Grant")
+public class RelpEventGrant {
+//	@EmbeddedId
+//	RelpEventGrantPK id;
 }

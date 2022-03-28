@@ -40,9 +40,6 @@ public class MainSupervision {
 	//types_Faculty id
 	private Long faculty;
 
-//	@JoinColumn(name="faculty",referencedColumnName="ID")
-//	private TypesFaculty typesFaculty;
-
 	@Column(name="start_date")
 	private Date startDate;
 

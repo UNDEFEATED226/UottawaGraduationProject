@@ -5,41 +5,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.uottawa.project.entity.RelpProductMember;
-import com.uottawa.project.repository.RelpProductMemberRepository;
+import com.uottawa.project.entity.RelpMemberAffiliation;
+import com.uottawa.project.repository.RelpMemberAffiliationRepository;
 
 @Service
-public class RelpProductMemberService {
+public class RelpMemberAffiliationService{
 	@Autowired
-	private RelpProductMemberRepository relpProductMemberRepository;
+	private RelpMemberAffiliationRepository relpMemberAffiliationRepository;
 
-	public RelpProductMember add(RelpProductMember relation) {
-		Long productId = relation.getId().getProductId();
+	public RelpMemberAffiliation add(RelpMemberAffiliation relation) {
 		Long memberId = relation.getId().getMemberId();
+		Long affiliationId = relation.getId().getAffiliationId();
 		try {
-			if (productId == null || memberId == null) {
+			if (memberId == null || affiliationId == null) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "BOTH IDs CANNOT BE NULL");
 			}
-			if (relpProductMemberRepository.existsById(relation.getId())) {
+			if (relpMemberAffiliationRepository.existsById(relation.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RELATION ALREADY EXISTS");
 			}
-			return relpProductMemberRepository.save(relation);
+			return relpMemberAffiliationRepository.save(relation);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteById(Long productId, Long memberId) {
+	public void deleteById(Long memberId, Long affiliationId) {
 		try {
-			relpProductMemberRepository.deleteById(productId, memberId);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public void deleteByProductId(Long productId) {
-		try {
-			relpProductMemberRepository.deleteByProductId(productId);
+			relpMemberAffiliationRepository.deleteById(memberId, affiliationId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -47,39 +39,47 @@ public class RelpProductMemberService {
 
 	public void deleteByMemberId(Long memberId) {
 		try {
-			relpProductMemberRepository.deleteByMemberId(memberId);
+			relpMemberAffiliationRepository.deleteByMemberId(memberId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAll() {
+	public void deleteByAffiliationId(Long affiliationId) {
 		try {
-			return relpProductMemberRepository.findAll();
+			relpMemberAffiliationRepository.deleteByAffiliationId(affiliationId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAllByProductId(Long productId) {
+	public List<RelpMemberAffiliation> findAll() {
 		try {
-			return relpProductMemberRepository.findAllByProductId(productId);
+			return relpMemberAffiliationRepository.findAll();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAllByMemberId(Long memberId) {
+	public List<RelpMemberAffiliation> findAllByMemberId(Long memberId) {
 		try {
-			return relpProductMemberRepository.findAllByMemberId(memberId);
+			return relpMemberAffiliationRepository.findAllByMemberId(memberId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public RelpProductMember findById(Long productId, Long memberId) {
+	public List<RelpMemberAffiliation> findAllByAffiliationId(Long affiliationId) {
 		try {
-			return relpProductMemberRepository.findById(productId, memberId);
+			return relpMemberAffiliationRepository.findAllByAffiliationId(affiliationId);
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	public RelpMemberAffiliation findById(Long memberId, Long affiliationId) {
+		try {
+			return relpMemberAffiliationRepository.findById(memberId, affiliationId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

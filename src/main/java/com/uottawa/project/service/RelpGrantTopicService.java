@@ -5,81 +5,81 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.uottawa.project.entity.RelpProductMember;
-import com.uottawa.project.repository.RelpProductMemberRepository;
+import com.uottawa.project.entity.RelpGrantTopic;
+import com.uottawa.project.repository.RelpGrantTopicRepository;
 
 @Service
-public class RelpProductMemberService {
+public class RelpGrantTopicService {
 	@Autowired
-	private RelpProductMemberRepository relpProductMemberRepository;
+	private RelpGrantTopicRepository relpGrantTopicRepository;
 
-	public RelpProductMember add(RelpProductMember relation) {
-		Long productId = relation.getId().getProductId();
-		Long memberId = relation.getId().getMemberId();
+	public RelpGrantTopic add(RelpGrantTopic relation) {
+		Long grantId = relation.getId().getGrantId();
+		Long themeId = relation.getId().getThemeId();
 		try {
-			if (productId == null || memberId == null) {
+			if (grantId == null || themeId == null) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "BOTH IDs CANNOT BE NULL");
 			}
-			if (relpProductMemberRepository.existsById(relation.getId())) {
+			if (relpGrantTopicRepository.existsById(relation.getId())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RELATION ALREADY EXISTS");
 			}
-			return relpProductMemberRepository.save(relation);
+			return relpGrantTopicRepository.save(relation);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteById(Long productId, Long memberId) {
+	public void deleteById(Long grantId, Long themeId) {
 		try {
-			relpProductMemberRepository.deleteById(productId, memberId);
+			relpGrantTopicRepository.deleteById(grantId, themeId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteByProductId(Long productId) {
+	public void deleteByGrantId(Long grantId) {
 		try {
-			relpProductMemberRepository.deleteByProductId(productId);
+			relpGrantTopicRepository.deleteByGrantId(grantId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public void deleteByMemberId(Long memberId) {
+	public void deleteByThemeId(Long themeId) {
 		try {
-			relpProductMemberRepository.deleteByMemberId(memberId);
+			relpGrantTopicRepository.deleteByThemeId(themeId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAll() {
+	public List<RelpGrantTopic> findAll() {
 		try {
-			return relpProductMemberRepository.findAll();
+			return relpGrantTopicRepository.findAll();
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAllByProductId(Long productId) {
+	public List<RelpGrantTopic> findAllByGrantId(Long grantId) {
 		try {
-			return relpProductMemberRepository.findAllByProductId(productId);
+			return relpGrantTopicRepository.findAllByGrantId(grantId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public List<RelpProductMember> findAllByMemberId(Long memberId) {
+	public List<RelpGrantTopic> findAllByThemeId(Long themeId) {
 		try {
-			return relpProductMemberRepository.findAllByMemberId(memberId);
+			return relpGrantTopicRepository.findAllByThemeId(themeId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
-	public RelpProductMember findById(Long productId, Long memberId) {
+	public RelpGrantTopic findById(Long grantId, Long themeId) {
 		try {
-			return relpProductMemberRepository.findById(productId, memberId);
+			return relpGrantTopicRepository.findById(grantId, themeId);
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

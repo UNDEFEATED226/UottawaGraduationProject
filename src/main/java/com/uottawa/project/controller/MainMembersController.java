@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.google.gson.Gson;
+import com.uottawa.project.entity.MainMemberVO;
 import com.uottawa.project.entity.MainMembers;
 import com.uottawa.project.service.MainMembersService;
 
@@ -72,9 +73,9 @@ public class MainMembersController {
 	}
 
 	@GetMapping("/get_names")
-	public List<String> getNames() {
+	public List<MainMemberVO> getNames() {
 		try {
-			List<String> list = mainMembersService.getNames();
+			List<MainMemberVO> list = mainMembersService.getNames();
 			log.info("main_Member name list:{}", gson.toJson(list));
 			return list;
 		} catch (ResponseStatusException e) {

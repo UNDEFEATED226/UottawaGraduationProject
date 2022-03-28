@@ -112,9 +112,9 @@ public class RelpEventMemberController {
 	@GetMapping("/find_by_id")
 	public RelpEventMember findById(Long eventId, Long memberId) {
 		try {
-			RelpEventMember relpEventMember = relpEventMemberService.findById(eventId, memberId);
-			log.info("Relp_Event_Member{} found.", gson.toJson(relpEventMember));
-			return relpEventMember;
+			RelpEventMember relation = relpEventMemberService.findById(eventId, memberId);
+			log.info("Relp_Event_Member{} found.", gson.toJson(relation));
+			return relation;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding relp_Event_Member where event_id = {} and member_id={}.", eventId, memberId);
 			throw new ResponseStatusException(e.getStatus(),e.getReason());

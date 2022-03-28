@@ -1,11 +1,9 @@
 package com.uottawa.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,121 +26,97 @@ public class RelpPartnerMemberController {
 	private Gson gson = new Gson();
 
 	@PostMapping("/add")
-	public void add(@RequestBody RelpPartnerMember relpPartnerMember) {
-		int update = 0;
+	public void add(@RequestBody RelpPartnerMember relation) {
 		try {
-			update = relpPartnerMemberService.add(relpPartnerMember);
+			RelpPartnerMember added = relpPartnerMemberService.add(relation);
+			log.info("Relation{} added to relp_Partner_Member.", gson.toJson(added));
 		} catch (ResponseStatusException e) {
-			log.error("Error when adding relpPartnerMember{} to relp_Partner_Member", gson.toJson(relpPartnerMember));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ERROR WHEN ADDING");
-		}
-		if (update > 0) {
-			log.info("RelpPartnerMember{} added to relp_Partner_Member.", gson.toJson(relpPartnerMember));
-		} else {
-			log.error("Error when adding relpPartnerMember{} to relp_Partner_Member", gson.toJson(relpPartnerMember));
+			log.error("Error when adding relation{} to relp_Partner_Member", gson.toJson(relation));
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
-	
+
 	@GetMapping("/delete_by_id")
 	public void deleteById(Long partnerId, Long memberId) {
-		int update = 0;
 		try {
-			update = relpPartnerMemberService.deleteById(partnerId, memberId);
+			relpPartnerMemberService.deleteById(partnerId, memberId);
+			log.info("Deleted from relp_Partner_Member where partner_id={} and member_id={}.", partnerId, memberId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from relp_Partner_Member where partner_id={} and member_id={}", partnerId,
 					memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("{} rows in relp_Partner_Member where partner_id={} and member_id={} are deleted.", update, partnerId,
-					memberId);
-		} else {
-			log.error("Error when deleting from relp_Partner_Member where partner_id={} and member_id={}", partnerId,
-					memberId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_partner_id")
 	public void deleteByPartnerId(Long partnerId) {
-		int update = 0;
 		try {
-			update = relpPartnerMemberService.deleteByPartnerId(partnerId);
+			relpPartnerMemberService.deleteByPartnerId(partnerId);
+			log.info("Deleted from relp_Partner_Member where partner_id={}.", partnerId);
 		} catch (ResponseStatusException e) {
-			log.error("Error when deleting from relp_Partner_Member where partner id={}", partnerId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("{} rows in relp_Partner_Member where partner_id = {} are deleted.", update, partnerId);
-		} else {
-			log.error("Error when deleting from relp_Partner_Member where partner id={}", partnerId);
+			log.error("Error when deleting from relp_Partner_Member where partner_id={}", partnerId);
+
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/delete_by_member_id")
 	public void deleteByMemberId(Long memberId) {
-		int update = 0;
 		try {
-			update = relpPartnerMemberService.deleteByMemberId(memberId);
+			relpPartnerMemberService.deleteByMemberId(memberId);
+			log.info("Deleted from relp_Partner_Member where member_id = {}.", memberId);
 		} catch (ResponseStatusException e) {
 			log.error("Error when deleting from relp_Partner_Member where member_id={}", memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN DELETING");
-		}
-		if (update > 0) {
-			log.info("{} rows in relp_Partner_Member where member_id = {} are deleted.", update, memberId);
-		} else {
-			log.error("Error when deleting from relp_Partner_Member where member_id={}", memberId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}
 
 	@GetMapping("/find_all")
 	public List<RelpPartnerMember> findAll() {
-		List<RelpPartnerMember> list = new ArrayList<RelpPartnerMember>();
 		try {
-			list = relpPartnerMemberService.findAll();
+			List<RelpPartnerMember> list = relpPartnerMemberService.findAll();
+			log.info("relp_Partner_Member list:{}", gson.toJson(list));
+			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding relp_Partner_Member list.");
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
-		log.info("relp_Partner_Member list:{}", gson.toJson(list));
-		return list;
-	}
-	
-	@GetMapping("/find_by_id")
-	public RelpPartnerMember findById(Long partnerId, Long memberId) {
-		RelpPartnerMember relpPartnerMember;
-		try {
-			relpPartnerMember = relpPartnerMemberService.findById(partnerId, memberId);
-		} catch (ResponseStatusException e) {
-			log.error("Error when finding relp_Partner_Member where partner_id = {} and member_id={}.", partnerId, memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
-		}
-		log.info("Relp_Partner_Member{} found.", gson.toJson(relpPartnerMember));
-		return relpPartnerMember;
+
 	}
 
-	@GetMapping("/find_by_partner_id")
-	public List<RelpPartnerMember> findByPartnerId(Long partnerId) {
-		List<RelpPartnerMember> list = new ArrayList<RelpPartnerMember>();
+	@GetMapping("/find_all_by_partner_id")
+	public List<RelpPartnerMember> findAllByPartnerId(Long partnerId) {
 		try {
-			list = relpPartnerMemberService.findByPartnerId(partnerId);
+			List<RelpPartnerMember> list = relpPartnerMemberService.findAllByPartnerId(partnerId);
+			log.info("relp_Partner_Member list where partner_id={}: {}", partnerId, gson.toJson(list));
+			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding relp_Partner_Member list where partner_id = {}.", partnerId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
-		log.info("relp_Partner_Member list where partner_id={}: {}", partnerId, gson.toJson(list));
-		return list;
 	}
 
-	@GetMapping("/find_by_member_id")
-	public List<RelpPartnerMember> findByMemberId(Long memberId) {
-		List<RelpPartnerMember> list = new ArrayList<RelpPartnerMember>();
+	@GetMapping("/find_all_by_member_id")
+	public List<RelpPartnerMember> findAllByMemberId(Long memberId) {
 		try {
-			list = relpPartnerMemberService.findByMemberId(memberId);
+			List<RelpPartnerMember> list = relpPartnerMemberService.findAllByMemberId(memberId);
+			log.info("relp_Partner_Member list where member_id={}: {}", memberId, gson.toJson(list));
+			return list;
 		} catch (ResponseStatusException e) {
 			log.error("Error when finding relp_Partner_Member list where member_id = {}.", memberId);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ERROR WHEN FINDING");
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
-		log.info("relp_Partner_Member list where member_id={}: {}", memberId, gson.toJson(list));
-		return list;
+	}
+
+	@GetMapping("/find_by_id")
+	public RelpPartnerMember findById(Long partnerId, Long memberId) {
+		try {
+			RelpPartnerMember relation = relpPartnerMemberService.findById(partnerId, memberId);
+			log.info("Relp_Partner_Member{} found.", gson.toJson(relation));
+			return relation;
+		} catch (ResponseStatusException e) {
+			log.error("Error when finding Relp_Partner_Member where partner_id = {} and member_id={}.", partnerId, memberId);
+			throw new ResponseStatusException(e.getStatus(), e.getReason());
+		}
 	}
 }

@@ -13,8 +13,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Relp_Partner_Member")
-public class RelpPartnerMember {
+@Table(name = "Relp_Product_TargetStakeholder")
+public class RelpProductTargetStakeholder {
 	@EmbeddedId
-	RelpPartnerMemberPK id;
+	RelpProductTargetStakeholderPK id;
 }
