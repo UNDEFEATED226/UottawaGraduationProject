@@ -6,7 +6,3 @@
 .Textbox > input {
     height: 2rem;
 }
-
-.Textbox > .errorMsg {
-    color: red;
-}

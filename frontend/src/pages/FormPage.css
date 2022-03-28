@@ -9,6 +9,10 @@
     gap: 1em;
 }
 
+.FormPage .fields .errorMsg {
+    color: red;
+}
+
 .FormPage .buttons {
     display: flex;
     gap: 1em;
