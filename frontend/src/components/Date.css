@@ -6,3 +6,7 @@
 .Date > input{
     height: 2rem;
 }
+
+.Date > .errorMsg {
+    color: red;
+}
