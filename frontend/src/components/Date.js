@@ -2,92 +2,78 @@ import './Date.css';
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-const Date = ({name, labelText, textValue, required, disabled, onChange}) => {
+/**
+* Validates a date in ISO format.
+* @param {string} value - Date string.
+* @return {[boolean, string]} Array of a boolean and a string.
+* Boolean is true if valid, string indicates what error was found
+* ('empty', 'format', 'month', or 'day').
+*/
+export const validateDate = (value) => {
+    if (!value) return [false, 'empty'];
 
-    //https://tomduffytech.com/how-to-format-phone-number-in-react/
-    const [inputValue, setInputValue] = useState('');
-    const [valid, setValid] = useState(false);
-    const [error, setError] = useState(false);
+    let dateRE = new RegExp(/^\d{4}-\d{2}-\d{2}$/);
+    if (!dateRE.test(value)) return [false, 'format'];
 
-    const regex = /\d{4}-\d{2}-\d{2}/;
+    const splitDate = value.split('-');
+    const year = parseInt(splitDate[0]);
+    const month = parseInt(splitDate[1]);
+    const day = parseInt(splitDate[2]);
 
-    const handleInput = (e) => {
-        // format function
-        const formattedDate = formatDate(e.target.value);
-        setInputValue(formattedDate);
+    if (month < 1 || month > 12) return [false, 'month'];
 
-        onChange(name, e.target.value);
+    let maxDay;
+    if (month === 2) {
+        maxDay = (year % 4 === 0) ? 29 : 28;
+    }
+    else if ([4, 6, 9, 11].includes(month)) {
+        maxDay = 30;
+    }
+    else if ([1, 3, 5, 7, 8, 10, 12].includes(month)) {
+        maxDay = 31;
     }
 
-    const formatDate = (value) => {
-        if (!value) return value;
+    if (day < 1 || day > maxDay) return [false, 'day'];
 
-        const date = value.replace(/[^\d]/g, '');
-        const dateLength = date.length;
+    return [true, null]
+};
 
-        if(dateLength < 5) return date;
+const Date = ({name, labelText, textValue, required, disabled, onChange}) => {
 
-        if(dateLength < 7) {
-            return `${date.slice(0,4)}-${date.slice(4)}`;
-        }
-
-        return `${date.slice(0,4)}-${date.slice(4,6)}-${date.slice(6,8)}`
-    };
-
-    const validateDate = (value) => {
-        if (value.match(regex) && value.split('-').length === 3) {
-            const arrDate = value.split('-');
-            const year = parseInt(arrDate[0]);
-            const month = parseInt(arrDate[1]);
-            const day = parseInt(arrDate[2]);
-            if (month >= 1 && month <= 12){
-                var maxDay;
-                if (month === 2){
-                    maxDay = (year % 4 === 0) ? 29 : 28;
-                }
-                else if (month === 4 || month === 6 || month === 9 || month === 11){
-                    maxDay = 30;
-                }
-                else if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12){
-                    maxDay = 31;
-                }
-
-                if (day >= 1 && day <= maxDay){
-                    setValid(true);
-                    return;
-                } else {
-                    setError('day');
-                }
-            } else {
-                setError('month');
-            }
-        } else {
-            setError('format');
-        }
-        setValid(false);
-    };
+    // https://tomduffytech.com/how-to-format-phone-number-in-react/
+    const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
         setInputValue(textValue);
     }, [textValue])
 
-    // useEffect(() => {
+    const handleInput = (e) => {
+        let formattedDate = formatDate(e.target.value);
+        setInputValue(formattedDate);
+        onChange(name, formattedDate);
+    }
 
-    // },[error])
+    const formatDate = (value) => {
+        if (!value) return value;
 
-    return (  
+        let date = value.replace(/[^\d]/g, '');
+
+        if (date.length < 5) return date;
+        if (date.length < 7) return `${date.slice(0,4)}-${date.slice(4)}`;
+        return `${date.slice(0,4)}-${date.slice(4,6)}-${date.slice(6,8)}`;
+    };
+
+    return (
         <div className="Date">
             <label htmlFor={name}>{labelText}</label>
             <input
-                type="text" 
-                id={name} 
-                name={name} 
-                defaultValue={inputValue} 
-                pattern={regex} 
-                onBlur={(e) => validateDate(e.target.value)}
-                required={required} 
+                type="text"
+                id={name}
+                name={name}
+                value={inputValue ?? ''}
+                required={required}
                 disabled={disabled}
-                onChange={(e) => handleInput(e)}
+                onChange={handleInput}
             />
         </div>
     );
@@ -101,5 +87,5 @@ Date.propTypes = {
     disabled: PropTypes.bool,
     onChange: PropTypes.func
 }
- 
+
 export default Date;
