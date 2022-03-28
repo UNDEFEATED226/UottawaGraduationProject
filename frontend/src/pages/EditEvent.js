@@ -49,8 +49,6 @@ const EditEvent = ({userId}) => {
         if (!response.ok) {
             console.error("Event POST request responded with failure.");
         }
-        console.log('START DATE: ' + event.startDate);
-        console.log('END DATE: ' + event.endDate);
     }
 
     const handleSubmit = (submitEvent) => {
@@ -64,8 +62,8 @@ const EditEvent = ({userId}) => {
         let newErrors = {};
 
         if (!event.nameEn || event.nameEn.length === 0 || !event.nameFr || event.nameFr.length === 0) {
-            newErrors.nameEn = `${t('event.name_en')} ${t('error.and')} ${t('event.name_fr')} ${t('error.cannot_be_empty')} ${t('error.one_mandatory')}`;
-            newErrors.nameFr = `${t('event.name_en')} ${t('error.and')} ${t('event.name_fr')} ${t('error.cannot_be_empty')} ${t('error.one_mandatory')}`;
+            newErrors.nameEn = `Both English Name and French Name cannot be empty. One must be filled.`;
+            newErrors.nameFr = `Both English Name and French Name cannot be empty. One must be filled.`;
         }
 
         const validateStartDate = validateDate(event.startDate);
@@ -82,9 +80,6 @@ const EditEvent = ({userId}) => {
             }
         }
         setErrors(newErrors);
-
-        console.log('START DATE: ' + event.startDate);
-        console.log('END DATE: ' + event.endDate);
         return Object.keys(newErrors).length === 0;
     }
 
