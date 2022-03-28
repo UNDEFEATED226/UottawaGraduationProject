@@ -20,6 +20,8 @@ export const validateDate = (value) => {
     const month = parseInt(splitDate[1]);
     const day = parseInt(splitDate[2]);
 
+    if (year < 1) return [false, 'year'];
+
     if (month < 1 || month > 12) return [false, 'month'];
 
     let maxDay;
@@ -38,7 +40,25 @@ export const validateDate = (value) => {
     return [true, null]
 };
 
-const Date = ({name, labelText, textValue, required, disabled, onChange}) => {
+/**
+* Checks to see if the first date string is before or equal the second date string.
+* Returns false if the first date is after the second date, or if the dates are invalid.
+* @param {string} date1 - First ISO date string.
+* @param {string} date2 - Second ISO date string.
+* @return {boolean} Boolean is true if date1 is before or equal to date2.
+*/
+export const isNotAfter = (date1, date2) => {
+    if (validateDate(date1)[0] && validateDate(date2)[0]) {
+        const splitDate1 = date1.split('-');
+        const val1 = parseInt(splitDate1[0] + splitDate1[1] + splitDate1[2]);
+        const splitDate2 = date2.split('-');
+        const val2 = parseInt(splitDate2[0] + splitDate2[1] + splitDate2[2]);
+        return val1 <= val2;
+    }
+    return false;
+};
+
+const Date = ({name, labelText, textValue, required, disabled, errorMessage, onChange}) => {
 
     // https://tomduffytech.com/how-to-format-phone-number-in-react/
     const [inputValue, setInputValue] = useState('');
@@ -75,6 +95,7 @@ const Date = ({name, labelText, textValue, required, disabled, onChange}) => {
                 disabled={disabled}
                 onChange={handleInput}
             />
+            {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
         </div>
     );
 }
