@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
 
-const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption, required, disabled, selectedChoice, choices, onChange}) => {
+const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
+    required, disabled, selectedChoice, choices, errorMessage, onChange}) => {
 
     const { t } = useTranslation();
 
@@ -24,6 +25,7 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption, r
     // Updates filtered choices on search
     useEffect(() => {
         setFilteredChoices(choices.filter(choice => {
+            if (!choice.name) return false;
             return choice.name.toLowerCase().includes(searchBoxText.toLowerCase());
         }));
     }, [choices, searchBoxText]);
@@ -63,7 +65,9 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption, r
                 onChange={handleSearch}
                 onFocus={handleInputFocus}
                 required={required}
-                disabled={disabled}/>
+                disabled={disabled}
+            />
+            {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
             {showOptionsList && <div className="optionsList">
                 {hideNoneOption || <div tabIndex={0} data-id='-1' onClick={handleSelect}>{noneOptionText ?? t("dropdown.none")}</div>}
                 {filteredChoices.map(({id, name}, idx) => (

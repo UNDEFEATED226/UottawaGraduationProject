@@ -2,14 +2,14 @@ import "./DropdownSelectList.css"
 import Dropdown from "components/Dropdown";
 import { useCallback, useEffect, useState } from "react";
 
-const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedChoices, onChange}) => {
+const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedChoices, errorMessage, onChange}) => {
 
     const [selectedList, setSelectedList] = useState([]);
 
     const sortListByName = useCallback(list => {
         return [...list].sort((a, b) => {
-            let nameA = choices.find(e => e.id === a).name;
-            let nameB = choices.find(e => e.id === b).name;
+            let nameA = choices.find(e => e.id === a)?.name;
+            let nameB = choices.find(e => e.id === b)?.name;
             return nameA > nameB ? 1 : -1;
         })
     }, [choices]);
@@ -37,7 +37,7 @@ const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedC
             <div className="selectedItems">
                 {selectedList.map(id => (
                     <div className="selectedItem" key={id}>
-                        {choices.find(e => e.id === id).name}
+                        {choices.find(e => e.id === id)?.name ?? "Loading..."}
                         <button onClick={() => removeItem(id)}>Remove</button>
                     </div>
                 ))}
@@ -49,7 +49,9 @@ const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedC
                 noneOptionText={noneOptionText}
                 hideNoneOption
                 choices={choices.filter(e => !selectedList.includes(e.id))}
-                onChange={handleDropdownSelect}/>
+                onChange={handleDropdownSelect}
+            />
+            {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
         </div>
     );
 }
