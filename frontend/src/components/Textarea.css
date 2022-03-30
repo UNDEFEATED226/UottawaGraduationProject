@@ -3,6 +3,7 @@
     flex-direction: column;
 }
 
-textarea {
+.Textarea textarea {
     resize: none;
+    flex-grow: 1;
 }
