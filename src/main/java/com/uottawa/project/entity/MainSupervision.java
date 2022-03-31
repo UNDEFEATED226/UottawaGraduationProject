@@ -1,6 +1,7 @@
 package com.uottawa.project.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,29 +23,29 @@ public class MainSupervision {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID")
+	@Column(name = "ID")
 	private Long id;
 
-	//main_Members id
+	// main_Members id
 	private Long trainee;
 
-	@Column(name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name="first_name")
+	@Column(name = "first_name")
 	private String firstName;
 
-	//types_TraineeLevel id
+	// types_TraineeLevel id
 	private Long level;
 
-	//types_Faculty id
+	// types_Faculty id
 	private Long faculty;
 
-	@Column(name="start_date")
-	private Date startDate;
+	@Column(name = "start_date")
+	private LocalDate startDate;
 
-	@Column(name="end_date")
-	private Date endDate;
+	@Column(name = "end_date")
+	private LocalDate endDate;
 
 	private String notes;
 }

@@ -11,10 +11,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Relp_Event_Grant")
 public class RelpEventGrant {
-//	@EmbeddedId
-//	RelpEventGrantPK id;
+	@EmbeddedId
+	RelpEventGrantPK id;
 }

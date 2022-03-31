@@ -1,6 +1,7 @@
 package com.uottawa.project.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,10 +33,10 @@ public class MainEvents {
 	private String nameFr;
 
 	@Column(name = "start_date")
-	private Date startDate;
+	private LocalDate startDate;
 
 	@Column(name = "end_date")
-	private Date endDate;
+	private LocalDate endDate;
 
 	private String notes;
 

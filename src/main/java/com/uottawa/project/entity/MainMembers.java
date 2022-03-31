@@ -1,6 +1,6 @@
 package com.uottawa.project.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,16 +35,16 @@ public class MainMembers {
 	private String businessName;
 	
 	@Column(name="date_joined")
-	private Date date_joined;
+	private LocalDate date_joined;
 	
 	@Column(name="interview_date")
-	private Date interviewDate;
+	private LocalDate interviewDate;
 	
 	@Column(name="date_guest_joined")
-	private Date dateGuestJoined;
+	private LocalDate dateGuestJoined;
 	
 	@Column(name="date_in_active")
-	private Date dateInActive;
+	private LocalDate dateInActive;
 	
 	private String email;
 	

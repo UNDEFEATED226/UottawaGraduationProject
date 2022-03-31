@@ -1,7 +1,6 @@
 package com.uottawa.project.entity;
 
-import java.sql.Date;
-
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,7 @@ public class MainProducts {
 	
 	private String title;
 	
-	private Date date;
+	private LocalDate date;
 	
 	@Column(name="on_going")
 	private Integer onGoing;

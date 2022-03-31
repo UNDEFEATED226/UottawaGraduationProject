@@ -1,10 +1,13 @@
 package com.uottawa.project.controller;
 
+import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,18 +15,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.google.gson.Gson;
-import com.uottawa.project.authentication.CustomUserDetails;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+//import com.uottawa.project.authentication.CustomUserDetails;
 import com.uottawa.project.entity.MainEvents;
 import com.uottawa.project.service.MainEventsService;
 
 @RequestMapping("/main_events")
 @RestController
 public class MainEventsController {
-	
+
 	@Autowired
 	private MainEventsService mainEventsService;
 
-	private Gson gson = new Gson();
+	class LocalDateAdapter implements JsonSerializer<LocalDate> {
+		public JsonElement serialize(LocalDate date, Type typeOfSrc, JsonSerializationContext context) {
+			return new JsonPrimitive(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+		}
+	}
+
+	private Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+			.create();
 
 	private static final Logger log = LoggerFactory.getLogger(MainEventsController.class);
 
@@ -53,6 +68,7 @@ public class MainEventsController {
 	public void update(@RequestBody MainEvents event) {
 		try {
 			MainEvents updated = mainEventsService.update(event);
+			log.info(gson.toJson(event));
 			log.info("Event{} updated.", gson.toJson(updated));
 		} catch (ResponseStatusException e) {
 			log.error("Error when updating event{}.", gson.toJson(event));

@@ -1,7 +1,7 @@
 package com.uottawa.project.entity;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,13 +37,13 @@ public class MainGrants {
 	private Long status;
 
 	@Column(name="submission_date")
-	private Date submissionDate;
+	private LocalDate submissionDate;
 
 	@Column(name="received_date")
-	private Date receivedDate;
+	private LocalDate receivedDate;
 
 	@Column(name="finished_date")
-	private Date finishedDate;
+	private LocalDate finishedDate;
 
 	// types_GrantSource id, to be implemented
 	private Long source;
