@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.uottawa.project.authentication.CustomUserDetails;
 import com.uottawa.project.entity.MainMemberVO;
 import com.uottawa.project.entity.MainMembers;
 import com.uottawa.project.repository.MainMembersRepository;
@@ -39,15 +41,9 @@ public class MainMembersService {
 		}
 	}
 
-	public List<MainMembers> findAll() {
-		try {
-			return mainMembersRepositroy.findAll();
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-	}
-
-	public MainMembers findById(Long id) {
+	public MainMembers findById() {
+		Long id = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+				.getMemberId();
 		try {
 			if (!mainMembersRepositroy.existsById(id)) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID DOES NOT EXIST");

@@ -10,6 +10,6 @@ import com.uottawa.project.entity.MainMembers;
 
 @Repository
 public interface MainMembersRepository extends JpaRepository<MainMembers, Long> {
-	@Query(value = "SELECT new com.uottawa.project.entity.MainMemberVO(m.id,m.firstName) FROM MainMembers m")
+	@Query(value = "SELECT new com.uottawa.project.entity.MainMemberVO(m.id,m.firstName,m.lastName) FROM MainMembers m")
 	public List<MainMemberVO> getNames();
 }

@@ -19,7 +19,7 @@ import com.uottawa.project.service.TypesPromotionService;
 @ActiveProfiles({ "integration" })
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Csi4900Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TypesPromotionControllerTests {
+public class TypesPromotionTests {
 
 	@LocalServerPort
 	private int port;

@@ -19,7 +19,7 @@ import com.uottawa.project.service.TypesPartnershipTypeService;
 @ActiveProfiles({"integration"})
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Csi4900Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TypesPartnershipTypeControllerTests{
+public class TypesPartnershipTypeTests{
 
 	@LocalServerPort
 	private int port;

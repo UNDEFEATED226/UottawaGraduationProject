@@ -19,7 +19,7 @@ import com.uottawa.project.service.MainEventsService;
 @ActiveProfiles({"integration"})
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Csi4900Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MainEventsControllerTests {
+public class MainEventsTests {
 
 	@LocalServerPort
 	private int port;

@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MainMemberVO {
 	private Long id;
-	private String name;
+	private String firstName;
+	private String lastName;
 }

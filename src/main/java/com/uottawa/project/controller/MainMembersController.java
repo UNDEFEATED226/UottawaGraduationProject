@@ -38,8 +38,8 @@ public class MainMembersController {
 		}
 	}
 
-	private Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-			.create();
+	private Gson gson = new GsonBuilder().setPrettyPrinting()
+			.registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
 
 	@PostMapping("/add")
 	public void add(@RequestBody MainMembers member) {
@@ -63,26 +63,14 @@ public class MainMembersController {
 		}
 	}
 
-	@GetMapping("/find_all")
-	public List<MainMembers> findAll() {
-		try {
-			List<MainMembers> list = mainMembersService.findAll();
-			log.info("main_Members list:{}", gson.toJson(list));
-			return list;
-		} catch (ResponseStatusException e) {
-			log.error("Error when finding main_Members list.");
-			throw new ResponseStatusException(e.getStatus(), e.getReason());
-		}
-	}
-
 	@GetMapping("/find_by_id")
-	public MainMembers findById(Long id) {
+	public MainMembers findById() {
 		try {
-			MainMembers member = mainMembersService.findById(id);
+			MainMembers member = mainMembersService.findById();
 			log.info("Member{} found.", gson.toJson(member));
 			return member;
 		} catch (ResponseStatusException e) {
-			log.error("Error when finding main_Members where id = {}.", id);
+			log.error("Error when finding current logged in member.");
 			throw new ResponseStatusException(e.getStatus(), e.getReason());
 		}
 	}

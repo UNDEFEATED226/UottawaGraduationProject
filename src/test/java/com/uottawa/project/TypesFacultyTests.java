@@ -19,7 +19,7 @@ import com.uottawa.project.service.TypesFacultyService;
 @ActiveProfiles({"integration"})
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Csi4900Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TypesFacultyControllerTests{
+public class TypesFacultyTests{
 
 	@LocalServerPort
 	private int port;
