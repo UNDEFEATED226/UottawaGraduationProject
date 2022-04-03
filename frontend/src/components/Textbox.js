@@ -10,16 +10,15 @@ const Textbox = ({name, labelText, text, placeholderText, errorMessage, required
     return (
         <div className="Textbox">
             <label htmlFor={name}>{labelText}</label>
-            <input 
-                type="text" 
-                id={name} 
-                name={name} 
-                defaultValue={text ?? ""} 
-                placeholder={placeholderText} 
-                required={required} 
+            <input
+                type="text"
+                id={name}
+                name={name}
+                defaultValue={text ?? ""}
+                placeholder={placeholderText}
+                required={required}
                 disabled={disabled}
                 onChange={handleChange}
-                onBlur={handleChange}
             />
             {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
         </div>
@@ -36,5 +35,5 @@ Textbox.propTypes = {
     disabled: PropTypes.bool,
     onChange: PropTypes.func
 }
- 
+
 export default Textbox;
