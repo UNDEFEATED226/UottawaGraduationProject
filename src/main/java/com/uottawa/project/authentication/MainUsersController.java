@@ -34,8 +34,8 @@ public class MainUsersController {
 	    return "registerSuccess";
 	}
 	
-	@GetMapping("/members")
-	public String listMembers(Model model) {
+	@GetMapping("/users")
+	public String listUsers(Model model) {
 	    List<MainUsers> listUsers = mainUsersRepository.findAll();
 	    model.addAttribute("listUsers", listUsers);
 	    return "users";
