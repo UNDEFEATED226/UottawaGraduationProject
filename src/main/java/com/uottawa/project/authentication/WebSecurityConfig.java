@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,12 +50,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-		if(isDebug) {
+		
+		if (isDebug) {
 			http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().anyRequest().permitAll().and().logout().permitAll();
-		}else {
-			http.authorizeRequests()
+		} else {
+			http.csrf().disable()
+			.authorizeRequests()
 			.antMatchers("/users").authenticated()
 			.antMatchers("/main_events/**").authenticated()
 			.antMatchers("/main_grants/**").authenticated()
@@ -108,9 +110,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/types_target_stakeholder/**").authenticated()
 			.antMatchers("/types_topic/**").authenticated()
 			.antMatchers("/types_trainee_level/**").authenticated()
-			.anyRequest().permitAll().and().formLogin()
-					.usernameParameter("email").defaultSuccessUrl("/").permitAll().and().logout().logoutSuccessUrl("/")
-					.permitAll();
+			.anyRequest().permitAll()
+			.and().formLogin()
+				.usernameParameter("email")
+				.successHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()))
+				.failureHandler((request, response, authentication) -> response.setStatus(HttpStatus.UNAUTHORIZED.value()))
+				.permitAll()
+			.and().logout()
+				.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()))
+				.permitAll();
 		}
 	}
 }
