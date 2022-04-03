@@ -106,108 +106,125 @@ const BasicInfomation = () => {
                         labelText={t('basic_information.name_first')}
                         text={info.firstName}
                         errorMessage={errors.firstName}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='lastName'
                         labelText={t('basic_information.name_last')}
                         text={info.lastName}
                         errorMessage={errors.lastName}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='address'
                         labelText={t('basic_information.address')}
                         text={info.address}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='city'
                         labelText={t('basic_information.city')}
                         text={info.city}
                         errorMessage={errors.city}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='province'
                         labelText={t('basic_information.province_state')}
                         text={info.province}
                         errorMessage={errors.province}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='country'
                         labelText={t('basic_information.country')}
                         text={info.country}
                         errorMessage={errors.country}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='postalCode'
                         labelText={t('basic_information.postal_code')}
                         text={info.postalCode}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='email'
                         labelText={t('basic_information.email')}
                         text={info.email}
                         errorMessage={errors.email}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='mobilePhone'
                         labelText={t('basic_information.phone_mobile')}
                         text={info.mobilePhone}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textbox
                         name='businessPhone'
                         labelText={t('basic_information.phone_business')}
                         text={info.businessPhone}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Dropdown
                         name='faculty'
                         labelText={t('basic_information.faculty')}
                         selectedChoice={info.faculty}
                         choices={faculties.map(e => ({id: e.id, name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr}))}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textarea
                         name='howCanWeHelp'
                         labelText={t('basic_information.how_help')}
                         text={info.howCanWeHelp}
                         rows={10}
                         cols={30}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textarea
                         name='keywordsEN'
                         labelText={t('basic_information.keyword_en')}
                         text={info.keywordsEN}
                         rows={10}
                         cols={30}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textarea
                         name='keywordsFR'
                         labelText={t('basic_information.keyword_fr')}
                         text={info.keywordsFR}
                         rows={10}
                         cols={30}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textarea
                         name='problemsEN'
                         labelText={t('basic_information.problem_en')}
                         text={info.problemsEN}
                         rows={10}
                         cols={30}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textarea
                         name='problemsFR'
                         labelText={t('basic_information.problem_fr')}
                         text={info.problemsFR}
                         rows={10}
                         cols={30}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                     <Textarea
                         name='notes'
                         labelText={t('basic_information.notes')}
                         text={info.notes}
                         rows={10}
                         cols={30}
-                        onChange={handleFieldChange}/>
+                        onChange={handleFieldChange}
+                    />
                 </div>
                 <div className='buttons'>
-                    <Button text={t('button.submit')} type={1} htmlButtonType='submit'/>
+                    <Button text={t('button.submit')} type={1} htmlButtonType='submit' />
                     <Button text={t('button.cancel')} type={2} />
                 </div>
             </form>
