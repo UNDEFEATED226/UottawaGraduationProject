@@ -16,10 +16,18 @@ const EditProduct = ({userId}) => {
     const { productId } = useParams();
 
     const [product, setProduct] = useState({});
+
     const [relMembers, setRelMembers] = useState([]); // Member authors
+    const [newRelMembers, setNewRelMembers] = useState([]);
+
     const [relPartners, setRelPartners] = useState([]); // Product's partners
+    const [newRelPartners, setNewRelPartners] = useState([]);
+
     const [relStakeholder, setRelStakeholders] = useState([]); // Product's target stakeholders
+    const [newRelStakeholder, setNewRelStakeholder] = useState([]);
+
     const [relTopics, setRelTopics] = useState([]); // Chosen Topics
+    const [newRelTopics, setNewRelTopics] = useState([]);
 
     const [members, setMembers] = useState([]); // Dropdown result - all members
     const [partners, setPartners] = useState([]); // Dropdown result - all partners
@@ -34,19 +42,19 @@ const EditProduct = ({userId}) => {
     }
 
     const handleRelMembersChange = (_, newMembers) => {
-        setRelMembers(newMembers);
+        setNewRelMembers(newMembers);
     }
 
     const handleRelPartnersChange = (_, newPartners) => {
-        setRelPartners(newPartners);
+        setNewRelPartners(newPartners);
     }
     
     const handleRelStakeholdersChange = (_, newStakeholders) => {
-        setRelStakeholders(newStakeholders);
+        setNewRelStakeholder(newStakeholders);
     }
     
     const handleRelTopicsChange = (_, newTopics) => {
-        setRelTopics(newTopics);
+        setNewRelTopics(newTopics);
     }
 
     useEffect(() => {
@@ -66,6 +74,7 @@ const EditProduct = ({userId}) => {
         const body = await response.json();
         const memberIds = body.map(e => e.id.memberId);
         setRelMembers(memberIds);
+        setNewRelMembers(memberIds);
     }
 
     // Get partners of product
@@ -74,6 +83,7 @@ const EditProduct = ({userId}) => {
         const body = await response.json();
         const partnerIds = body.map(e => e.id.partnerId);
         setRelPartners(partnerIds);
+        setNewRelPartners(partnerIds);
     }
 
     // Get target stakeholders of product
@@ -82,6 +92,7 @@ const EditProduct = ({userId}) => {
         const body = await response.json();
         const stakeholderIds = body.map(e => e.id.targetStakeholderId);
         setRelStakeholders(stakeholderIds);
+        setNewRelStakeholder(stakeholderIds);
     }
     
     // Get topics of product
@@ -90,11 +101,12 @@ const EditProduct = ({userId}) => {
         const body = await response.json();
         const topicIds = body.map(e => e.id.themeId);
         setRelTopics(topicIds);
+        setNewRelTopics(topicIds);
     }
 
     // Get all members for dropdown
     async function fetchMembers() {
-        const response = await fetch('/api/main_members/find_all');
+        const response = await fetch('/api/main_members/get_names');
         const body = await response.json();
         setMembers(body);
     }
@@ -140,7 +152,7 @@ const EditProduct = ({userId}) => {
         fetchTopic();
     }, [productId])
 
-    async function postProduct() {
+    async function updateProduct() {
         const response = await fetch('/api/main_products/update', {
             method: 'POST',
             headers: {
@@ -150,8 +162,148 @@ const EditProduct = ({userId}) => {
             body: JSON.stringify(product)
         });
         if (!response.ok) {
-            console.error("Product POST request responded with failure.");
+            console.error("Product update request responded with failure.");
         }
+    }
+
+    async function deleteRelMember(id) {
+        const response = await fetch(`/api/relp_product_member/delete_by_id?productId=${productId}&memberId=${id}`);
+        if (!response.ok) {
+            console.error("Member Relation delete request responded with failure.");
+        }
+    }
+
+    async function addRelMember(id) {
+        let newRel = {id: {productId: productId, memberId: id}};
+        const response = await fetch('/api/relp_product_member/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newRel)
+        });
+        if (!response.ok) {
+            console.error("Member Relation add request responded with failure.");
+        }
+    }
+
+    async function deleteRelPartner(id) {
+        const response = await fetch(`/api/relp_product_partner/delete_by_id?productId=${productId}&partnerId=${id}`);
+        if (!response.ok) {
+            console.error("Partner Relation delete request responded with failure.");
+        }
+    }
+
+    async function addRelPartner(id) {
+        let newRel = {id: {productId: productId, partnerId: id}};
+        const response = await fetch('/api/relp_product_partner/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newRel)
+        });
+        if (!response.ok) {
+            console.error("Partner Relation add request responded with failure.");
+        }
+    }
+
+    async function deleteRelStakeholder(id) {
+        const response = await fetch(`/api/relp_product_target_stakeholder/delete_by_id?productId=${productId}&targetStakeholderId=${id}`);
+        if (!response.ok) {
+            console.error("Stakeholder Relation delete request responded with failure.");
+        }
+    }
+
+    async function addRelStakeholder(id) {
+        let newRel = {id: {productId: productId, targetStakeholderId: id}};
+        const response = await fetch('/api/relp_product_target_stakeholder/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newRel)
+        });
+        if (!response.ok) {
+            console.error("Stakeholder Relation add request responded with failure.");
+        }
+    }
+
+    async function deleteRelTopic(id) {
+        const response = await fetch(`/api/relp_product_topic/delete_by_id?productId=${productId}&themeId=${id}`);
+        if (!response.ok) {
+            console.error("Topic Relation delete request responded with failure.");
+        }
+    }
+
+    async function addRelTopic(id) {
+        let newRel = {id: {productId: productId, themeId: id}};
+        const response = await fetch('/api/relp_product_topic/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newRel)
+        });
+        if (!response.ok) {
+            console.error("Topic Relation add request responded with failure.");
+        }
+    }
+
+    const updateRelMembers = () => {
+        relMembers.forEach((id) => {
+            if (!newRelMembers.includes(id)) {
+                deleteRelMember(id);
+            }
+        })
+        newRelMembers.forEach((id) => {
+            if (!relMembers.includes(id)) {
+                addRelMember(id);
+            }
+        })
+    }
+
+    const updateRelPartners = () => {
+        relPartners.forEach((id) => {
+            if (!newRelPartners.includes(id)) {
+                deleteRelPartner(id);
+            }
+        })
+        newRelPartners.forEach((id) => {
+            if (!relPartners.includes(id)) {
+                addRelPartner(id);
+            }
+        })
+    }
+
+    const updateRelStakeholders = () => {
+        relStakeholder.forEach((id) => {
+            if (!newRelStakeholder.includes(id)) {
+                deleteRelStakeholder(id);
+            }
+        })
+        newRelStakeholder.forEach((id) => {
+            if (!relStakeholder.includes(id)) {
+                addRelStakeholder(id);
+            }
+        })
+    }
+
+    const updateRelTopics = () => {
+        relTopics.forEach((id) => {
+            if (!newRelTopics.includes(id)) {
+                deleteRelTopic(id);
+            }
+        })
+        newRelTopics.forEach((id) => {
+            if (!relTopics.includes(id)) {
+                addRelTopic(id);
+            }
+        })
     }
 
     const handleSubmit = (event) => {
@@ -159,7 +311,11 @@ const EditProduct = ({userId}) => {
         if (handleValidation() && Object.keys(product).length !== 0) {
             console.log('Validation passed!');
             console.log(product);
-            postProduct();
+            updateProduct();
+            updateRelMembers();
+            updateRelPartners();
+            updateRelStakeholders();
+            updateRelTopics();
         }
     }
 
@@ -195,7 +351,7 @@ const EditProduct = ({userId}) => {
             newErrors.authorsAll = 'All authors cannot be empty.';
         }
 
-        if (!relMembers || relMembers.length === 0) {
+        if (!newRelMembers || newRelMembers.length === 0) {
             newErrors.memberAuthors = 'Member Authors cannot be empty.';
         }
 
@@ -270,7 +426,7 @@ const EditProduct = ({userId}) => {
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName
                         }))}
-                        selectedChoices={relMembers}
+                        selectedChoices={newRelMembers}
                         errorMessage={errors.memberAuthors}
                         onChange={handleRelMembersChange}
                     />
@@ -282,7 +438,7 @@ const EditProduct = ({userId}) => {
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
                         }))}
-                        selectedChoices={relStakeholder}
+                        selectedChoices={newRelStakeholder}
                         onChange={handleRelStakeholdersChange}
                     />
                     <DropdownSelectList
@@ -293,7 +449,7 @@ const EditProduct = ({userId}) => {
                             id: e.id,
                             name: e.name
                         }))}
-                        selectedChoices={relPartners}
+                        selectedChoices={newRelPartners}
                         onChange={handleRelPartnersChange}
                     />
                     <DropdownSelectList
@@ -304,7 +460,7 @@ const EditProduct = ({userId}) => {
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
                         }))}
-                        selectedChoices={relTopics}
+                        selectedChoices={newRelTopics}
                         onChange={handleRelTopicsChange}
                     />
                     <Textarea 
