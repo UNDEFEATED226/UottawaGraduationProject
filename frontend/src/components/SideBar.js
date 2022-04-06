@@ -12,7 +12,7 @@ const SideBar = ({ defaultSelect }) => {
 
     useEffect(() => {
         let path = location.pathname;
-        if (path === '/')
+        if (path.startsWith('/basic_info'))
             setSelected("BasicInfo");
         else if (path.startsWith('/my_products') || path.startsWith('/edit_product'))
             setSelected("MyProducts");
@@ -31,7 +31,7 @@ const SideBar = ({ defaultSelect }) => {
             <button id='collapse-btn' onClick={() => setCollapsed(!collapsed)}>
                 {collapsed? ">" : ("< " + t('button.collapse'))}
             </button>
-            <Link to='/' onClick={() => setSelected('BasicInfo')}>
+            <Link to='/basic_info' onClick={() => setSelected('BasicInfo')}>
                 <div className={selected === "BasicInfo"? "selected" : ""}>
                     {t('page_titles.basic_information')}
                 </div>
