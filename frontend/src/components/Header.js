@@ -4,12 +4,24 @@ import uoLogo from '../assets/university-of-ottawa-logo.png';
 import Button from './Button';
 import LanguageButton from './LanguageButton';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 // add FR/EN button
 // learn to pass name through props
 const Header = ({ username }) => {
 
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    async function logout() {
+        const response = await fetch('/api/logout');
+        if (response.ok) {
+            navigate('/');
+        }
+        else {
+            console.error('Failed to logout.');
+        }
+    }
 
     return (
         <header className='Header'>
@@ -20,7 +32,10 @@ const Header = ({ username }) => {
                 </div>
                 <div className='buttons'>
                     <LanguageButton />
-                    <Button text={t('button.sign_out')} />
+                    <Button
+                        text={t('button.sign_out')}
+                        clickHandler={logout}
+                    />
                 </div>
                 <div className='logo'>
                     <img src={Logo} alt={t('header.logo_alt')}/>
