@@ -111,6 +111,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/types_topic/**").authenticated()
 			.antMatchers("/types_trainee_level/**").authenticated()
 			.anyRequest().permitAll()
+			.and().exceptionHandling()
+				.authenticationEntryPoint((request, response, exception) -> response.setStatus(HttpStatus.UNAUTHORIZED.value()))
 			.and().formLogin()
 				.usernameParameter("email")
 				.successHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()))
