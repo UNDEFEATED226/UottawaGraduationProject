@@ -16,12 +16,13 @@ import EditPartner from 'pages/EditPartner';
 import MySupervisions from 'pages/MySupervisions';
 import EditSupervision from 'pages/EditSupervision';
 import Login from 'pages/Login';
+import Home from 'pages/Home';
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<h1>Home page</h1>} />
+                <Route path="/" element={<Home />} />
                 <Route element={<App />}>
                     <Route path="/basic_info" element={<BasicInformation />} />
                     <Route path="/my_products" element={<MyProducts />} />
