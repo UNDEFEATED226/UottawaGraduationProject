@@ -24,10 +24,12 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
 
     // Updates filtered choices on search
     useEffect(() => {
-        setFilteredChoices(choices.filter(choice => {
+        let filtered = choices.filter(choice => {
             if (!choice.name) return false;
             return choice.name.toLowerCase().includes(searchBoxText.toLowerCase());
-        }));
+        });
+        filtered.sort((a, b) => a.name > b.name ? 1 : -1);
+        setFilteredChoices(filtered);
     }, [choices, searchBoxText]);
 
     const handleSearch = e => {
