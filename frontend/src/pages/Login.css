@@ -1,14 +1,45 @@
 .Login {
-    padding: 1em;
-    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    width: 100%;
+    height: 100%;
+}
+
+.Login .logoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3em;
+    flex-grow: 1;
+    height: 100%;
+    padding: 0 2em;
+    background: linear-gradient(45deg, #ffc 10%, #cfc);
+}
+
+.Login .lifeLogo {
+    height: 6em;
+}
+
+.Login .uoLogo {
+    height: 4em;
+}
+
+.Login .loginFormContainer {
+    flex-grow: 2;
 }
 
 .Login form {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 20em;
 }
 
 .Login .loginError {
+    height: 1em;
+    padding-top: 1em;
     color: red;
 }
