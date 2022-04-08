@@ -1,8 +1,8 @@
 import './Header.css';
-import Logo from '../assets/life-logo-placeholder.jpg';
-import uoLogo from '../assets/university-of-ottawa-logo.png';
-import Button from './Button';
-import LanguageButton from './LanguageButton';
+import lifeLogo from 'assets/life-logo-g.svg';
+import uoLogo from 'assets/university-of-ottawa-logo.png';
+import Button from 'components/Button';
+import LanguageButton from 'components/LanguageButton';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ const Header = ({ username }) => {
                     />
                 </div>
                 <div className='logo'>
-                    <img src={Logo} alt={t('header.logo_alt')}/>
+                    <img src={lifeLogo} alt={t('header.logo_alt')}/>
                     <img src={uoLogo} alt={t('header.logo_alt')}/>
                 </div>
             </div>
