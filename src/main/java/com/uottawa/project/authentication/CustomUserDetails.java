@@ -1,31 +1,34 @@
 package com.uottawa.project.authentication;
 
 import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.uottawa.project.entity.MainMembers;
 
 public class CustomUserDetails implements UserDetails {
 
-	private MainUsers user;
+	private MainMembers member;
 
-	public CustomUserDetails(MainUsers user) {
-		this.user = user;
+	private Collection<? extends GrantedAuthority> auth;
+
+	public CustomUserDetails(MainMembers member, Collection<? extends GrantedAuthority> auth) {
+		this.member = member;
+		this.auth = auth;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return auth;
 	}
 
 	@Override
 	public String getPassword() {
-		return user.getPassword();
+		return member.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return user.getEmail();
+		return member.getEmail();
 	}
 
 	@Override
@@ -48,12 +51,16 @@ public class CustomUserDetails implements UserDetails {
 		return true;
 	}
 
-	public String getFullName() {
-		return user.getEmail();
+	public String getEmail() {
+		return member.getEmail();
 	}
 
 	public Long getMemberId() {
-		return user.getMemberId();
+		return member.getId();
+	}
+
+	public String getRole() {
+		return member.getRole();
 	}
 
 }

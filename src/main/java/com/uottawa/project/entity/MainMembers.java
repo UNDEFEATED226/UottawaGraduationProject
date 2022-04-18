@@ -124,4 +124,8 @@ public class MainMembers {
 	private String interviewerNotes;
 	
 	private String cv;
+	
+	private String password;
+	
+	private String role;
 }
