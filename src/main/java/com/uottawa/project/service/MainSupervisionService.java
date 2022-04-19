@@ -3,8 +3,11 @@ package com.uottawa.project.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.uottawa.project.authentication.CustomUserDetails;
 import com.uottawa.project.entity.MainSupervision;
 import com.uottawa.project.repository.MainSupervisionRepository;
 
@@ -57,7 +60,9 @@ public class MainSupervisionService {
 
 	public List<MainSupervision> findAll() {
 		try {
-			return mainSupervisionRepository.findAll();
+			return mainSupervisionRepository
+					.findAll(((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+							.getMemberId());
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

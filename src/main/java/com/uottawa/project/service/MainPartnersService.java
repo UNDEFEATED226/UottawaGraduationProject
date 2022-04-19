@@ -3,8 +3,11 @@ package com.uottawa.project.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.uottawa.project.authentication.CustomUserDetails;
 import com.uottawa.project.entity.MainPartners;
 import com.uottawa.project.repository.MainPartnersRepository;
 
@@ -49,7 +52,9 @@ public class MainPartnersService {
 
 	public List<MainPartners> findAll() {
 		try {
-			return mainPartnersRepository.findAll();
+			return mainPartnersRepository
+					.findAll(((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+							.getMemberId());
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -78,7 +83,7 @@ public class MainPartnersService {
 		try {
 			return mainPartnersRepository.findAllByScope(scope);
 		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 }
