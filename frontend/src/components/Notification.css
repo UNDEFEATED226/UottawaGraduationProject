@@ -1,0 +1,40 @@
+.Notification {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    width: 15em;
+    bottom: 1em;
+    right: 1em;
+    font-size: 1.1em;
+}
+
+.Notification > * {
+    padding: 0.5em;
+    border: 1px solid black;
+    border-radius: 0.3em;
+    background-color: lightyellow;
+}
+
+.Notification .info::before {
+    content: '\1F6C8';
+    padding-right: 0.2em;
+}
+
+.Notification .positive {
+    background-color: lightgreen;
+}
+
+.Notification .positive::before {
+    content: '\002714';
+    padding-right: 0.2em;
+}
+
+.Notification .negative {
+    background-color: pink;
+}
+
+.Notification .negative::before {
+    content: '\002716';
+    padding-right: 0.2em;
+}
