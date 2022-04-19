@@ -5,22 +5,24 @@ import Textbox from 'components/Textbox';
 import Button from 'components/Button';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useOutletContext } from 'react-router-dom';
 
 const emailRE = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
 const BasicInfomation = () => {
 
     const { t, i18n } = useTranslation();
+    const { pushNotification } = useOutletContext();
 
     const [info, setInfo] = useState({});
     const [faculties, setFaculties] = useState([]);
-    const [errors, setErrors] = useState({}); // Holds errors
+    const [errors, setErrors] = useState({});
 
     const handleFieldChange = (id, value) => {
         setInfo({ ...info, [id]: value });
     }
 
-    async function postInfo() {
+    async function updateInfo() {
         const response = await fetch('/api/main_members/update', {
             method: 'POST',
             headers: {
@@ -29,16 +31,22 @@ const BasicInfomation = () => {
             },
             body: JSON.stringify(info)
         });
-        if (!response.ok) {
-            console.error("Member Info POST request responded with failure.");
-        }
+        return response.ok;
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (handleValidation() && Object.keys(info).length !== 0) {
-            console.log(info);
-            postInfo();
+        if (handleValidation()) {
+            pushNotification('info', 'Submitting...');
+            if (await updateInfo()) {
+                pushNotification('positive', 'Submitted successfully!');
+            }
+            else {
+                pushNotification('negative', 'Submission failed due to server issues! Please try again later.');
+            }
+        }
+        else {
+            pushNotification('negative', 'There are errors in the form.');
         }
     }
 
@@ -79,22 +87,42 @@ const BasicInfomation = () => {
 
     // FETCHING
 
-    async function fetchInfo(id) {
-        const response = await fetch(`/api/main_members/find_by_id?id=${id}`);
-        const body = await response.json();
-        setInfo(body);
+    async function fetchInfo() {
+        const response = await fetch('/api/main_members/find_by_id');
+        if (response.ok) {
+            const body = await response.json();
+            setInfo(body);
+        }
+        return response.ok;
     }
 
     async function fetchFaculties() {
         const response = await fetch('/api/types_faculty/find_all');
-        const body = await response.json();
-        setFaculties(body);
+        if (response.ok) {
+            const body = await response.json();
+            setFaculties(body);
+        }
+        return response.ok;
     }
 
     useEffect(() => {
-        fetchInfo(2);
-        fetchFaculties();
-    }, [])
+        let fetchEverything = async () => {
+            if (!await fetchInfo()) {
+                pushNotification('negative', 'Fetching your info failed due to server issues!');
+            }
+            if (!await fetchFaculties()) {
+                pushNotification('negative', 'Fetching faculties list failed due to server issues!');
+            }
+        }
+        fetchEverything();
+    }, [pushNotification])
+
+    const handleCancel = () => {
+        if (window.confirm('Are you sure? Any unsaved changes will be lost.')) {
+            window.location.reload();
+            window.scrollTo(0, 0);
+        }
+    }
 
     return (
         <div className="BasicInformation FormPage">
@@ -225,7 +253,7 @@ const BasicInfomation = () => {
                 </div>
                 <div className='buttons'>
                     <Button text={t('button.submit')} type={1} htmlButtonType='submit' />
-                    <Button text={t('button.cancel')} type={2} />
+                    <Button text={t('button.cancel')} type={2} clickHandler={handleCancel} />
                 </div>
             </form>
         </div>
