@@ -1,6 +1,7 @@
-import "./DropdownSelectList.css"
+import "./DropdownSelectList.css";
 import Dropdown from "components/Dropdown";
 import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedChoices, errorMessage, onChange}) => {
 
@@ -54,6 +55,26 @@ const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedC
             {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
         </div>
     );
+}
+
+DropdownSelectList.propTypes = {
+    name: PropTypes.string,
+    labelText: PropTypes.string,
+    noneOptionText: PropTypes.string,
+    choices: PropTypes.array,
+    selectedChoices: PropTypes.array,
+    errorMessage: PropTypes.string,
+    onChange: PropTypes.func,
+}
+
+DropdownSelectList.defaultProps = {
+    name: '',
+    labelText: '',
+    noneOptionText: null,
+    choices: [],
+    selectedChoices: [],
+    errorMessage: null,
+    onChange: null,
 }
 
 export default DropdownSelectList;

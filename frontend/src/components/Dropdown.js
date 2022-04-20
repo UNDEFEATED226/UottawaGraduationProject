@@ -83,10 +83,29 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
 Dropdown.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    hideLabel: PropTypes.bool,
+    noneOptionText: PropTypes.string,
+    hideNoneOption: PropTypes.bool,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
     selectedChoice: PropTypes.number,
-    choices: PropTypes.array
+    choices: PropTypes.array,
+    errorMessage: PropTypes.string,
+    onChange: PropTypes.func,
+}
+
+Dropdown.defaultProps = {
+    name: '',
+    labelText: '',
+    hideLabel: false,
+    noneOptionText: null,
+    hideNoneOption: false,
+    required: false,
+    disabled: false,
+    selectedChoice: null,
+    choices: [],
+    errorMessage: null,
+    onChange: null,
 }
 
 export default Dropdown;
