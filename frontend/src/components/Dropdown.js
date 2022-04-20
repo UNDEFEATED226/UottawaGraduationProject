@@ -59,23 +59,27 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
     return (
         <div className="Dropdown" onBlur={handleBlur}>
             <label htmlFor={name} className={hideLabel ? 'visuallyhidden' : ''}>{labelText}</label>
-            <div className="dropdownArrow">&#9660;</div>
-            <input type="text"
-                name={name}
-                id={name}
-                value={searchBoxText ?? ''}
-                onChange={handleSearch}
-                onFocus={handleInputFocus}
-                required={required}
-                disabled={disabled}
-            />
+            <div className="inputContainer">
+                <input
+                    type="text"
+                    name={name}
+                    id={name}
+                    value={searchBoxText ?? ''}
+                    onChange={handleSearch}
+                    onFocus={handleInputFocus}
+                    required={required}
+                    disabled={disabled}
+                />
+                {showOptionsList && <div className="optionsList">
+                    {hideNoneOption || <div tabIndex={0} data-id='-1' onClick={handleSelect}>
+                        {noneOptionText ?? t("dropdown.none")}
+                    </div>}
+                    {filteredChoices.map(({id, name}, idx) => (
+                        <div key={id} tabIndex={0} data-id={id} onClick={handleSelect}>{name}</div>
+                    ))}
+                </div>}
+            </div>
             {errorMessage && <span className='errorMsg'>{errorMessage}</span>}
-            {showOptionsList && <div className="optionsList">
-                {hideNoneOption || <div tabIndex={0} data-id='-1' onClick={handleSelect}>{noneOptionText ?? t("dropdown.none")}</div>}
-                {filteredChoices.map(({id, name}, idx) => (
-                    <div key={id} tabIndex={idx + 1} data-id={id} onClick={handleSelect}>{name}</div>
-                ))}
-            </div>}
         </div>
     );
 }

@@ -9,7 +9,14 @@
     height: 2rem;
 }
 
-.Dropdown .dropdownArrow {
+.Dropdown .inputContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.Dropdown .inputContainer::after {
+    content: '\25BC';
     position: absolute;
     color: #777;
     bottom: 0.8em;
