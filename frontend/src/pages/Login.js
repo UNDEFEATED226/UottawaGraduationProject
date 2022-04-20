@@ -49,12 +49,15 @@ const Login = () => {
                     <Textbox
                         name="email"
                         labelText="Email:"
+                        text={loginInfo.email}
                         required
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name="password"
                         labelText="Password:"
+                        text={loginInfo.password}
+                        isPassword
                         required
                         onChange={handleFieldChange}
                     />
