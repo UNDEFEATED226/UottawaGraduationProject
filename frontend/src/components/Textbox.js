@@ -1,9 +1,17 @@
-import './Textbox.css'
+import './Textbox.css';
 import PropTypes from "prop-types";
+import { useEffect, useState } from 'react';
 
 const Textbox = ({name, labelText, text, placeholderText, errorMessage, required, disabled, onChange}) => {
 
+    const [fieldText, setFieldText] = useState('');
+
+    useEffect(() => {
+        setFieldText(text);
+    }, [text]);
+
     const handleChange = e => {
+        setFieldText(e.target.value);
         onChange(name, e.target.value);
     }
 
@@ -14,7 +22,7 @@ const Textbox = ({name, labelText, text, placeholderText, errorMessage, required
                 type="text"
                 id={name}
                 name={name}
-                defaultValue={text ?? ""}
+                value={fieldText ?? ""}
                 placeholder={placeholderText}
                 required={required}
                 disabled={disabled}
@@ -33,7 +41,7 @@ Textbox.propTypes = {
     errorMessage: PropTypes.string,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
 }
 
 export default Textbox;
