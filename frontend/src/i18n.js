@@ -32,6 +32,39 @@ i18n
                     dropdown: {
                         none: 'None'
                     },
+                    error: {
+                        empty_city: 'City cannot be empty.',
+                        empty_country: 'Country cannot be empty.',
+                        empty_email: 'Email cannot be empty.',
+                        empty_name_first: 'First name cannot be empty.',
+                        empty_name_last: 'Last name cannot be empty.',
+                        empty_province: 'Province cannot be empty.',
+                        invalid_format_email: 'Email format is invalid.',
+                        invalid_submit: 'There are errors in the form.',  
+                        unable_fetch_member_names: 'Unable to fetch members\' names',
+                        unable_fetch_partners: 'Unable to fetch partners',
+                        unable_fetch_type_event: 'Unable to fetch event types',
+                        unable_fetch_type_faculty: 'Fetching faculties list failed!',
+                        unable_fetch_type_grant_source: 'Fetching grant source list failed!',
+                        unable_fetch_type_partner: 'Fetching partner type list failed!',
+                        unable_fetch_type_partner_scope: 'Fetching partner scope type list failed!',
+                        unable_fetch_type_product: 'Fetching product type list failed!',
+                        unable_fetch_type_stakeholders: 'Fetching target stakeholder list failed!',
+                        unable_fetch_type_topic: 'Fetching topic list failed!',
+                        unable_fetch_type_trainee_level: 'Fetching trainee level list failed!',
+                        unable_fetch_user_event: 'Fetching your events failed!',
+                        unable_fetch_user_info: 'Fetching your info failed!',
+                        unable_post_user_info: 'Submitting your info failed!',
+                        unable_fetch_user_product: 'Fetching your products failed!',
+                        unable_fetch_user_supervision: 'Fetching your supervisions failed!',               
+                    },
+                    feedback: {
+                        submitting: 'Submitting...',
+                        submit_success: 'Submitted successfully!',
+                    },
+                    prompt: {
+                        cancel_unsaved: 'Are you sure? Any unsaved changes will be lost.',
+                    },
                     page_titles: {
                         home_page: 'Welcome',
                         basic_information: 'Basic Information',
@@ -167,6 +200,12 @@ i18n
                     },
                     dropdown: {
                         none: 'Aucune'
+                    },
+                    error: {
+                        and: 'et',
+                        cannot_be_empty: 'ne peut être vide.',
+                        is_invalid: 'n\'est pas valide.',
+                        one_mandatory: 'Un champ doit être rempli.',
                     },
                     page_titles: {
                         home_page: 'Bienvenue',
