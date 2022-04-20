@@ -1,13 +1,13 @@
 import './FormPage.css';
 import Checkbox from 'components/Checkbox';
-import Date from 'components/Date';
+import Date, { validateDate } from 'components/Date';
 import Dropdown from 'components/Dropdown';
 import DropdownSelectList from 'components/DropdownSelectList';
 import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
 import { useOutletContext, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const enCurrency = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' });
@@ -17,25 +17,30 @@ const EditGrant = () => {
 
     const { t, i18n } = useTranslation();
     const { pushNotification } = useOutletContext();
-
     const { grantId } = useParams();
 
+    // Main_Grants data
     const [grant, setGrant] = useState({});
-
-    const [relMemberInvestigators, setRelMemberInvestigators] = useState([]); // Investigators (members)
-    const [newRelMemberInvestigators, setNewRelMemberInvestigators] = useState([]); // Investigators (members)
     
-    const [relMembers, setRelMembers] = useState([]); // Involved Members
-    const [newRelMembers, setNewRelMembers] = useState([]); // Involved Members
+    // Investigators members relation
+    const [relMemberInvestigators, setRelMemberInvestigators] = useState([]);
+    const [newRelMemberInvestigators, setNewRelMemberInvestigators] = useState([]);
     
-    const [relTopics, setRelTopics] = useState([]); // Chosen Topics
-    const [newRelTopics, setNewRelTopics] = useState([]); // Chosen Topics
+    // Involved Members relation
+    const [relMembers, setRelMembers] = useState([]);
+    const [newRelMembers, setNewRelMembers] = useState([]);
+    
+    // Topics relation
+    const [relTopics, setRelTopics] = useState([]);
+    const [newRelTopics, setNewRelTopics] = useState([]);
 
-    const [members, setMembers] = useState([]); // Dropdown result - all members
-    const [sources, setSources] = useState([]); // Dropdown result - all sources
-    const [statuses, setStatuses] = useState([]); // Dropdown result - all statuses
-    const [topics, setTopics] = useState([]); // Dropdown result - all topics
+    // For populating dropdown options
+    const [members, setMembers] = useState([]);
+    const [sources, setSources] = useState([]);
+    const [statuses, setStatuses] = useState([]);
+    const [topics, setTopics] = useState([]);
 
+    // See handleValidation function
     const [errors, setErrors] = useState({});
 
     // Get data on specific grant
@@ -100,16 +105,22 @@ const EditGrant = () => {
         setTopics(body);
     }
 
-    useEffect(() => {
-        fetchGrant(grantId);
-        fetchRelMembers(grantId);
-        fetchRelMemberInvestigators(grantId);
-        fetchRelTopics(grantId);
-        fetchMembers();
-        fetchSources();
-        fetchStatuses();
-        fetchTopics();
+    const fetchEverything = useCallback(async () => {
+        await Promise.all([
+            fetchGrant(grantId),
+            fetchRelMembers(grantId),
+            fetchRelMemberInvestigators(grantId),
+            fetchRelTopics(grantId),
+            fetchMembers(),
+            fetchSources(),
+            fetchStatuses(),
+            fetchTopics(),
+        ])
     }, [grantId])
+
+    useEffect(() => {
+        fetchEverything();
+    }, [fetchEverything])
 
     const updateGrant = async () => {
         const response = await fetch('/api/main_grants/update', {
@@ -222,8 +233,8 @@ const EditGrant = () => {
         return allSuccessful;
     }
 
-    const handleGrantChange = (id, value) => {
-        setGrant({ ...grant, [id]: value });
+    const handleGrantChange = (key, value) => {
+        setGrant(curr => ({ ...curr, [key]: value }));
     }
 
     const handleRelMembersChange = (_, newMembers) => {
@@ -249,6 +260,7 @@ const EditGrant = () => {
                 await updateRelTopics()
             );
             if (allSuccessful) {
+                await fetchEverything();
                 pushNotification('positive', 'Submitted successfully!');
             }
             else {
@@ -266,16 +278,47 @@ const EditGrant = () => {
         if (!grant.title) {
             newErrors.title = 'Title cannot be empty.';
         }
+        
+        if (grant.isThroughLRI === null) {
+            newErrors.isThroughLRI = 'Checkbox cannot be undefined.';
+        }
+
+        let [dateIsValid, dateError] = validateDate(grant.submissionDate);
+
+        if (!dateIsValid) {
+            if (dateError === 'empty')
+                newErrors.submissionDate = 'Date cannot be empty.';
+            if (dateError === 'format')
+                newErrors.submissionDate = 'Please use the format YYYY-MM-DD.';
+            if (dateError === 'month')
+                newErrors.submissionDate = 'Month is invalid.';
+            if (dateError === 'day')
+                newErrors.submissionDate = 'Day is invalid.';
+        }
+
+        if (grant.status === null) {
+            newErrors.status = 'Status cannot be none.';
+        }
+
+        if (grant.source === null) {
+            newErrors.source = 'Source cannot be none.';
+        }
+
+        if (!grant.investigatorsAll) {
+            newErrors.investigatorsAll = 'Investigators cannot be empty.';
+        }
 
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0;
     }
 
-    const handleCancel = () => {
+    const handleCancel = async () => {
         if (window.confirm('Are you sure? Any unsaved changes will be lost.')) {
-            window.location.reload();
             window.scrollTo(0, 0);
+            await fetchEverything();
+            setErrors({});
+            pushNotification('info', 'Changes reverted.');
         }
     }
 
@@ -288,30 +331,35 @@ const EditGrant = () => {
                         name='title'
                         labelText={t('grant.title')}
                         text={grant.title}
-                        required={true}
+                        required
+                        errorMessage={errors.title}
                         onChange={handleGrantChange}
                     />
                     <Checkbox
                         name='isThroughLRI'
                         labelText={t('grant.through_lri')}
                         checkedNum={grant.isThroughLRI}
+                        required
+                        errorMessage={errors.isThroughLRI}
                         onChange={handleGrantChange}
                     />
                     <Textbox
                         name='amount'
                         labelText={t('grant.amount')}
-                        text={
-                            (i18n.resolvedLanguage === 'en')
-                            ? enCurrency.format(grant.amount ?? 0)
-                            : frCurrency.format(grant.amount ?? 0)
+                        text={grant.amount}
+                        isNumber
+                        formatter={
+                            i18n.resolvedLanguage === 'en' ?
+                            enCurrency.format : frCurrency.format
                         }
-                        required={true}
                         onChange={handleGrantChange}
                     />
                     <Date
                         name='submissionDate'
                         labelText={t('grant.submission_date')}
                         textValue={grant.submissionDate}
+                        required
+                        errorMessage={errors.submissionDate}
                         onChange={handleGrantChange}
                     />
                     <Date
@@ -334,6 +382,8 @@ const EditGrant = () => {
                             name: i18n.resolvedLanguage === "en" ? e.typeEn : e.typeFr
                         }))}
                         selectedChoice={grant.source}
+                        required
+                        errorMessage={errors.source}
                         onChange={handleGrantChange}
                     />
                     <Dropdown
@@ -344,6 +394,8 @@ const EditGrant = () => {
                             name: i18n.resolvedLanguage === "en" ? e.statusEn : e.statusFr
                         }))}
                         selectedChoice={grant.status}
+                        required
+                        errorMessage={errors.status}
                         onChange={handleGrantChange}
                     />
                     <Textarea
@@ -351,6 +403,8 @@ const EditGrant = () => {
                         labelText={t('grant.investigators_all')}
                         text={grant.investigatorsAll}
                         rows={10} cols={30}
+                        required
+                        errorMessage={errors.investigatorsAll}
                         onChange={handleGrantChange}
                     />
                     <DropdownSelectList 
