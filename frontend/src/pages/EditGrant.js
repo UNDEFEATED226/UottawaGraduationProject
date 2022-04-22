@@ -6,6 +6,18 @@ import DropdownSelectList from 'components/DropdownSelectList';
 import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
+
+import {
+    getGrantAndRelations,
+    updateGrant,
+    updateGrantMemberInvestigators,
+    updateGrantMembers,
+    updateGrantTopics
+} from 'api/grants';
+
+import { getMemberNames } from 'api/members';
+import { getGrantSources, getGrantStatuses, getTopics } from 'api/types';
+
 import { useOutletContext, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,15 +33,15 @@ const EditGrant = () => {
 
     // Main_Grants data
     const [grant, setGrant] = useState({});
-    
-    // Investigators members relation
-    const [relMemberInvestigators, setRelMemberInvestigators] = useState([]);
-    const [newRelMemberInvestigators, setNewRelMemberInvestigators] = useState([]);
-    
+
     // Involved Members relation
     const [relMembers, setRelMembers] = useState([]);
     const [newRelMembers, setNewRelMembers] = useState([]);
-    
+
+    // Investigators members relation
+    const [relMemberInvestigators, setRelMemberInvestigators] = useState([]);
+    const [newRelMemberInvestigators, setNewRelMemberInvestigators] = useState([]);
+
     // Topics relation
     const [relTopics, setRelTopics] = useState([]);
     const [newRelTopics, setNewRelTopics] = useState([]);
@@ -43,195 +55,33 @@ const EditGrant = () => {
     // See handleValidation function
     const [errors, setErrors] = useState({});
 
-    // Get data on specific grant
-    async function fetchGrant(id) {
-        const response = await fetch(`/api/main_grants/find_by_id?id=${id}`);
-        const body = await response.json();
-        setGrant(body);
-    }
-
-    // Get involved members of this grant
-    async function fetchRelMembers(id) { 
-        const response = await fetch(`/api/relp_grant_member/find_all_by_grant_id?grantId=${id}`);
-        const body = await response.json();
-        const memberIds = body.map(e => e.id.memberId);
-        setRelMembers(memberIds);
-        setNewRelMembers(memberIds);
-    }
-
-    // Get investigator members of this grant
-    async function fetchRelMemberInvestigators(id) {
-        const response = await fetch(`/api/relp_grant_member_investigator/find_all_by_grant_id?grantId=${id}`);
-        const body = await response.json();
-        const memberIds = body.map(e => e.id.memberId);
-        setRelMemberInvestigators(memberIds);
-        setNewRelMemberInvestigators(memberIds);
-    }
-
-    // Get grant topics
-    async function fetchRelTopics(id) {
-        const response = await fetch(`/api/relp_grant_topic/find_all_by_grant_id?grantId=${id}`);
-        const body = await response.json();
-        const themeIds = body.map(e => e.id.themeId);
-        setRelTopics(themeIds);
-        setNewRelTopics(themeIds);
-    }
-
-    // Get all members for dropdown
-    async function fetchMembers() {
-        const response = await fetch('/api/main_members/get_names');
-        const body = await response.json();
-        setMembers(body);
-    }
-
-    // Get all sources for dropdown
-    async function fetchSources() {
-        const response = await fetch('/api/types_grant_source/find_all');
-        const body = await response.json();
-        setSources(body);
-    }
-
-    // Get all statuses for dropdown
-    async function fetchStatuses() {
-        const response = await fetch('/api/types_grant_status/find_all');
-        const body = await response.json();
-        setStatuses(body);
-    }
-
-    // Get all topics for dropdown
-    async function fetchTopics() {
-        const response = await fetch('/api/types_topic/find_all');
-        const body = await response.json();
-        setTopics(body);
-    }
-
     const fetchEverything = useCallback(async () => {
-        await Promise.all([
-            fetchGrant(grantId),
-            fetchRelMembers(grantId),
-            fetchRelMemberInvestigators(grantId),
-            fetchRelTopics(grantId),
-            fetchMembers(),
-            fetchSources(),
-            fetchStatuses(),
-            fetchTopics(),
-        ])
-    }, [grantId])
+        const results = await Promise.all([
+            getGrantAndRelations(grantId),
+            getMemberNames(),
+            getGrantSources(),
+            getGrantStatuses(),
+            getTopics(),
+        ]);
+        if (!results.includes(null)) {
+            setGrant(results[0].grant);
+            setRelMembers(results[0].grantMembers);
+            setNewRelMembers(results[0].grantMembers);
+            setRelMemberInvestigators(results[0].grantMemberInvestigators);
+            setNewRelMemberInvestigators(results[0].grantMemberInvestigators);
+            setRelTopics(results[0].grantTopics);
+            setNewRelTopics(results[0].grantTopics);
+            setMembers(results[1]);
+            setSources(results[2]);
+            setStatuses(results[3]);
+            setTopics(results[4]);
+        }
+        else pushNotification('negative', 'Failed to get your data!');
+    }, [grantId, pushNotification])
 
     useEffect(() => {
         fetchEverything();
     }, [fetchEverything])
-
-    const updateGrant = async () => {
-        const response = await fetch('/api/main_grants/update', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(grant)
-        });
-        return response.ok;
-    }
-
-    const deleteRelMember = async (id) => {
-        const response = await fetch(`/api/relp_grant_member/delete_by_id?grantId=${grantId}&memberId=${id}`);
-        return response.ok;
-    }
-
-    const addRelMember = async (id) => {
-        let newRel = {id: {grantId: grantId, memberId: id}};
-        const response = await fetch('/api/relp_grant_member/add', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(newRel)
-        });
-        return response.ok;
-    }
-
-    const updateRelMembers = async () => {
-        let allSuccessful = true;
-        await Promise.all(relMembers.map(async (id) => {
-            if (!newRelMembers.includes(id)) {
-                allSuccessful &&= await deleteRelMember(id);
-            }
-        }));
-        await Promise.all(newRelMembers.map(async (id) => {
-            if (!relMembers.includes(id)) {
-                allSuccessful &&= await addRelMember(id);
-            }
-        }));
-        return allSuccessful;
-    }
-
-    const deleteRelMemberInvestigator = async (id) => {
-        const response = await fetch(`/api/relp_grant_member_investigator/delete_by_id?grantId=${grantId}&memberId=${id}`);
-        return response.ok;
-    }
-
-    const addRelMemberInvestigator = async (id) => {
-        let newRel = {id: {grantId: grantId, memberId: id}};
-        const response = await fetch('/api/relp_grant_member_investigator/add', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(newRel)
-        });
-        return response.ok;
-    }
-
-    const updateRelMemberInvestigators = async () => {
-        let allSuccessful = true;
-        await Promise.all(relMemberInvestigators.map(async (id) => {
-            if (!newRelMemberInvestigators.includes(id)) {
-                allSuccessful &&= await deleteRelMemberInvestigator(id);
-            }
-        }));
-        await Promise.all(newRelMemberInvestigators.map(async (id) => {
-            if (!relMemberInvestigators.includes(id)) {
-                allSuccessful &&= await addRelMemberInvestigator(id);
-            }
-        }));
-        return allSuccessful;
-    }
-
-    const deleteRelTopic = async (id) => {
-        const response = await fetch(`/api/relp_grant_topic/delete_by_id?grantId=${grantId}&themeId=${id}`);
-        return response.ok;
-    }
-
-    const addRelTopic = async (id) => {
-        let newRel = {id: {grantId: grantId, themeId: id}};
-        const response = await fetch('/api/relp_grant_topic/add', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(newRel)
-        });
-        return response.ok;
-    }
-
-    const updateRelTopics = async () => {
-        let allSuccessful = true;
-        await Promise.all(relTopics.map(async (id) => {
-            if (!newRelTopics.includes(id)) {
-                allSuccessful &&= await deleteRelTopic(id);
-            }
-        }));
-        await Promise.all(newRelTopics.map(async (id) => {
-            if (!relTopics.includes(id)) {
-                allSuccessful &&= await addRelTopic(id);
-            }
-        }));
-        return allSuccessful;
-    }
 
     const handleGrantChange = (key, value) => {
         setGrant(curr => ({ ...curr, [key]: value }));
@@ -253,13 +103,13 @@ const EditGrant = () => {
         event.preventDefault();
         if (handleValidation()) {
             pushNotification('info', 'Submitting...');
-            let allSuccessful = (
-                await updateGrant() &&
-                await updateRelMembers() &&
-                await updateRelMemberInvestigators() &&
-                await updateRelTopics()
-            );
-            if (allSuccessful) {
+            const results = await Promise.all([
+                updateGrant(grant),
+                updateGrantMembers(grantId, relMembers, newRelMembers),
+                updateGrantMemberInvestigators(grantId, relMemberInvestigators, newRelMemberInvestigators),
+                updateGrantTopics(grantId, relTopics, newRelTopics),
+            ]);
+            if (!results.includes(false)) {
                 await fetchEverything();
                 pushNotification('positive', 'Submitted successfully!');
             }
@@ -278,8 +128,8 @@ const EditGrant = () => {
         if (!grant.title) {
             newErrors.title = 'Title cannot be empty.';
         }
-        
-        if (grant.isThroughLRI === null) {
+
+        if (grant.isThroughLRI == null) {
             newErrors.isThroughLRI = 'Checkbox cannot be undefined.';
         }
 
@@ -296,16 +146,20 @@ const EditGrant = () => {
                 newErrors.submissionDate = 'Day is invalid.';
         }
 
-        if (grant.status === null) {
+        if (grant.status == null) {
             newErrors.status = 'Status cannot be none.';
         }
 
-        if (grant.source === null) {
+        if (grant.source == null) {
             newErrors.source = 'Source cannot be none.';
         }
 
         if (!grant.investigatorsAll) {
             newErrors.investigatorsAll = 'Investigators cannot be empty.';
+        }
+
+        if (!newRelMembers || newRelMembers.length === 0) {
+            newErrors.membersInvolved = 'Members involved cannot be empty.';
         }
 
         setErrors(newErrors);
@@ -407,7 +261,7 @@ const EditGrant = () => {
                         errorMessage={errors.investigatorsAll}
                         onChange={handleGrantChange}
                     />
-                    <DropdownSelectList 
+                    <DropdownSelectList
                         name='memberInvestigators'
                         labelText='Member Investigators:'
                         noneOptionText='Add member investigator'
@@ -418,7 +272,7 @@ const EditGrant = () => {
                         selectedChoices={newRelMemberInvestigators}
                         onChange={handleRelMemberInvestigatorsChange}
                     />
-                    <DropdownSelectList 
+                    <DropdownSelectList
                         name='membersInvolved'
                         labelText='Members Involved:'
                         noneOptionText='Add member'
@@ -427,9 +281,10 @@ const EditGrant = () => {
                             name: e.firstName + ' ' + e.lastName
                         }))}
                         selectedChoices={newRelMembers}
+                        errorMessage={errors.membersInvolved}
                         onChange={handleRelMembersChange}
                     />
-                    <DropdownSelectList 
+                    <DropdownSelectList
                         name='topics'
                         labelText='Topics:'
                         noneOptionText='Add topic'
