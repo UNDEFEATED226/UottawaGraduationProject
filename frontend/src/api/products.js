@@ -76,6 +76,8 @@ export const updateProduct = async (product) => {
     return response.ok;
 }
 
+// ------------------ UPDATE PRODUCT MEMBERS ------------------
+
 export const updateProductMembers = async (productId, oldRels, newRels) => {
     const promises = [];
     oldRels.forEach((id) => {
@@ -108,6 +110,8 @@ export const addProductMember = async (productId, memberId) => {
     });
     return response.ok;
 }
+
+// ------------------ UPDATE PRODUCT PARTNERS ------------------
 
 export const updateProductPartners = async (productId, oldRels, newRels) => {
     const promises = [];
@@ -142,6 +146,8 @@ export const addProductPartner = async (productId, partnerId) => {
     return response.ok;
 }
 
+// ------------------ UPDATE PRODUCT STAKEHOLDERS ------------------
+
 export const updateProductStakeholders = async (productId, oldRels, newRels) => {
     const promises = [];
     oldRels.forEach((id) => {
@@ -174,6 +180,8 @@ export const addProductStakeholder = async (productId, targetStakeholderId) => {
     });
     return response.ok;
 }
+
+// ------------------ UPDATE PRODUCT TOPICS ------------------
 
 export const updateProductTopics = async (productId, oldRels, newRels) => {
     const promises = [];
