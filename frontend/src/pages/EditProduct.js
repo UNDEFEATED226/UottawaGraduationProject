@@ -15,6 +15,7 @@ import {
     updateProductStakeholders,
     updateProductTopics
 } from 'api/products';
+
 import { getMemberNames } from 'api/members';
 import { getPartners } from 'api/partners';
 import { getProductTypes, getTargetStakeholders, getTopics } from 'api/types';
@@ -58,26 +59,6 @@ const EditProduct = ({userId}) => {
     // See handleValidation function
     const [errors, setErrors] = useState({});
 
-    const handleProductChange = (key, value) => {
-        setProduct(curr => ({ ...curr, [key]: value }));
-    }
-
-    const handleRelMembersChange = (_, newMembers) => {
-        setNewRelMembers(newMembers);
-    }
-
-    const handleRelPartnersChange = (_, newPartners) => {
-        setNewRelPartners(newPartners);
-    }
-    
-    const handleRelStakeholdersChange = (_, newStakeholders) => {
-        setNewRelStakeholders(newStakeholders);
-    }
-    
-    const handleRelTopicsChange = (_, newTopics) => {
-        setNewRelTopics(newTopics);
-    }
-
     const fetchEverything = useCallback(async () => {
         const results = await Promise.all([
             getProductAndRelations(productId),
@@ -107,8 +88,28 @@ const EditProduct = ({userId}) => {
     }, [productId, pushNotification])
 
     useEffect(() => {
-        fetchEverything()
+        fetchEverything();
     }, [fetchEverything])
+
+    const handleProductChange = (key, value) => {
+        setProduct(curr => ({ ...curr, [key]: value }));
+    }
+
+    const handleRelMembersChange = (_, newMembers) => {
+        setNewRelMembers(newMembers);
+    }
+
+    const handleRelPartnersChange = (_, newPartners) => {
+        setNewRelPartners(newPartners);
+    }
+    
+    const handleRelStakeholdersChange = (_, newStakeholders) => {
+        setNewRelStakeholders(newStakeholders);
+    }
+    
+    const handleRelTopicsChange = (_, newTopics) => {
+        setNewRelTopics(newTopics);
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -137,7 +138,7 @@ const EditProduct = ({userId}) => {
     const handleValidation = () => {
         let newErrors = {};
 
-        if (!product.title || product.title.length === 0) {
+        if (!product.title) {
             newErrors.title = 'Title cannot be empty.';
         }
 
@@ -154,15 +155,15 @@ const EditProduct = ({userId}) => {
                 newErrors.date = 'Day is invalid.';
         }
 
-        if (product.peerReviewed === null) {
+        if (product.peerReviewed == null) {
             newErrors.peerReviewed = 'Peer reviewed cannot be undefined.';
         }
 
-        if (!product.type || product.type.length === 0) {
+        if (product.type == null) {
             newErrors.type = 'Type cannot be empty.';
         }
 
-        if (!product.authorsAll || product.authorsAll.length === 0) {
+        if (!product.authorsAll) {
             newErrors.authorsAll = 'All authors cannot be empty.';
         }
 
@@ -173,6 +174,15 @@ const EditProduct = ({userId}) => {
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0;
+    }
+
+    const handleCancel = async () => {
+        if (window.confirm('Are you sure? Any unsaved changes will be lost.')) {
+            window.scrollTo(0, 0);
+            await fetchEverything();
+            setErrors({});
+            pushNotification('info', 'Changes reverted.');
+        }
     }
 
     return (
@@ -288,7 +298,7 @@ const EditProduct = ({userId}) => {
                 </div>
                 <div className='buttons'>
                     <Button text={t('button.submit')} type={1} htmlButtonType='submit' />
-                    <Button text={t('button.cancel')} type={2} />
+                    <Button text={t('button.cancel')} type={2} clickHandler={handleCancel} />
                 </div>
             </form>
         </div>
