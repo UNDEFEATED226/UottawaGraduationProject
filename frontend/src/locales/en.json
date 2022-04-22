@@ -27,22 +27,7 @@
         "empty_province": "Province cannot be empty.",
         "invalid_format_email": "Email format is invalid.",
         "invalid_submit": "There are errors in the form.",
-        "unable_fetch_member_names": "Unable to fetch members' names",
-        "unable_fetch_partners": "Unable to fetch partners",
-        "unable_fetch_type_event": "Unable to fetch event types",
-        "unable_fetch_type_faculty": "Fetching faculties list failed!",
-        "unable_fetch_type_grant_source": "Fetching grant source list failed!",
-        "unable_fetch_type_partner": "Fetching partner type list failed!",
-        "unable_fetch_type_partner_scope": "Fetching partner scope type list failed!",
-        "unable_fetch_type_product": "Fetching product type list failed!",
-        "unable_fetch_type_stakeholders": "Fetching target stakeholder list failed!",
-        "unable_fetch_type_topic": "Fetching topic list failed!",
-        "unable_fetch_type_trainee_level": "Fetching trainee level list failed!",
-        "unable_fetch_user_event": "Fetching your events failed!",
-        "unable_fetch_user_info": "Fetching your info failed!",
-        "unable_post_user_info": "Submitting your info failed!",
-        "unable_fetch_user_product": "Fetching your products failed!",
-        "unable_fetch_user_supervision": "Fetching your supervisions failed!"
+        "unable_fetch_partner": "Failed to get the partner data!"
     },
     "feedback": {
         "submitting": "Submitting...",
