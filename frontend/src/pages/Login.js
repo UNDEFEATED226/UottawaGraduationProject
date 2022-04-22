@@ -1,8 +1,12 @@
 import './Login.css';
 import lifeLogo from 'assets/life-logo-g.svg';
 import uoLogo from 'assets/uottawa-horizontal-logo.svg';
+
 import Textbox from "components/Textbox";
 import Button from 'components/Button';
+
+import { doLogin } from 'api/auth';
+
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,22 +23,14 @@ const Login = () => {
         setLoginInfo({ ...loginInfo, [id]: value });
     }
 
-    async function doLogin() {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            body: new URLSearchParams(loginInfo)
-        });
-        if (response.ok) {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (await doLogin(loginInfo)) {
             navigate("/basic_info");
         }
         else {
             setLoginFailed(true);
         }
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        doLogin();
     }
 
     return (

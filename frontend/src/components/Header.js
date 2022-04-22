@@ -1,8 +1,12 @@
 import './Header.css';
 import lifeLogo from 'assets/life-logo-g.svg';
 import uoLogo from 'assets/university-of-ottawa-logo.png';
+
 import Button from 'components/Button';
 import LanguageButton from 'components/LanguageButton';
+
+import { doLogout } from 'api/auth';
+
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,9 +17,8 @@ const Header = ({ username }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    async function logout() {
-        const response = await fetch('/api/logout');
-        if (response.ok) {
+    const handleLogout = async () => {
+        if (await doLogout()) {
             navigate('/');
         }
         else {
@@ -34,7 +37,7 @@ const Header = ({ username }) => {
                     <LanguageButton />
                     <Button
                         text={t('button.sign_out')}
-                        clickHandler={logout}
+                        clickHandler={handleLogout}
                     />
                 </div>
                 <div className='logo'>

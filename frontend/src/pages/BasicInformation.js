@@ -3,7 +3,11 @@ import Dropdown from 'components/Dropdown';
 import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
-import { useEffect, useState } from 'react';
+
+import { getMember, updateMember } from 'api/members';
+import { getFaculties } from 'api/types';
+
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 
@@ -14,35 +18,41 @@ const BasicInfomation = () => {
     const { t, i18n } = useTranslation();
     const { pushNotification } = useOutletContext();
 
-    const [info, setInfo] = useState({});
+    const [member, setMember] = useState({});
     const [faculties, setFaculties] = useState([]);
+
     const [errors, setErrors] = useState({});
 
-    const handleFieldChange = (id, value) => {
-        setInfo({ ...info, [id]: value });
-    }
+    const fetchEverything = useCallback(async () => {
+        const results = await Promise.all([
+            getMember(),
+            getFaculties(),
+        ]);
+        if (!results.includes(null)) {
+            setMember(results[0]);
+            setFaculties(results[1]);
+        }
+        else pushNotification('negative', 'Failed to get your data!');
+    }, [pushNotification])
 
-    async function updateInfo() {
-        const response = await fetch('/api/main_members/update', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(info)
-        });
-        return response.ok;
+    useEffect(() => {
+        fetchEverything();
+    }, [fetchEverything])
+
+    const handleFieldChange = (id, value) => {
+        setMember(curr => ({ ...curr, [id]: value }));
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleValidation()) {
             pushNotification('info', 'Submitting...');
-            if (await updateInfo()) {
+            if (await updateMember(member)) {
+                await fetchEverything();
                 pushNotification('positive', 'Submitted successfully!');
             }
             else {
-                pushNotification('negative', 'Submission failed due to server issues! Please try again later.');
+                pushNotification('negative', 'Submission failed! Please try again later.');
             }
         }
         else {
@@ -53,30 +63,30 @@ const BasicInfomation = () => {
     const handleValidation = () => {
         let newErrors = {};
 
-        if (!info.firstName || info.firstName.length === 0) {
+        if (!member.firstName) {
             newErrors.firstName = 'First name cannot be empty.';
         }
 
-        if (!info.lastName || info.lastName.length === 0) {
+        if (!member.lastName) {
             newErrors.lastName = 'Last name cannot be empty.';
         }
 
-        if (!info.city || info.city.length === 0) { 
+        if (!member.city) { 
             newErrors.city = 'City cannot be empty.';
         }
 
-        if (!info.province || info.province.length === 0) {
+        if (!member.province) {
             newErrors.province = 'Province cannot be empty.';
         }
 
-        if (!info.country || info.country.length === 0) {
+        if (!member.country) {
             newErrors.country = 'Country cannot be empty.';
         }
         
-        if (!info.email || info.email.length === 0) {
+        if (!member.email) {
             newErrors.email = 'Email cannot be empty.';
         }
-        else if (!emailRE.test(info.email)) {
+        else if (!emailRE.test(member.email)) {
             newErrors.email = 'Email format is invalid.';
         }
 
@@ -85,42 +95,12 @@ const BasicInfomation = () => {
         return Object.keys(newErrors).length === 0;
     }
 
-    // FETCHING
-
-    async function fetchInfo() {
-        const response = await fetch('/api/main_members/find_by_id');
-        if (response.ok) {
-            const body = await response.json();
-            setInfo(body);
-        }
-        return response.ok;
-    }
-
-    async function fetchFaculties() {
-        const response = await fetch('/api/types_faculty/find_all');
-        if (response.ok) {
-            const body = await response.json();
-            setFaculties(body);
-        }
-        return response.ok;
-    }
-
-    useEffect(() => {
-        let fetchEverything = async () => {
-            if (!await fetchInfo()) {
-                pushNotification('negative', 'Fetching your info failed due to server issues!');
-            }
-            if (!await fetchFaculties()) {
-                pushNotification('negative', 'Fetching faculties list failed due to server issues!');
-            }
-        }
-        fetchEverything();
-    }, [pushNotification])
-
-    const handleCancel = () => {
+    const handleCancel = async () => {
         if (window.confirm('Are you sure? Any unsaved changes will be lost.')) {
-            window.location.reload();
             window.scrollTo(0, 0);
+            await fetchEverything();
+            setErrors({});
+            pushNotification('info', 'Changes reverted.');
         }
     }
 
@@ -132,80 +112,83 @@ const BasicInfomation = () => {
                     <Textbox
                         name='firstName'
                         labelText={t('basic_information.name_first')}
-                        text={info.firstName}
+                        text={member.firstName}
                         errorMessage={errors.firstName}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='lastName'
                         labelText={t('basic_information.name_last')}
-                        text={info.lastName}
+                        text={member.lastName}
                         errorMessage={errors.lastName}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='address'
                         labelText={t('basic_information.address')}
-                        text={info.address}
+                        text={member.address}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='city'
                         labelText={t('basic_information.city')}
-                        text={info.city}
+                        text={member.city}
                         errorMessage={errors.city}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='province'
                         labelText={t('basic_information.province_state')}
-                        text={info.province}
+                        text={member.province}
                         errorMessage={errors.province}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='country'
                         labelText={t('basic_information.country')}
-                        text={info.country}
+                        text={member.country}
                         errorMessage={errors.country}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='postalCode'
                         labelText={t('basic_information.postal_code')}
-                        text={info.postalCode}
+                        text={member.postalCode}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='email'
                         labelText={t('basic_information.email')}
-                        text={info.email}
+                        text={member.email}
                         errorMessage={errors.email}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='mobilePhone'
                         labelText={t('basic_information.phone_mobile')}
-                        text={info.mobilePhone}
+                        text={member.mobilePhone}
                         onChange={handleFieldChange}
                     />
                     <Textbox
                         name='businessPhone'
                         labelText={t('basic_information.phone_business')}
-                        text={info.businessPhone}
+                        text={member.businessPhone}
                         onChange={handleFieldChange}
                     />
                     <Dropdown
                         name='faculty'
                         labelText={t('basic_information.faculty')}
-                        selectedChoice={info.faculty}
-                        choices={faculties.map(e => ({id: e.id, name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr}))}
+                        selectedChoice={member.faculty}
+                        choices={faculties.map(e => ({
+                            id: e.id,
+                            name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
+                        }))}
                         onChange={handleFieldChange}
                     />
                     <Textarea
                         name='howCanWeHelp'
                         labelText={t('basic_information.how_help')}
-                        text={info.howCanWeHelp}
+                        text={member.howCanWeHelp}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}
@@ -213,7 +196,7 @@ const BasicInfomation = () => {
                     <Textarea
                         name='keywordsEN'
                         labelText={t('basic_information.keyword_en')}
-                        text={info.keywordsEN}
+                        text={member.keywordsEN}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}
@@ -221,7 +204,7 @@ const BasicInfomation = () => {
                     <Textarea
                         name='keywordsFR'
                         labelText={t('basic_information.keyword_fr')}
-                        text={info.keywordsFR}
+                        text={member.keywordsFR}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}
@@ -229,7 +212,7 @@ const BasicInfomation = () => {
                     <Textarea
                         name='problemsEN'
                         labelText={t('basic_information.problem_en')}
-                        text={info.problemsEN}
+                        text={member.problemsEN}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}
@@ -237,7 +220,7 @@ const BasicInfomation = () => {
                     <Textarea
                         name='problemsFR'
                         labelText={t('basic_information.problem_fr')}
-                        text={info.problemsFR}
+                        text={member.problemsFR}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}
@@ -245,7 +228,7 @@ const BasicInfomation = () => {
                     <Textarea
                         name='notes'
                         labelText={t('basic_information.notes')}
-                        text={info.notes}
+                        text={member.notes}
                         rows={10}
                         cols={30}
                         onChange={handleFieldChange}
