@@ -32,8 +32,8 @@ const BasicInfomation = () => {
             setMember(results[0]);
             setFaculties(results[1]);
         }
-        else pushNotification('negative', 'Failed to get your data!');
-    }, [pushNotification])
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [pushNotification, t])
 
     useEffect(() => {
         fetchEverything();
@@ -46,17 +46,17 @@ const BasicInfomation = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleValidation()) {
-            pushNotification('info', 'Submitting...');
+            pushNotification('info', t('feedback.submitting'));
             if (await updateMember(member)) {
                 await fetchEverything();
-                pushNotification('positive', 'Submitted successfully!');
+                pushNotification('positive', t('feedback.submit_success'));
             }
             else {
-                pushNotification('negative', 'Submission failed! Please try again later.');
+                pushNotification('negative', t('error.unable_submit'));
             }
         }
         else {
-            pushNotification('negative', 'There are errors in the form.');
+            pushNotification('negative', t('error.invalid_submit'));
         }
     }
 
@@ -64,30 +64,30 @@ const BasicInfomation = () => {
         let newErrors = {};
 
         if (!member.firstName) {
-            newErrors.firstName = 'First name cannot be empty.';
+            newErrors.firstName = t('error.empty_name_first');
         }
 
         if (!member.lastName) {
-            newErrors.lastName = 'Last name cannot be empty.';
+            newErrors.lastName = t('error.empty_name_last');
         }
 
         if (!member.city) { 
-            newErrors.city = 'City cannot be empty.';
+            newErrors.city = t('error.empty_city');
         }
 
         if (!member.province) {
-            newErrors.province = 'Province cannot be empty.';
+            newErrors.province = t('error.empty_province');
         }
 
         if (!member.country) {
-            newErrors.country = 'Country cannot be empty.';
+            newErrors.country = t('error.empty_country');
         }
         
         if (!member.email) {
-            newErrors.email = 'Email cannot be empty.';
+            newErrors.email = t('error.empty_email');
         }
         else if (!emailRE.test(member.email)) {
-            newErrors.email = 'Email format is invalid.';
+            newErrors.email = t('error.invalid_format_email');
         }
 
         setErrors(newErrors);
@@ -96,11 +96,11 @@ const BasicInfomation = () => {
     }
 
     const handleCancel = async () => {
-        if (window.confirm('Are you sure? Any unsaved changes will be lost.')) {
+        if (window.confirm(t('prompt.cancel_unsaved'))) {
             window.scrollTo(0, 0);
             await fetchEverything();
             setErrors({});
-            pushNotification('info', 'Changes reverted.');
+            pushNotification('info', t('feedback.changes_reverted'));
         }
     }
 
