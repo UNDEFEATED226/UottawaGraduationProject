@@ -30,3 +30,19 @@ export const getTopics = async () => {
     }
     return null;
 }
+
+export const getGrantSources = async () => {
+    const response = await fetch('/api/types_grant_source/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
+export const getGrantStatuses = async () => {
+    const response = await fetch('/api/types_grant_status/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
