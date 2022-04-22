@@ -116,10 +116,10 @@ const EditProduct = ({userId}) => {
             pushNotification('info', 'Submitting...');
             const results = await Promise.all([
                 updateProduct(product),
-                updateProductMembers(relMembers, newRelMembers),
-                updateProductPartners(relPartners, newRelPartners),
-                updateProductStakeholders(relStakeholders, newRelStakeholders),
-                updateProductTopics(relTopics, newRelTopics),
+                updateProductMembers(productId, relMembers, newRelMembers),
+                updateProductPartners(productId, relPartners, newRelPartners),
+                updateProductStakeholders(productId, relStakeholders, newRelStakeholders),
+                updateProductTopics(productId, relTopics, newRelTopics),
             ]);
             if (!results.includes(false)) {
                 await fetchEverything();

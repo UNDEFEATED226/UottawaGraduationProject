@@ -76,16 +76,16 @@ export const updateProduct = async (product) => {
     return response.ok;
 }
 
-export const updateProductMembers = async (oldRels, newRels) => {
+export const updateProductMembers = async (productId, oldRels, newRels) => {
     const promises = [];
     oldRels.forEach((id) => {
         if (!newRels.includes(id)) {
-            promises.push(deleteProductMember(id));
+            promises.push(deleteProductMember(productId, id));
         }
     })
     newRels.forEach((id) => {
         if (!oldRels.includes(id)) {
-            promises.push(addProductMember(id));
+            promises.push(addProductMember(productId, id));
         }
     })
     const result = await Promise.all(promises);
@@ -109,16 +109,16 @@ export const addProductMember = async (productId, memberId) => {
     return response.ok;
 }
 
-export const updateProductPartners = async (oldRels, newRels) => {
+export const updateProductPartners = async (productId, oldRels, newRels) => {
     const promises = [];
     oldRels.forEach((id) => {
         if (!newRels.includes(id)) {
-            promises.push(deleteProductPartner(id));
+            promises.push(deleteProductPartner(productId, id));
         }
     })
     newRels.forEach((id) => {
         if (!oldRels.includes(id)) {
-            promises.push(addProductPartner(id));
+            promises.push(addProductPartner(productId, id));
         }
     })
     const result = await Promise.all(promises);
@@ -142,16 +142,16 @@ export const addProductPartner = async (productId, partnerId) => {
     return response.ok;
 }
 
-export const updateProductStakeholders = async (oldRels, newRels) => {
+export const updateProductStakeholders = async (productId, oldRels, newRels) => {
     const promises = [];
     oldRels.forEach((id) => {
         if (!newRels.includes(id)) {
-            promises.push(deleteProductStakeholder(id));
+            promises.push(deleteProductStakeholder(productId, id));
         }
     })
     newRels.forEach((id) => {
         if (!oldRels.includes(id)) {
-            promises.push(addProductStakeholder(id));
+            promises.push(addProductStakeholder(productId, id));
         }
     })
     const result = await Promise.all(promises);
@@ -175,16 +175,16 @@ export const addProductStakeholder = async (productId, targetStakeholderId) => {
     return response.ok;
 }
 
-export const updateProductTopics = async (oldRels, newRels) => {
+export const updateProductTopics = async (productId, oldRels, newRels) => {
     const promises = [];
     oldRels.forEach((id) => {
         if (!newRels.includes(id)) {
-            promises.push(deleteProductTopic(id));
+            promises.push(deleteProductTopic(productId, id));
         }
     })
     newRels.forEach((id) => {
         if (!oldRels.includes(id)) {
-            promises.push(addProductTopic(id));
+            promises.push(addProductTopic(productId, id));
         }
     })
     const result = await Promise.all(promises);
