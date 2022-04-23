@@ -33,9 +33,12 @@ const List = ({items, columns, columnTitles, addButtonText, fixedUrl}) => {
 
     const handleSort = column => {
         let newOrder = null;
-        if (sort.order === null || sort.column !== column) newOrder = 'ascending';
-        else if (sort.order === 'ascending') newOrder = 'descending';
-        else if (sort.order === 'descending') newOrder = null;
+        if (sort.order === null || sort.column !== column)
+            newOrder = 'ascending';
+        else if (sort.order === 'ascending')
+            newOrder = 'descending';
+        else if (sort.order === 'descending')
+            newOrder = null;
         setSort({ column: column, order: newOrder });
     }
 
@@ -77,7 +80,7 @@ const List = ({items, columns, columnTitles, addButtonText, fixedUrl}) => {
                 </tbody>
             </table>
             <Button
-                text={addButtonText ?? 'Add'}
+                text={addButtonText ?? t('button.add')}
                 clickHandler={() => navigate(`/${fixedUrl}/new`)}
             />
         </div>
