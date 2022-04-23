@@ -29,8 +29,13 @@
     "submit": "Soumettre"
   },
   "dropdown": {
+    "add_future_event": "Ajouter un événement futur",
+    "add_grant": "Ajouter une subvention",
     "add_member_author": "Ajouter un auteur membre",
+    "add_member_involved": "Ajouter un membre impliqué",
     "add_partner": "Ajouter un partenaire",
+    "add_past_event": "Ajouter un événement passé",
+    "add_product": "Ajouter un produit",
     "add_target_stakeholder": "Ajouter une partie prenante cible",
     "add_topic": "Ajouter un sujet",
     "none": "Aucune"
@@ -43,6 +48,7 @@
     "empty_date": "La date ne peut pas être vide.",
     "empty_email": "L'e-mail ne peut pas être vide.",
     "empty_member_authors": "Les auteurs membres ne peuvent pas être vides.",
+    "empty_members_involved": "Les membres impliqués ne peuvent pas être vides.",
     "empty_name_first": "Le prénom ne peut pas être vide.",
     "empty_name_last": "Le nom de famille ne peut pas être vide.",
     "empty_partner_name": "Le nom du partenaire ne peut être vide.",
@@ -52,7 +58,9 @@
     "empty_title": "Le titre ne peut pas être vide.",
     "empty_type": "Le type ne peut pas être vide.",
     "invalid_date": "Veuillez utiliser le format AAAA-MM-JJ.",
+    "invalid_date_order": "La date de fin ne peut pas être avant la date de début.",
     "invalid_day": "Le jour est invalide.",
+    "invalid_event": "Les événements liés ne peuvent pas inclure l'événement en cours d'édition.",
     "invalid_format_email": "Le format d'e-mail n'est pas valide.",
     "invalid_month": "Le mois n'est pas valide.",
     "invalid_submit": "Il y a des erreurs dans le formulaire.",
@@ -73,7 +81,7 @@
     "notes": "Notes:",
     "partners_involved": "Partenaires impliqués:",
     "past_events": "Événements passés:",
-    "products_resulted": "Résultat du produit:",
+    "products_resulted": "Produits résultants :",
     "start_date": "Date de début:",
     "topics": "Sujets:",
     "type": "Type d'événement:"
