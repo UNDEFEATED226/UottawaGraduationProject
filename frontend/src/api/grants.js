@@ -1,6 +1,14 @@
 
 // --------------------------- GET ---------------------------
 
+export const getAllGrants = async () => {
+    const response = await fetch(`/api/main_grants/find_all`);
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
 export const getGrantAndRelations = async (id) => {
     const data = await Promise.all([
         getGrant(id),

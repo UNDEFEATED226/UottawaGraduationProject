@@ -1,4 +1,12 @@
 
+export const getEventTypes = async () => {
+    const response = await fetch('/api/types_event/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
 export const getFaculties = async () => {
     const response = await fetch('/api/types_faculty/find_all');
     if (response.ok) {

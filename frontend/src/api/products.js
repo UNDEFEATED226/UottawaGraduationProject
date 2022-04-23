@@ -1,6 +1,14 @@
 
 // --------------------------- GET ---------------------------
 
+export const getAllProducts = async () => {
+    const response = await fetch(`/api/main_products/find_all`);
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
 export const getProductAndRelations = async (id) => {
     const data = await Promise.all([
         getProduct(id),
