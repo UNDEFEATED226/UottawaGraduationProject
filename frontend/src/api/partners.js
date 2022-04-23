@@ -1,15 +1,15 @@
 // --------------------------- GET ---------------------------
 
-export const getPartner = async (id) => {
-    const response = await fetch(`/api/main_partners/find_by_id?id=${id}`);
+export const getAllPartners = async () => {
+    const response = await fetch('/api/main_partners/find_all');
     if (response.ok) {
         return await response.json();
     }
     return null;
 }
 
-export const getPartners = async () => {
-    const response = await fetch('/api/main_partners/find_all');
+export const getPartner = async (id) => {
+    const response = await fetch(`/api/main_partners/find_by_id?id=${id}`);
     if (response.ok) {
         return await response.json();
     }

@@ -17,7 +17,7 @@ import {
 } from 'api/products';
 
 import { getMemberNames } from 'api/members';
-import { getPartners } from 'api/partners';
+import { getAllPartners } from 'api/partners';
 import { getProductTypes, getTargetStakeholders, getTopics } from 'api/types';
 
 import { useOutletContext, useParams } from 'react-router-dom';
@@ -63,7 +63,7 @@ const EditProduct = ({userId}) => {
         const results = await Promise.all([
             getProductAndRelations(productId),
             getMemberNames(),
-            getPartners(),
+            getAllPartners(),
             getProductTypes(),
             getTargetStakeholders(),
             getTopics(),
