@@ -69,6 +69,7 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
                     onFocus={handleInputFocus}
                     required={required}
                     disabled={disabled}
+                    autoComplete="off"
                 />
                 {showOptionsList && <div className="optionsList">
                     {hideNoneOption || <div tabIndex={0} data-id='-1' onClick={handleSelect}>
