@@ -7,6 +7,38 @@ export const getFaculties = async () => {
     return null;
 }
 
+export const getGrantSources = async () => {
+    const response = await fetch('/api/types_grant_source/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
+export const getGrantStatuses = async () => {
+    const response = await fetch('/api/types_grant_status/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
+export const getPartnerScopes = async () => {
+    const response = await fetch('/api/types_partnership_scope/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
+export const getPartnerTypes = async () => {
+    const response = await fetch('/api/types_partnership_type/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
+
 export const getProductTypes = async () => {
     const response = await fetch('/api/types_product/find_all');
     if (response.ok) {
@@ -25,22 +57,6 @@ export const getTargetStakeholders = async () => {
 
 export const getTopics = async () => {
     const response = await fetch('/api/types_topic/find_all');
-    if (response.ok) {
-        return await response.json();
-    }
-    return null;
-}
-
-export const getGrantSources = async () => {
-    const response = await fetch('/api/types_grant_source/find_all');
-    if (response.ok) {
-        return await response.json();
-    }
-    return null;
-}
-
-export const getGrantStatuses = async () => {
-    const response = await fetch('/api/types_grant_status/find_all');
     if (response.ok) {
         return await response.json();
     }
