@@ -84,8 +84,8 @@ const EditProduct = ({userId}) => {
             setTargetStakeholders(results[4]);
             setTopics(results[5]);
         }
-        else pushNotification('negative', 'Failed to get your data!');
-    }, [productId, pushNotification])
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [productId, pushNotification, t])
 
     useEffect(() => {
         fetchEverything();
@@ -114,7 +114,7 @@ const EditProduct = ({userId}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleValidation()) {
-            pushNotification('info', 'Submitting...');
+            pushNotification('info', t('feedback.submitting'));
             const results = await Promise.all([
                 updateProduct(product),
                 updateProductMembers(productId, relMembers, newRelMembers),
@@ -124,14 +124,14 @@ const EditProduct = ({userId}) => {
             ]);
             if (!results.includes(false)) {
                 await fetchEverything();
-                pushNotification('positive', 'Submitted successfully!');
+                pushNotification('positive', t('feedback.submit_success'));
             }
             else {
-                pushNotification('negative', 'Submission failed! Please try again later.');
+                pushNotification('negative', t('error.unable_submit'));
             }
         }
         else {
-            pushNotification('negative', 'There are errors in the form.');
+            pushNotification('negative', t('error.invalid_submit'));
         }
     }
 
@@ -139,36 +139,36 @@ const EditProduct = ({userId}) => {
         let newErrors = {};
 
         if (!product.title) {
-            newErrors.title = 'Title cannot be empty.';
+            newErrors.title = t('error.empty_title');
         }
 
         let [dateIsValid, dateError] = validateDate(product.date);
 
         if (!dateIsValid) {
             if (dateError === 'empty')
-                newErrors.date = 'Date cannot be empty.';
+                newErrors.date = t('error.empty_date');
             if (dateError === 'format')
-                newErrors.date = 'Please use the format YYYY-MM-DD.';
+                newErrors.date = t('error.invalid_date');
             if (dateError === 'month')
-                newErrors.date = 'Month is invalid.';
+                newErrors.date = t('error.invalid_month');
             if (dateError === 'day')
-                newErrors.date = 'Day is invalid.';
+                newErrors.date = t('error.invalid_day');
         }
 
         if (product.peerReviewed == null) {
-            newErrors.peerReviewed = 'Peer reviewed cannot be undefined.';
+            newErrors.peerReviewed = t('error.empty_checkbox');
         }
 
         if (product.type == null) {
-            newErrors.type = 'Type cannot be empty.';
+            newErrors.type = t('error.empty_type');
         }
 
         if (!product.authorsAll) {
-            newErrors.authorsAll = 'All authors cannot be empty.';
+            newErrors.authorsAll = t('error.empty_all_authors');
         }
 
         if (!newRelMembers || newRelMembers.length === 0) {
-            newErrors.memberAuthors = 'Member Authors cannot be empty.';
+            newErrors.memberAuthors = t('error.empty_member_authors');
         }
 
         setErrors(newErrors);
@@ -177,11 +177,11 @@ const EditProduct = ({userId}) => {
     }
 
     const handleCancel = async () => {
-        if (window.confirm('Are you sure? Any unsaved changes will be lost.')) {
+        if (window.confirm(t('prompt.cancel_unsaved'))) {
             window.scrollTo(0, 0);
             await fetchEverything();
             setErrors({});
-            pushNotification('info', 'Changes reverted.');
+            pushNotification('info', t('feedback.changes_reverted'));
         }
     }
 
@@ -220,7 +220,7 @@ const EditProduct = ({userId}) => {
                     />
                     <Dropdown
                         name='type'
-                        labelText='Type:'
+                        labelText={t('product.type')}
                         selectedChoice={product.type}
                         choices={productTypes.map(e => ({
                             id: e.id,
@@ -245,8 +245,8 @@ const EditProduct = ({userId}) => {
                     />
                     <DropdownSelectList
                         name='memberAuthors'
-                        labelText='Member Authors:'
-                        noneOptionText='Add member author'
+                        labelText={t('product.member_authors')}
+                        noneOptionText={t('dropdown.add_member_author')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName
@@ -257,8 +257,8 @@ const EditProduct = ({userId}) => {
                     />
                     <DropdownSelectList
                         name='targetStakeholders'
-                        labelText='Target Stakeholders:'
-                        noneOptionText='Add target stakeholder'
+                        labelText={t('product.target_stakeholders')}
+                        noneOptionText={t('dropdown.add_target_stakeholder')}
                         choices={targetStakeholder.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
@@ -268,8 +268,8 @@ const EditProduct = ({userId}) => {
                     />
                     <DropdownSelectList
                         name='partners'
-                        labelText='Partners:'
-                        noneOptionText='Add partner'
+                        labelText={t('product.partners')}
+                        noneOptionText={t('dropdown.add_partner')}
                         choices={partners.map(e => ({
                             id: e.id,
                             name: e.name
@@ -279,8 +279,8 @@ const EditProduct = ({userId}) => {
                     />
                     <DropdownSelectList
                         name='topics'
-                        labelText='Topics:'
-                        noneOptionText='Add topic'
+                        labelText={t('product.topics')}
+                        noneOptionText={t('dropdown.add_topic')}
                         choices={topics.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr

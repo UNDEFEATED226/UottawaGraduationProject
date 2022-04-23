@@ -29,14 +29,20 @@
     "submit": "Submit"
   },
   "dropdown": {
+    "add_member_author": "Add member author",
+    "add_partner": "Add partner",
+    "add_target_stakeholder": "Add target stakeholder",
+    "add_topic": "Add topic",
     "none": "None"
   },
   "error": {
+    "empty_all_authors": "All authors cannot be empty.",
     "empty_checkbox": "This checkbox cannot be undefined.",
     "empty_city": "City cannot be empty.",
     "empty_country": "Country cannot be empty.",
     "empty_date": "Date cannot be empty.",
     "empty_email": "Email cannot be empty.",
+    "empty_member_authors": "Member Authors cannot be empty.",
     "empty_name_first": "First name cannot be empty.",
     "empty_name_last": "Last name cannot be empty.",
     "empty_partner_name": "Partner's name cannot be empty.",
@@ -44,6 +50,7 @@
     "empty_partner_type": "Partner's type cannot be empty.",
     "empty_province": "Province cannot be empty.",
     "empty_title": "Title cannot be empty.",
+    "empty_type": "Type cannot be empty.",
     "invalid_date": "Please use the format YYYY-MM-DD.",
     "invalid_day": "Day is invalid.",
     "invalid_format_email": "Email format is invalid.",
@@ -129,7 +136,7 @@
     "column_title": "Product Title",
     "date": "Date:",
     "doi": "DOI:",
-    "member_authors": "Member Authors",
+    "member_authors": "Member Authors:",
     "notes": "Notes:",
     "ongoing": "On going",
     "partners": "Partners:",
@@ -156,7 +163,7 @@
     "start_date": "Start date:",
     "supervisor_co": "Co-Supervisor:",
     "supervisor_principal": "Principal Supervisor:",
-    "thesis_advisory_committee": "Thesis Advisory Committee",
+    "thesis_advisory_committee": "Thesis Advisory Committee:",
     "trainee": "Trainee:"
   }
 }
