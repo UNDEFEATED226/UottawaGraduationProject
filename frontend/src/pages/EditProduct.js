@@ -7,6 +7,10 @@ import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
 
+import { useOutletContext, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import {
     getProductAndRelations,
     updateProduct,
@@ -19,10 +23,6 @@ import {
 import { getMemberNames } from 'api/members';
 import { getAllPartners } from 'api/partners';
 import { getProductTypes, getTargetStakeholders, getTopics } from 'api/types';
-
-import { useOutletContext, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 const EditProduct = ({userId}) => {
 
@@ -53,7 +53,7 @@ const EditProduct = ({userId}) => {
     const [members, setMembers] = useState([]);
     const [partners, setPartners] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
-    const [targetStakeholder, setTargetStakeholders] = useState([]);
+    const [targetStakeholders, setTargetStakeholders] = useState([]);
     const [topics, setTopics] = useState([]);
 
     // See handleValidation function
@@ -259,7 +259,7 @@ const EditProduct = ({userId}) => {
                         name='targetStakeholders'
                         labelText={t('product.target_stakeholders')}
                         noneOptionText={t('dropdown.add_target_stakeholder')}
-                        choices={targetStakeholder.map(e => ({
+                        choices={targetStakeholders.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
                         }))}
