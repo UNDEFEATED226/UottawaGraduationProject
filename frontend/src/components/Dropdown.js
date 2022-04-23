@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
 
 const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
-    required, disabled, selectedChoice, choices, errorMessage, onChange}) => {
+    disabled, selectedChoice, choices, errorMessage, onChange}) => {
 
     const { t } = useTranslation();
 
@@ -67,7 +67,6 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
                     value={searchBoxText ?? ''}
                     onChange={handleSearch}
                     onFocus={handleInputFocus}
-                    required={required}
                     disabled={disabled}
                     autoComplete="off"
                 />
@@ -75,7 +74,7 @@ const Dropdown = ({name, labelText, hideLabel, noneOptionText, hideNoneOption,
                     {hideNoneOption || <div tabIndex={0} data-id='-1' onClick={handleSelect}>
                         {noneOptionText ?? t("dropdown.none")}
                     </div>}
-                    {filteredChoices.map(({id, name}, idx) => (
+                    {filteredChoices.map(({id, name}) => (
                         <div key={id} tabIndex={0} data-id={id} onClick={handleSelect}>{name}</div>
                     ))}
                 </div>}
@@ -91,7 +90,6 @@ Dropdown.propTypes = {
     hideLabel: PropTypes.bool,
     noneOptionText: PropTypes.string,
     hideNoneOption: PropTypes.bool,
-    required: PropTypes.bool,
     disabled: PropTypes.bool,
     selectedChoice: PropTypes.number,
     choices: PropTypes.array,
@@ -105,7 +103,6 @@ Dropdown.defaultProps = {
     hideLabel: false,
     noneOptionText: null,
     hideNoneOption: false,
-    required: false,
     disabled: false,
     selectedChoice: null,
     choices: [],
