@@ -21,24 +21,27 @@
   "error": {
     "empty_city": "City cannot be empty.",
     "empty_country": "Country cannot be empty.",
+    "empty_date": "Date cannot be empty.",
     "empty_email": "Email cannot be empty.",
     "empty_name_first": "First name cannot be empty.",
     "empty_name_last": "Last name cannot be empty.",
+    "empty_partner_name": "Partner's name cannot be empty.",
+    "empty_partner_type": "Partner's type cannot be empty.",
+    "empty_partner_scope": "Partner's scope cannot be empty.",
     "empty_province": "Province cannot be empty.",
+    "empty_title": "Title cannot be empty.",
+    "invalid_date": "Please use the format YYYY-MM-DD.",
+    "invalid_day": "Day is invalid.",
     "invalid_format_email": "Email format is invalid.",
+    "invalid_month": "Month is invalid.",
     "invalid_submit": "There are errors in the form.",
     "unable_fetch": "Failed to get your data!",
-    "unable_submit": "Submission failed! Please try again later.",
-    "empty_title": "Title cannot be empty.",
-    "empty_date": "Date cannot be empty.",
-    "invalid_date": "Please use the format YYYY-MM-DD.",
-    "invalid_month": "Month is invalid.",
-    "invalid_day": "Day is invalid."
+    "unable_submit": "Submission failed! Please try again later."    
   },
   "feedback": {
+    "changes_reverted": "Changes reverted.",
     "submitting": "Submitting...",
-    "submit_success": "Submitted successfully!",
-    "changes_reverted": "Changes reverted."
+    "submit_success": "Submitted successfully!"    
   },
   "prompt": {
     "cancel_unsaved": "Are you sure? Any unsaved changes will be lost."
