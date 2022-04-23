@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 
 import {
     getPartner,
-    addPartner,
     updatePartner,
     updatePartnerMembers,
     getPartnerMembers
 } from 'api/partners';
+
 import { getPartnerScopes, getPartnerTypes } from 'api/types';
 import { getMemberNames } from 'api/members';
 
@@ -108,8 +108,8 @@ const EditPartner = () => {
             setScopes(results[3]);
             setTypes(results[4])
         }
-        else pushNotification('negative', t('error.unable_fetch_partner'));
-    }, [partnerId, pushNotification])
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [partnerId, pushNotification, t])
 
     useEffect(() => {
         fetchEverything()
