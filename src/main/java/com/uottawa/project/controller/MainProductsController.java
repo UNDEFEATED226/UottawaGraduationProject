@@ -41,10 +41,11 @@ public class MainProductsController {
 			.registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
 
 	@PostMapping("/add")
-	public void add(@RequestBody MainProducts product) {
+	public MainProducts add(@RequestBody MainProducts product) {
 		try {
 			MainProducts added = mainProductsService.add(product);
 			log.info("Product{} added.", gson.toJson(added));
+			return added;
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding product{} to main_Products.", gson.toJson(product));
 			throw new ResponseStatusException(e.getStatus(), e.getReason());

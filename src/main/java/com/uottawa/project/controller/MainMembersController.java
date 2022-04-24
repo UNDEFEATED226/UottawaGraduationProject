@@ -44,10 +44,11 @@ public class MainMembersController {
 
 	@Secured("ROLE_ADMIN")
 	@PostMapping("/add")
-	public void add(@RequestBody MainMembers member) {
+	public MainMembers add(@RequestBody MainMembers member) {
 		try {
 			MainMembers added = mainMembersService.add(member);
 			log.info("Member{} added.", gson.toJson(added));
+			return added;
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding member{} to mainMembers.", gson.toJson(member));
 			throw new ResponseStatusException(e.getStatus(), e.getReason());

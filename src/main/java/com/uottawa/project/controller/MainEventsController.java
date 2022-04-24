@@ -41,10 +41,11 @@ public class MainEventsController {
 	private static final Logger log = LoggerFactory.getLogger(MainEventsController.class);
 
 	@PostMapping("/add")
-	public void add(@RequestBody MainEvents event) {
+	public MainEvents add(@RequestBody MainEvents event) {
 		try {
 			MainEvents added = mainEventsService.add(event);
 			log.info("Event{} added to main_Events.", gson.toJson(added));
+			return added;
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding event{} to main_Events.", gson.toJson(event));
 			throw new ResponseStatusException(e.getStatus(), e.getReason());

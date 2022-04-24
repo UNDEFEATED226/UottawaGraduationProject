@@ -41,10 +41,11 @@ public class MainSupervisionController {
 			.create();
 
 	@PostMapping("/add")
-	public void add(@RequestBody MainSupervision supervision) {
+	public MainSupervision add(@RequestBody MainSupervision supervision) {
 		try {
 			MainSupervision added = mainSupervisionService.add(supervision);
 			log.info("Supervision{} added.", gson.toJson(added));
+			return added;
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding supervision{} to main_Supervision.", gson.toJson(supervision));
 			throw new ResponseStatusException(e.getStatus(), e.getReason());

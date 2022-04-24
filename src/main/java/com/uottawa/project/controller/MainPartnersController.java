@@ -26,10 +26,11 @@ public class MainPartnersController {
 	private Gson gson = new Gson();
 
 	@PostMapping("/add")
-	public void add(@RequestBody MainPartners partner) {
+	public MainPartners add(@RequestBody MainPartners partner) {
 		try {
 			MainPartners added = mainPartnersService.add(partner);
 			log.info("Partner{} added to main_Partners", gson.toJson(added));
+			return added;
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding partner{} to main_Partners.", gson.toJson(partner));
 			throw new ResponseStatusException(e.getStatus(), e.getReason());

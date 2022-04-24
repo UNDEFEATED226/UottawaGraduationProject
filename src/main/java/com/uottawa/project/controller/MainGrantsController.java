@@ -41,10 +41,11 @@ public class MainGrantsController {
 	private static final Logger log = LoggerFactory.getLogger(MainGrantsController.class);
 
 	@PostMapping("/add")
-	public void add(@RequestBody MainGrants grant) {
+	public MainGrants add(@RequestBody MainGrants grant) {
 		try {
 			MainGrants added = mainGrantsService.add(grant);
 			log.info("Grant{} added.", gson.toJson(added));
+			return added;
 		} catch (ResponseStatusException e) {
 			log.error("Error when adding grant{} to main_Grants.", gson.toJson(grant));
 			throw new ResponseStatusException(e.getStatus(), e.getReason());
