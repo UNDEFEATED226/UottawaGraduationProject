@@ -70,3 +70,11 @@ export const getTopics = async () => {
     }
     return null;
 }
+
+export const getTraineeLevels = async () => {
+    const response = await fetch('/api/types_trainee_level/find_all');
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
