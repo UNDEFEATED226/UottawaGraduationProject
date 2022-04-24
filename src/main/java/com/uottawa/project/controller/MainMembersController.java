@@ -65,7 +65,7 @@ public class MainMembersController {
 		}
 	}
 
-	@GetMapping("/find_by_id")
+	@GetMapping("/find_current_user")
 	public MainMembers findById() {
 		try {
 			MainMembers member = mainMembersService.findById();
