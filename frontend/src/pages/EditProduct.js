@@ -7,11 +7,12 @@ import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
 
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+    addProduct,
     getProductAndRelations,
     updateProduct,
     updateProductMembers,
@@ -24,11 +25,12 @@ import { getMemberNames } from 'api/members';
 import { getAllPartners } from 'api/partners';
 import { getProductTypes, getTargetStakeholders, getTopics } from 'api/types';
 
-const EditProduct = ({userId}) => {
+const EditProduct = ({isNew}) => {
 
     const { t, i18n } = useTranslation();
     const { pushNotification } = useOutletContext();
     const { productId } = useParams();
+    const navigate = useNavigate();
 
     // Main_Product data
     const [product, setProduct] = useState({});
@@ -59,9 +61,24 @@ const EditProduct = ({userId}) => {
     // See handleValidation function
     const [errors, setErrors] = useState({});
 
-    const fetchEverything = useCallback(async () => {
+    const fetchData = useCallback(async () => {
+        const results = await getProductAndRelations(productId);
+        if (results != null) {
+            setProduct(results.product);
+            setRelMembers(results.productMembers);
+            setNewRelMembers(results.productMembers);
+            setRelPartners(results.productPartners);
+            setNewRelPartners(results.productPartners);
+            setRelStakeholders(results.productStakeholders);
+            setNewRelStakeholders(results.productStakeholders);
+            setRelTopics(results.productTopics);
+            setNewRelTopics(results.productTopics);
+        }
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [productId, pushNotification, t])
+
+    const fetchTypes = useCallback(async () => {
         const results = await Promise.all([
-            getProductAndRelations(productId),
             getMemberNames(),
             getAllPartners(),
             getProductTypes(),
@@ -69,27 +86,19 @@ const EditProduct = ({userId}) => {
             getTopics(),
         ]);
         if (!results.includes(null)) {
-            setProduct(results[0].product);
-            setRelMembers(results[0].productMembers);
-            setNewRelMembers(results[0].productMembers);
-            setRelPartners(results[0].productPartners);
-            setNewRelPartners(results[0].productPartners);
-            setRelStakeholders(results[0].productStakeholders);
-            setNewRelStakeholders(results[0].productStakeholders);
-            setRelTopics(results[0].productTopics);
-            setNewRelTopics(results[0].productTopics);
-            setMembers(results[1]);
-            setPartners(results[2]);
-            setProductTypes(results[3]);
-            setTargetStakeholders(results[4]);
-            setTopics(results[5]);
+            setMembers(results[0]);
+            setPartners(results[1]);
+            setProductTypes(results[2]);
+            setTargetStakeholders(results[3]);
+            setTopics(results[4]);
         }
-        else pushNotification('negative', t('error.unable_fetch'));
-    }, [productId, pushNotification, t])
+        else pushNotification('negative', t('error.unable_fetch_types'));
+    }, [pushNotification, t])
 
     useEffect(() => {
-        fetchEverything();
-    }, [fetchEverything])
+        if (!isNew) fetchData();
+        fetchTypes();
+    }, [fetchData, fetchTypes, isNew])
 
     const handleProductChange = (key, value) => {
         setProduct(curr => ({ ...curr, [key]: value }));
@@ -111,20 +120,34 @@ const EditProduct = ({userId}) => {
         setNewRelTopics(newTopics);
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (handleValidation()) {
             pushNotification('info', t('feedback.submitting'));
+            let id = productId;
+            if (isNew) {
+                id = await addProduct(product);
+                if (id == null) {
+                    pushNotification('negative', t('error.unable_submit'));
+                    return;
+                }
+            }
             const results = await Promise.all([
-                updateProduct(product),
-                updateProductMembers(productId, relMembers, newRelMembers),
-                updateProductPartners(productId, relPartners, newRelPartners),
-                updateProductStakeholders(productId, relStakeholders, newRelStakeholders),
-                updateProductTopics(productId, relTopics, newRelTopics),
+                isNew ? true : updateProduct(product),
+                updateProductMembers(id, relMembers, newRelMembers),
+                updateProductPartners(id, relPartners, newRelPartners),
+                updateProductStakeholders(id, relStakeholders, newRelStakeholders),
+                updateProductTopics(id, relTopics, newRelTopics),
             ]);
             if (!results.includes(false)) {
-                await fetchEverything();
-                pushNotification('positive', t('feedback.submit_success'));
+                if (isNew) {
+                    pushNotification('positive', t('feedback.submit_success'));
+                    navigate(`/edit_product/${id}`);
+                }
+                else {
+                    await fetchData();
+                    pushNotification('positive', t('feedback.submit_success'));
+                }
             }
             else {
                 pushNotification('negative', t('error.unable_submit'));
@@ -155,10 +178,6 @@ const EditProduct = ({userId}) => {
                 newErrors.date = t('error.invalid_day');
         }
 
-        if (product.peerReviewed == null) {
-            newErrors.peerReviewed = t('error.empty_checkbox');
-        }
-
         if (product.type == null) {
             newErrors.type = t('error.empty_type');
         }
@@ -178,23 +197,27 @@ const EditProduct = ({userId}) => {
 
     const handleCancel = async () => {
         if (window.confirm(t('prompt.cancel_unsaved'))) {
-            window.scrollTo(0, 0);
-            await fetchEverything();
-            setErrors({});
-            pushNotification('info', t('feedback.changes_reverted'));
+            if (isNew) {
+                navigate('/my_products');
+            }
+            else {
+                window.scrollTo(0, 0);
+                await fetchData();
+                setErrors({});
+                pushNotification('info', t('feedback.changes_reverted'));
+            }
         }
     }
 
     return (
         <div className="EditProduct FormPage">
-            <h2>{t('page_titles.edit_product')}</h2>
+            <h2>{isNew ? t('page_titles.new_product') : t('page_titles.edit_product')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className='fields'>
                     <Textbox 
                         name='title'
                         labelText={t('product.title')}
                         text={product.title}
-                        required={true}
                         errorMessage={errors.title}
                         onChange={handleProductChange}
                     />
@@ -215,7 +238,6 @@ const EditProduct = ({userId}) => {
                         name='peerReviewed'
                         labelText={t('product.peer_review')}
                         checkedNum={product.peerReviewed}
-                        errorMessage={errors.peerReviewed}
                         onChange={handleProductChange}
                     />
                     <Dropdown
@@ -226,6 +248,7 @@ const EditProduct = ({userId}) => {
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.typeEn : e.typeFr
                         }))}
+                        hideNoneOption
                         errorMessage={errors.type}
                         onChange={handleProductChange}
                     />

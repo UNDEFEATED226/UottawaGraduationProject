@@ -4,7 +4,8 @@ import DropdownSelectList from 'components/DropdownSelectList';
 import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
-import { useOutletContext, useParams } from 'react-router-dom';
+
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,16 +13,19 @@ import {
     getPartner,
     updatePartner,
     updatePartnerMembers,
-    getPartnerMembers
+    getPartnerMembers,
+    addPartner
 } from 'api/partners';
 
 import { getPartnerScopes, getPartnerTypes } from 'api/types';
 import { getMemberNames } from 'api/members';
 
-const EditPartner = () => {
+const EditPartner = ({isNew}) => {
+
     const { t, i18n } = useTranslation();
     const { pushNotification } = useOutletContext();
     const { partnerId } = useParams();
+    const navigate = useNavigate();
 
     // Partner data
     const [partner, setPartner] = useState({});
@@ -38,6 +42,38 @@ const EditPartner = () => {
     // See handleValidation function
     const [errors, setErrors] = useState({});
 
+    const fetchData = useCallback(async () => {
+        const results = await Promise.all([
+            getPartner(partnerId),
+            getPartnerMembers(partnerId),
+        ]);
+        if (!results.includes(null)) {
+            setPartner(results[0]);
+            setRelMembers(results[1]);
+            setNewRelMembers(results[1]);
+        }
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [partnerId, pushNotification, t])
+
+    const fetchTypes = useCallback(async () => {
+        const results = await Promise.all([
+            getMemberNames(),
+            getPartnerScopes(),
+            getPartnerTypes(),
+        ]);
+        if (!results.includes(null)) {
+            setMembers(results[0]);
+            setScopes(results[1]);
+            setTypes(results[2]);
+        }
+        else pushNotification('negative', t('error.unable_fetch_types'));
+    }, [pushNotification, t])
+
+    useEffect(() => {
+        if (!isNew) fetchData();
+        fetchTypes();
+    }, [fetchData, fetchTypes, isNew])
+
     const handleFieldChange = (key, value) => {
         setPartner(curr => ({ ...curr, [key]: value }));
     }
@@ -46,17 +82,31 @@ const EditPartner = () => {
         setNewRelMembers(newMembers);
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (handleValidation()) {
             pushNotification('info', t('feedback.submitting'));
+            let id = partnerId;
+            if (isNew) {
+                id = await addPartner(partner);
+                if (id == null) {
+                    pushNotification('negative', t('error.unable_submit'));
+                    return;
+                }
+            }
             const results = await Promise.all([
-                updatePartner(partner),
-                updatePartnerMembers(partnerId, relMembers, newRelMembers)
+                isNew ? true : updatePartner(partner),
+                updatePartnerMembers(id, relMembers, newRelMembers),
             ]);
             if (!results.includes(false)) {
-                await fetchEverything();
-                pushNotification('positive', t('feedback.submit_success'));
+                if (isNew) {
+                    pushNotification('positive', t('feedback.submit_success'));
+                    navigate(`/edit_partner/${id}`);
+                }
+                else {
+                    await fetchData();
+                    pushNotification('positive', t('feedback.submit_success'));
+                }
             }
             else {
                 pushNotification('negative', t('error.unable_submit'));
@@ -85,39 +135,21 @@ const EditPartner = () => {
 
     const handleCancel = async () => {
         if (window.confirm(t('prompt.cancel_unsaved'))) {
-            window.scrollTo(0, 0);
-            await fetchEverything();
-            setErrors({});
-            pushNotification('info', t('feedback.changes_reverted'));
+            if (isNew) {
+                navigate('/partners');
+            }
+            else {
+                window.scrollTo(0, 0);
+                await fetchData();
+                setErrors({});
+                pushNotification('info', t('feedback.changes_reverted'));
+            }
         }
     }
-
-    const fetchEverything = useCallback(async () => {
-        const results = await Promise.all([
-            getPartnerMembers(partnerId),
-            getPartner(partnerId),
-            getMemberNames(),
-            getPartnerScopes(),
-            getPartnerTypes(),
-        ]);
-        if (!results.includes(null)) {
-            setRelMembers(results[0]);
-            setNewRelMembers(results[0]);
-            setPartner(results[1]);
-            setMembers(results[2]);
-            setScopes(results[3]);
-            setTypes(results[4])
-        }
-        else pushNotification('negative', t('error.unable_fetch'));
-    }, [partnerId, pushNotification, t])
-
-    useEffect(() => {
-        fetchEverything()
-    }, [fetchEverything])
     
     return ( 
         <div className="EditPartner FormPage">
-            <h2>{t('page_titles.edit_partner')}</h2>
+            <h2>{isNew ? t('page_titles.new_partner') : t('page_titles.edit_partner')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className='fields'>
                     <Textbox name='name' 

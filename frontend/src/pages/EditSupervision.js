@@ -6,11 +6,12 @@ import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
 
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+    addSupervision,
     getSupervisionAndRelations,
     updateSupervision,
     updateSupervisionCoSupervisors,
@@ -21,11 +22,12 @@ import {
 import { getMemberNames } from 'api/members';
 import { getFaculties, getTraineeLevels } from 'api/types';
 
-const EditSupervision = ({userId}) => {
+const EditSupervision = ({isNew}) => {
 
     const { t, i18n } = useTranslation();
     const { pushNotification } = useOutletContext();
     const { supervisionId } = useParams();
+    const navigate = useNavigate();
 
     const [supervision, setSupervision] = useState({});
 
@@ -44,31 +46,38 @@ const EditSupervision = ({userId}) => {
 
     const [errors, setErrors] = useState({});
 
-    const fetchEverything = useCallback(async () => {
+    const fetchData = useCallback(async () => {
+        const results = await getSupervisionAndRelations(supervisionId);
+        if (results != null) {
+            setSupervision(results.supervision);
+            setRelPrincipalSupervisors(results.supervisionPrincipalSupervisors);
+            setNewRelPrincipalSupervisors(results.supervisionPrincipalSupervisors);
+            setRelCoSupervisors(results.supervisionCoSupervisors);
+            setNewRelCoSupervisors(results.supervisionCoSupervisors);
+            setRelThesisAdvisory(results.supervisionThesisAdvisoryCommittees);
+            setNewRelThesisAdvisory(results.supervisionThesisAdvisoryCommittees);
+        }
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [supervisionId, pushNotification, t])
+
+    const fetchTypes = useCallback(async () => {
         const results = await Promise.all([
-            getSupervisionAndRelations(supervisionId),
             getMemberNames(),
             getTraineeLevels(),
             getFaculties(),
         ]);
         if (!results.includes(null)) {
-            setSupervision(results[0].supervision);
-            setRelPrincipalSupervisors(results[0].supervisionPrincipalSupervisors);
-            setNewRelPrincipalSupervisors(results[0].supervisionPrincipalSupervisors);
-            setRelCoSupervisors(results[0].supervisionCoSupervisors);
-            setNewRelCoSupervisors(results[0].supervisionCoSupervisors);
-            setRelThesisAdvisory(results[0].supervisionThesisAdvisoryCommittees);
-            setNewRelThesisAdvisory(results[0].supervisionThesisAdvisoryCommittees);
-            setMembers(results[1]);
-            setLevels(results[2]);
-            setFaculties(results[3]);
+            setMembers(results[0]);
+            setLevels(results[1]);
+            setFaculties(results[2]);
         }
-        else pushNotification('negative', t('error.unable_fetch'));
-    }, [supervisionId, pushNotification, t])
+        else pushNotification('negative', t('error.unable_fetch_types'));
+    }, [pushNotification, t])
 
     useEffect(() => {
-        fetchEverything();
-    }, [fetchEverything])
+        if (!isNew) fetchData();
+        fetchTypes();
+    }, [fetchData, fetchTypes, isNew])
 
     const handleSupervisionChange = (key, value) => {
         setSupervision(curr => ({ ...curr, [key]: value }));
@@ -86,19 +95,33 @@ const EditSupervision = ({userId}) => {
         setNewRelThesisAdvisory(newRels);
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (handleValidation()) {
             pushNotification('info', t('feedback.submitting'));
+            let id = supervisionId;
+            if (isNew) {
+                id = await addSupervision(supervision);
+                if (id == null) {
+                    pushNotification('negative', t('error.unable_submit'));
+                    return;
+                }
+            }
             const results = await Promise.all([
-                updateSupervision(supervision),
-                updateSupervisionPrincipalSupervisors(supervisionId, relPrincipalSupervisors, newRelPrincipalSupervisors),
-                updateSupervisionCoSupervisors(supervisionId, relCoSupervisors, newRelCoSupervisors),
-                updateSupervisionThesisAdvisoryCommittees(supervisionId, relThesisAdvisory, newRelThesisAdvisory),
+                isNew ? true : updateSupervision(supervision),
+                updateSupervisionPrincipalSupervisors(id, relPrincipalSupervisors, newRelPrincipalSupervisors),
+                updateSupervisionCoSupervisors(id, relCoSupervisors, newRelCoSupervisors),
+                updateSupervisionThesisAdvisoryCommittees(id, relThesisAdvisory, newRelThesisAdvisory),
             ]);
             if (!results.includes(false)) {
-                await fetchEverything();
-                pushNotification('positive', t('feedback.submit_success'));
+                if (isNew) {
+                    pushNotification('positive', t('feedback.submit_success'));
+                    navigate(`/edit_supervision/${id}`);
+                }
+                else {
+                    await fetchData();
+                    pushNotification('positive', t('feedback.submit_success'));
+                }
             }
             else {
                 pushNotification('negative', t('error.unable_submit'));
@@ -168,16 +191,21 @@ const EditSupervision = ({userId}) => {
 
     const handleCancel = async () => {
         if (window.confirm(t('prompt.cancel_unsaved'))) {
-            window.scrollTo(0, 0);
-            await fetchEverything();
-            setErrors({});
-            pushNotification('info', t('feedback.changes_reverted'));
+            if (isNew) {
+                navigate('/my_supervisions');
+            }
+            else {
+                window.scrollTo(0, 0);
+                await fetchData();
+                setErrors({});
+                pushNotification('info', t('feedback.changes_reverted'));
+            }
         }
     }
 
     return (
         <div className="EditSupervision FormPage">
-            <h2>{t('page_titles.edit_supervision')}</h2>
+            <h2>{isNew ? t('page_titles.new_supervision') : t('page_titles.edit_supervision')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className='fields'>
                     <Dropdown

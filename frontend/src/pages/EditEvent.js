@@ -6,11 +6,12 @@ import Textarea from 'components/Textarea';
 import Textbox from 'components/Textbox';
 import Button from 'components/Button';
 
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+    addEvent,
     getAllEvents,
     getEventAndRelations,
     updateEvent,
@@ -29,11 +30,12 @@ import { getAllProducts } from 'api/products';
 import { getAllPartners } from 'api/partners';
 import { getEventTypes, getTopics } from 'api/types';
 
-const EditEvent = ({userId}) => {
+const EditEvent = ({isNew}) => {
 
     const { t, i18n } = useTranslation();
     const { pushNotification } = useOutletContext();
     const { eventId } = useParams();
+    const navigate = useNavigate();
 
     const [event, setEvent] = useState({});
 
@@ -68,9 +70,30 @@ const EditEvent = ({userId}) => {
 
     const [errors, setErrors] = useState({});
 
-    const fetchEverything = useCallback(async () => {
+    const fetchData = useCallback(async () => {
+        const results = await getEventAndRelations(eventId);
+        if (results != null) {
+            setEvent(results.event);
+            setRelPastEvents(results.pastEvents);
+            setNewRelPastEvents(results.pastEvents);
+            setRelFutureEvents(results.futureEvents);
+            setNewRelFutureEvents(results.futureEvents);
+            setRelGrants(results.eventGrants);
+            setNewRelGrants(results.eventGrants);
+            setRelMembers(results.eventMembers);
+            setNewRelMembers(results.eventMembers);
+            setRelProducts(results.eventProducts);
+            setNewRelProducts(results.eventProducts);
+            setRelPartners(results.eventPartners);
+            setNewRelPartners(results.eventPartners);
+            setRelTopics(results.eventTopics);
+            setNewRelTopics(results.eventTopics);
+        }
+        else pushNotification('negative', t('error.unable_fetch'));
+    }, [eventId, pushNotification, t])
+
+    const fetchTypes = useCallback(async () => {
         const results = await Promise.all([
-            getEventAndRelations(eventId),
             getMemberNames(),
             getAllEvents(),
             getAllGrants(),
@@ -80,35 +103,21 @@ const EditEvent = ({userId}) => {
             getTopics(),
         ]);
         if (!results.includes(null)) {
-            setEvent(results[0].event);
-            setRelPastEvents(results[0].pastEvents);
-            setNewRelPastEvents(results[0].pastEvents);
-            setRelFutureEvents(results[0].futureEvents);
-            setNewRelFutureEvents(results[0].futureEvents);
-            setRelGrants(results[0].eventGrants);
-            setNewRelGrants(results[0].eventGrants);
-            setRelMembers(results[0].eventMembers);
-            setNewRelMembers(results[0].eventMembers);
-            setRelProducts(results[0].eventProducts);
-            setNewRelProducts(results[0].eventProducts);
-            setRelPartners(results[0].eventPartners);
-            setNewRelPartners(results[0].eventPartners);
-            setRelTopics(results[0].eventTopics);
-            setNewRelTopics(results[0].eventTopics);
-            setMembers(results[1]);
-            setEvents(results[2]);
-            setGrants(results[3]);
-            setProducts(results[4]);
-            setPartners(results[5]);
-            setEventTypes(results[6]);
-            setTopics(results[7]);
+            setMembers(results[0]);
+            setEvents(results[1]);
+            setGrants(results[2]);
+            setProducts(results[3]);
+            setPartners(results[4]);
+            setEventTypes(results[5]);
+            setTopics(results[6]);
         }
-        else pushNotification('negative', t('error.unable_fetch'));
-    }, [eventId, pushNotification, t])
+        else pushNotification('negative', t('error.unable_fetch_types'));
+    }, [pushNotification, t])
 
     useEffect(() => {
-        fetchEverything();
-    }, [fetchEverything])
+        if (!isNew) fetchData();
+        fetchTypes();
+    }, [fetchData, fetchTypes, isNew])
 
     const handleEventChange = (key, value) => {
         setEvent(curr => ({ ...curr, [key]: value }));
@@ -146,19 +155,33 @@ const EditEvent = ({userId}) => {
         e.preventDefault();
         if (handleValidation()) {
             pushNotification('info', t('feedback.submitting'));
+            let id = eventId;
+            if (isNew) {
+                id = await addEvent(event);
+                if (id == null) {
+                    pushNotification('negative', t('error.unable_submit'));
+                    return;
+                }
+            }
             const results = await Promise.all([
-                updateEvent(event),
-                updatePastEvents(eventId, relPastEvents, newRelPastEvents),
-                updateFutureEvents(eventId, relFutureEvents, newRelFutureEvents),
-                updateEventGrants(eventId, relGrants, newRelGrants),
-                updateEventMembers(eventId, relMembers, newRelMembers),
-                updateEventProducts(eventId, relProducts, newRelProducts),
-                updateEventPartners(eventId, relPartners, newRelPartners),
-                updateEventTopics(eventId, relTopics, newRelTopics),
+                isNew ? true : updateEvent(event),
+                updatePastEvents(id, relPastEvents, newRelPastEvents),
+                updateFutureEvents(id, relFutureEvents, newRelFutureEvents),
+                updateEventGrants(id, relGrants, newRelGrants),
+                updateEventMembers(id, relMembers, newRelMembers),
+                updateEventProducts(id, relProducts, newRelProducts),
+                updateEventPartners(id, relPartners, newRelPartners),
+                updateEventTopics(id, relTopics, newRelTopics),
             ]);
             if (!results.includes(false)) {
-                await fetchEverything();
-                pushNotification('positive', t('feedback.submit_success'));
+                if (isNew) {
+                    pushNotification('positive', t('feedback.submit_success'));
+                    navigate(`/edit_event/${id}`);
+                }
+                else {
+                    await fetchData();
+                    pushNotification('positive', t('feedback.submit_success'));
+                }
             }
             else {
                 pushNotification('negative', t('error.unable_submit'));
@@ -231,16 +254,21 @@ const EditEvent = ({userId}) => {
 
     const handleCancel = async () => {
         if (window.confirm(t('prompt.cancel_unsaved'))) {
-            window.scrollTo(0, 0);
-            await fetchEverything();
-            setErrors({});
-            pushNotification('info', t('feedback.changes_reverted'));
+            if (isNew) {
+                navigate('/my_events');
+            }
+            else {
+                window.scrollTo(0, 0);
+                await fetchData();
+                setErrors({});
+                pushNotification('info', t('feedback.changes_reverted'));
+            }
         }
     }
 
     return (
         <div className="EditEvent FormPage">
-            <h2>{t('page_titles.edit_event')}</h2>
+            <h2>{isNew ? t('page_titles.new_event') : t('page_titles.edit_event')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className='fields'>
                     <Textbox
