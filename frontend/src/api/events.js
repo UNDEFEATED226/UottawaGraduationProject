@@ -1,4 +1,22 @@
 
+// --------------------------- ADD ---------------------------
+
+export const addEvent = async (event) => {
+    event.id = null;
+    const response = await fetch('/api/main_events/add', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(event)
+    });
+    if (response.ok) {
+        const body = await response.json();
+        return body.id;
+    }
+    return null;
+}
+
 // --------------------------- GET ---------------------------
 
 export const getAllEvents = async () => {

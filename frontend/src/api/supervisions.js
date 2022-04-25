@@ -1,5 +1,31 @@
 
+// --------------------------- ADD ---------------------------
+
+export const addSupervision = async (supervision) => {
+    supervision.id = null;
+    const response = await fetch('/api/main_supervision/add', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(supervision)
+    });
+    if (response.ok) {
+        const body = await response.json();
+        return body.id;
+    }
+    return null;
+}
+
 // --------------------------- GET ---------------------------
+
+export const getAllSupervisions = async () => {
+    const response = await fetch(`/api/main_supervision/find_all`);
+    if (response.ok) {
+        return await response.json();
+    }
+    return null;
+}
 
 export const getSupervisionAndRelations = async (id) => {
     const data = await Promise.all([

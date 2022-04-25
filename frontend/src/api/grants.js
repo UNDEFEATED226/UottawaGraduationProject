@@ -1,4 +1,25 @@
 
+// --------------------------- ADD ---------------------------
+
+export const addGrant = async (grant) => {
+    grant.id = null;
+    if (grant.isThroughLRI == null) {
+        grant.isThroughLRI = 0;
+    }
+    const response = await fetch('/api/main_grants/add', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(grant)
+    });
+    if (response.ok) {
+        const body = await response.json();
+        return body.id;
+    }
+    return null;
+}
+
 // --------------------------- GET ---------------------------
 
 export const getAllGrants = async () => {
@@ -63,6 +84,9 @@ export const getGrantTopics = async (id) => {
 // -------------------------- UPDATE --------------------------
 
 export const updateGrant = async (grant) => {
+    if (grant.isThroughLRI == null) {
+        grant.isThroughLRI = 0;
+    }
     const response = await fetch('/api/main_grants/update', {
         method: 'POST',
         headers: {

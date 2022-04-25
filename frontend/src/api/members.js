@@ -1,6 +1,6 @@
 
 export const getMember = async () => {
-    const response = await fetch('/api/main_members/find_by_id');
+    const response = await fetch('/api/main_members/find_current_user');
     if (response.ok) {
         return await response.json();
     }

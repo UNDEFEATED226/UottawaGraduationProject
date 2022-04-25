@@ -1,4 +1,25 @@
 
+// --------------------------- ADD ---------------------------
+
+export const addProduct = async (product) => {
+    product.id = null;
+    if (product.peerReviewed == null) {
+        product.peerReviewed = 0;
+    }
+    const response = await fetch('/api/main_products/add', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(product)
+    });
+    if (response.ok) {
+        const body = await response.json();
+        return body.id;
+    }
+    return null;
+}
+
 // --------------------------- GET ---------------------------
 
 export const getAllProducts = async () => {
@@ -74,6 +95,9 @@ export const getProductTopics = async (id) => {
 // -------------------------- UPDATE --------------------------
 
 export const updateProduct = async (product) => {
+    if (product.peerReviewed == null) {
+        product.peerReviewed = 0;
+    }
     const response = await fetch('/api/main_products/update', {
         method: 'POST',
         headers: {

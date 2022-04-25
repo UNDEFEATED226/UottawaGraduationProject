@@ -1,3 +1,22 @@
+
+// --------------------------- ADD ---------------------------
+
+export const addPartner = async (partner) => {
+    partner.id = null;
+    const response = await fetch('/api/main_partners/add', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(partner)
+    });
+    if (response.ok) {
+        const body = await response.json();
+        return body.id;
+    }
+    return null;
+}
+
 // --------------------------- GET ---------------------------
 
 export const getAllPartners = async () => {
@@ -27,8 +46,8 @@ export const getPartnerMembers = async (partnerId) => {
 
 // -------------------------- UPDATE --------------------------
 
-export const addPartner = async (partner) => {
-    const response = await fetch('/api/main_partners/add', {
+export const updatePartner = async (partner) => {
+    const response = await fetch('/api/main_partners/update', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
@@ -36,6 +55,24 @@ export const addPartner = async (partner) => {
         body: JSON.stringify(partner)
     });
     return response.ok;
+}
+
+// ------------------ UPDATE PARTNER MEMBERS ------------------
+
+export const updatePartnerMembers = async (partnerId, oldRels, newRels) => {
+    const promises = [];
+    oldRels.forEach((id) => {
+        if (!newRels.includes(id)) {
+            promises.push(deletePartnerMember(partnerId, id));
+        }
+    })
+    newRels.forEach((id) => {
+        if (!oldRels.includes(id)) {
+            promises.push(addPartnerMember(partnerId, id));
+        }
+    })
+    const result = await Promise.all(promises);
+    return !result.includes(false);
 }
 
 export const addPartnerMember = async (partnerId, memberId) => {
@@ -53,31 +90,4 @@ export const addPartnerMember = async (partnerId, memberId) => {
 export const deletePartnerMember = async (partnerId, memberId) => {
     const response = await fetch(`/api/relp_partner_member/delete_by_id?partnerId=${partnerId}&memberId=${memberId}`);
     return response.ok;
-}
-
-export const updatePartner = async (partner) => {
-    const response = await fetch('/api/main_partners/update', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-        },
-        body: JSON.stringify(partner)
-    });
-    return response.ok;
-}
-
-export const updatePartnerMembers = async (partnerId, oldRels, newRels) => {
-    const promises = [];
-    oldRels.forEach((id) => {
-        if (!newRels.includes(id)) {
-            promises.push(deletePartnerMember(partnerId, id));
-        }
-    })
-    newRels.forEach((id) => {
-        if (!oldRels.includes(id)) {
-            promises.push(addPartnerMember(partnerId, id));
-        }
-    })
-    const result = await Promise.all(promises);
-    return !result.includes(false);
 }
