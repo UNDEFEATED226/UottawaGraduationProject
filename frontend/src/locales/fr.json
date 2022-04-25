@@ -20,6 +20,11 @@
   },
   "button": {
     "add": "Ajouter",
+    "add_event": "Ajouter un nouvel événement",
+    "add_grant": "Ajouter une nouvelle subvention",
+    "add_partner": "Ajouter un nouveau partenaire",
+    "add_product": "Ajouter un nouveau produit",
+    "add_supervision": "Ajouter une nouvelle supervision",
     "cancel": "Annuler",
     "collapse": "Effondrement",
     "edit": "Éditer",
