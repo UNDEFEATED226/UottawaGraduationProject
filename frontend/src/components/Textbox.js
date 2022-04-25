@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from 'react';
 
 const Textbox = ({name, labelText, text, isPassword, isNumber, formatter,
-    placeholderText, errorMessage, required, disabled, onChange}) => {
+    placeholderText, errorMessage, disabled, onChange}) => {
 
     const [displayText, setDisplayText] = useState('');
     const [focused, setFocused] = useState(false);
@@ -46,7 +46,6 @@ const Textbox = ({name, labelText, text, isPassword, isNumber, formatter,
                 name={name}
                 value={displayText ?? ""}
                 placeholder={placeholderText}
-                required={required}
                 disabled={disabled}
                 onChange={handleChange}
                 onFocus={handleFocus}
@@ -60,6 +59,7 @@ const Textbox = ({name, labelText, text, isPassword, isNumber, formatter,
 Textbox.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
     text: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
@@ -69,9 +69,7 @@ Textbox.propTypes = {
     formatter: PropTypes.func,
     placeholderText: PropTypes.string,
     errorMessage: PropTypes.string,
-    required: PropTypes.bool,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func,
 }
 
 Textbox.defaultProps = {

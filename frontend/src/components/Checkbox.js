@@ -34,8 +34,10 @@ const Checkbox = ({name, labelText, checkedNum, disabled, errorMessage, onChange
 Checkbox.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
     checkedNum: PropTypes.number,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool    
 }
 
 export default Checkbox;
