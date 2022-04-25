@@ -24,17 +24,22 @@ ReactDOM.render(
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route element={<App />}>
-                    <Route path="/basic_info" element={<BasicInformation />} />
-                    <Route path="/my_products" element={<MyProducts />} />
-                    <Route path="/edit_product/:productId" element={<EditProduct />} />
-                    <Route path="/my_grants" element={<MyGrants />} />
-                    <Route path="/edit_grant/:grantId" element={<EditGrant />} />
-                    <Route path="/my_events" element={<MyEvents />} />
-                    <Route path="/edit_event/:eventId" element={<EditEvent />} />
-                    <Route path="/my_supervisions" element={<MySupervisions />} />
-                    <Route path="/edit_supervision/:supervisionId" element={<EditSupervision />} />
-                    <Route path="/partners" element={<Partners />} />
-                    <Route path="/edit_partner/:partnerId" element={<EditPartner />} />
+                    <Route path="/basic_info"                       element={<BasicInformation />} />
+                    <Route path="/my_products"                      element={<MyProducts />} />
+                    <Route path="/edit_product/:productId"          element={<EditProduct />} />
+                    <Route path="/edit_product/new"                 element={<EditProduct isNew/>} />
+                    <Route path="/my_grants"                        element={<MyGrants />} />
+                    <Route path="/edit_grant/:grantId"              element={<EditGrant />} />
+                    <Route path="/edit_grant/new"                   element={<EditGrant isNew/>} />
+                    <Route path="/my_events"                        element={<MyEvents />} />
+                    <Route path="/edit_event/:eventId"              element={<EditEvent />} />
+                    <Route path="/edit_event/new"                   element={<EditEvent isNew/>} />
+                    <Route path="/my_supervisions"                  element={<MySupervisions />} />
+                    <Route path="/edit_supervision/:supervisionId"  element={<EditSupervision />} />
+                    <Route path="/edit_supervision/new"             element={<EditSupervision isNew/>} />
+                    <Route path="/partners"                         element={<Partners />} />
+                    <Route path="/edit_partner/:partnerId"          element={<EditPartner />} />
+                    <Route path="/edit_partner/new"                 element={<EditPartner isNew/>} />
                 </Route>
                 <Route path="/login" element={<Login />} />
             </Routes>
