@@ -1,6 +1,6 @@
 {
   "basic_information": {
-    "address": "Adresse:",
+    "address": "Adresse de travail:",
     "city": "Ville:",
     "country": "Pays:",
     "email": "Courriel:",
@@ -163,6 +163,7 @@
     "all_authors": "Tous les auteurs:",
     "column_date": "Date",
     "column_title": "Titre du produit",
+    "column_type": "Type de produit",
     "date": "Date:",
     "doi": "Identificateur d'objet numérique:",
     "member_authors": "Auteurs membres:",

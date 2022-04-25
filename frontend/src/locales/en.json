@@ -1,6 +1,6 @@
 {
   "basic_information": {
-    "address": "Address:",
+    "address": "Work Address:",
     "city": "City:",
     "country": "Country:",
     "email": "Email:",
@@ -164,6 +164,7 @@
     "all_authors": "All Authors:",
     "column_date": "Date",
     "column_title": "Product Title",
+    "column_type": "Product Type",
     "date": "Date:",
     "doi": "DOI:",
     "member_authors": "Member Authors:",
