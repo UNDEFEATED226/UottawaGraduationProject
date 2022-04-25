@@ -1,4 +1,5 @@
 import './Notification.css'
+import PropTypes from "prop-types";
 
 const Notification = ({ notifications }) => {
     return (
@@ -9,5 +10,5 @@ const Notification = ({ notifications }) => {
         </div>
     );
 }
-
+Notification.propTypes = { notifications: PropTypes.array.isRequired }
 export default Notification;

@@ -2,6 +2,7 @@ import './SideBar.css'
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import PropTypes from "prop-types";
 
 const SideBar = ({ defaultSelect }) => {
 
@@ -65,5 +66,5 @@ const SideBar = ({ defaultSelect }) => {
         </div>
     );
 }
-
+SideBar.propTypes = { defaultSelect: PropTypes.string }
 export default SideBar;

@@ -7,11 +7,10 @@ import LanguageButton from 'components/LanguageButton';
 
 import { doLogout } from 'api/auth';
 
+import PropTypes from "prop-types";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-// add FR/EN button
-// learn to pass name through props
 const Header = ({ username }) => {
 
     const { t } = useTranslation();
@@ -49,5 +48,7 @@ const Header = ({ username }) => {
         </header>
     );
 }
+
+Header.propTypes = { username: PropTypes.string }
 
 export default Header;

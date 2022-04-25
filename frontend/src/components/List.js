@@ -1,5 +1,6 @@
 import "./List.css"
 import Button from "./Button";
+import PropTypes from "prop-types";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from "react";
@@ -85,6 +86,14 @@ const List = ({items, columns, columnTitles, addButtonText, fixedUrl}) => {
             />
         </div>
     );
+}
+
+List.propTypes = {
+    items: PropTypes.array,
+    columns: PropTypes.array.isRequired,
+    columnTitles: PropTypes.object.isRequired,
+    addButtonText: PropTypes.string,
+    fixedUrl: PropTypes.string
 }
 
 export default List;

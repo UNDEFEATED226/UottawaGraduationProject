@@ -2,7 +2,7 @@ import './Textarea.css';
 import PropTypes from "prop-types";
 import { useEffect, useState } from 'react';
 
-const Textarea = ({name, labelText, text, placeholderText, required, disabled, errorMessage, rows, cols, onChange}) => {
+const Textarea = ({name, labelText, text, placeholderText, disabled, errorMessage, rows, cols, onChange}) => {
 
     const [fieldText, setFieldText] = useState('');
 
@@ -23,7 +23,6 @@ const Textarea = ({name, labelText, text, placeholderText, required, disabled, e
                 name={name}
                 value={fieldText ?? ""}
                 placeholder={placeholderText}
-                required={required}
                 disabled={disabled}
                 rows={rows}
                 cols={cols}
@@ -37,14 +36,13 @@ const Textarea = ({name, labelText, text, placeholderText, required, disabled, e
 Textarea.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
     text: PropTypes.string,
     placeholderText: PropTypes.string,
-    required: PropTypes.bool,
     disabled: PropTypes.bool,
     errorMessage: PropTypes.string,
     rows: PropTypes.number,
-    cols: PropTypes.number,
-    onChange: PropTypes.func,
+    cols: PropTypes.number
 }
 
 export default Textarea;

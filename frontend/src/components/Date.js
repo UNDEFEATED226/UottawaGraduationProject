@@ -58,9 +58,8 @@ export const isNotAfter = (date1, date2) => {
     return false;
 };
 
-const Date = ({name, labelText, textValue, required, disabled, errorMessage, onChange}) => {
+const Date = ({name, labelText, textValue, disabled, errorMessage, onChange}) => {
 
-    // https://tomduffytech.com/how-to-format-phone-number-in-react/
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
@@ -91,7 +90,6 @@ const Date = ({name, labelText, textValue, required, disabled, errorMessage, onC
                 id={name}
                 name={name}
                 value={inputValue ?? ''}
-                required={required}
                 disabled={disabled}
                 onChange={handleInput}
             />
@@ -103,10 +101,10 @@ const Date = ({name, labelText, textValue, required, disabled, errorMessage, onC
 Date.propTypes = {
     name: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
     textValue: PropTypes.string,
-    required: PropTypes.bool,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    errorMessage: PropTypes.string    
 }
 
 export default Date;

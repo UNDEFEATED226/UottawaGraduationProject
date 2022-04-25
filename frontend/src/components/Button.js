@@ -29,10 +29,10 @@ const Button = ({text, type, htmlButtonType, disabled, clickHandler}) => {
 
 Button.propTypes = {
     text: PropTypes.string.isRequired,
+    clickHandler: PropTypes.func,
     type: PropTypes.number,
     htmlButtonType: PropTypes.string,
     disabled: PropTypes.bool,
-    clickHandler: PropTypes.func
 }
 
 export default Button;
