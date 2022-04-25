@@ -33,6 +33,7 @@
     "add_future_event": "Ajouter un événement futur",
     "add_grant": "Ajouter une subvention",
     "add_member_author": "Ajouter un auteur membre",
+    "add_member_investigator": "Ajouter un investigateur membre",
     "add_member_involved": "Ajouter un membre impliqué",
     "add_partner": "Ajouter un partenaire",
     "add_past_event": "Ajouter un événement passé",
@@ -50,6 +51,7 @@
     "empty_country": "Le pays ne peut pas être vide.",
     "empty_date": "La date ne peut pas être vide.",
     "empty_email": "L'e-mail ne peut pas être vide.",
+    "empty_investigators": "Les enquêteurs ne peuvent pas être vides.",
     "empty_level": "Le niveau ne peut pas être vide.",
     "empty_member_authors": "Les auteurs membres ne peuvent pas être vides.",
     "empty_members_involved": "Les membres impliqués ne peuvent pas être vides.",
@@ -60,6 +62,8 @@
     "empty_partner_type": "Le type du partenaire ne peut pas être vide.",
     "empty_principal_supervisors": "Les superviseurs principaux ne peuvent pas être vides.",
     "empty_province": "La province ne peut pas être vide.",
+    "empty_source": "La source ne peut pas être aucune.",
+    "empty_status": "Le statut ne peut pas être aucun.",
     "empty_title": "Le titre ne peut pas être vide.",
     "empty_trainee": "Veuillez choisir un stagiaire. S'ils ne sont pas dans la liste, entrez leur nom dans 'Prénom' et 'Nom de famille'.",
     "empty_type": "Le type ne peut pas être vide.",
@@ -71,6 +75,7 @@
     "invalid_month": "Le mois n'est pas valide.",
     "invalid_submit": "Il y a des erreurs dans le formulaire.",
     "unable_fetch": "Impossible d'obtenir vos données!",
+    "unable_fetch_types": "Impossible d'obtenir les données pour les listes déroulantes !",
     "unable_submit": "La soumission a échoué! Veuillez réessayer plus tard."
   },
   "event": {
@@ -126,12 +131,17 @@
     "edit_grant": "Editer la subvention",
     "edit_partner": "Partenaire d'édition",
     "edit_product": "Editer le produit",
-    "edit_supervision": "Supervision de l'édition",
+    "edit_supervision": "Editer la supervision",
     "home_page": "Bienvenue",
     "my_events": "Mes événements",
     "my_grants": "Mes subventions",
     "my_products": "Mes produits",
     "my_supervisions": "Mes supervisions",
+    "new_event": "Nouvel évènement",
+    "new_grant": "Nouvelle subvention",
+    "new_partner": "Nouveau partenaire",
+    "new_product": "Nouveau produit",
+    "new_supervision": "Nouvelle supervision",
     "partners": "Partenaires"
   },
   "partner": {
@@ -175,9 +185,9 @@
     "name_last": "Nom de famille:",
     "notes": "Notes:",
     "start_date": "Date de début:",
-    "supervisor_co": "Co-superviseur:",
-    "supervisor_principal": "Superviseur principal:",
-    "thesis_advisory_committee": "Comité consultatif de thèse:",
+    "supervisor_co": "Co-superviseurs:",
+    "supervisor_principal": "Superviseurs principaux:",
+    "thesis_advisory_committee": "Comités consultatifs de thèse :",
     "trainee": "Stagiaire:"
   }
 }

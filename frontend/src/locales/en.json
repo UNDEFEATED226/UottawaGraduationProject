@@ -33,6 +33,7 @@
     "add_future_event": "Add future event",
     "add_grant": "Add grant",
     "add_member_author": "Add member author",
+    "add_member_investigator": "Add member investigator",
     "add_member_involved": "Add member involved",
     "add_partner": "Add partner",
     "add_past_event": "Add past event",
@@ -51,6 +52,7 @@
     "empty_country": "Country cannot be empty.",
     "empty_date": "Date cannot be empty.",
     "empty_email": "Email cannot be empty.",
+    "empty_investigators": "Investigators cannot be empty.",
     "empty_level": "Level cannot be empty.",
     "empty_member_authors": "Member Authors cannot be empty.",
     "empty_members_involved": "Members Involved cannot be empty.",
@@ -61,6 +63,8 @@
     "empty_partner_type": "Partner's type cannot be empty.",
     "empty_principal_supervisors": "Principal supervisors cannot be empty.",
     "empty_province": "Province cannot be empty.",
+    "empty_source": "Source cannot be none.",
+    "empty_status": "Status cannot be none.",
     "empty_title": "Title cannot be empty.",
     "empty_trainee": "Please choose a trainee. If they're not in the list, enter their name in 'First name' and 'Last name'.",
     "empty_type": "Type cannot be empty.",
@@ -72,6 +76,7 @@
     "invalid_month": "Month is invalid.",
     "invalid_submit": "There are errors in the form.",
     "unable_fetch": "Failed to get your data!",
+    "unable_fetch_types": "Failed to get the data for dropdown lists!",
     "unable_submit": "Submission failed! Please try again later."
   },
   "event": {
@@ -133,6 +138,11 @@
     "my_grants": "My Grants",
     "my_products": "My Products",
     "my_supervisions": "My Supervisions",
+    "new_event": "New Event",
+    "new_grant": "New Grant",
+    "new_partner": "New Partner",
+    "new_product": "New Product",
+    "new_supervision": "New Supervision",
     "partners": "Partners"
   },
   "partner": {
@@ -176,9 +186,9 @@
     "name_last": "Last name:",
     "notes": "Notes",
     "start_date": "Start date:",
-    "supervisor_co": "Co-Supervisor:",
-    "supervisor_principal": "Principal Supervisor:",
-    "thesis_advisory_committee": "Thesis Advisory Committee:",
+    "supervisor_co": "Co-Supervisors:",
+    "supervisor_principal": "Principal Supervisors:",
+    "thesis_advisory_committee": "Thesis Advisory Committees:",
     "trainee": "Trainee:"
   }
 }
