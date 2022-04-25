@@ -1,36 +1,45 @@
 import './TablePage.css';
 import List from 'components/List';
+
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { getAllProducts } from 'api/products';
 
 const MyProducts = () => {
 
     const { t } = useTranslation();
     const [products, setProducts] = useState([]);
+    const [readyRender, setReadyRender] = useState(false);
 
-    // Object of column titles to display
-    // Keys are titles from database, values are the titles we want to display
-    const columnTitles = {
-        'title': t('product.column_title'),
-        'date' : t('product.column_date'),
-    }
-
-    async function fetchProducts() {
-        const response = await fetch(`/api/main_products/find_all`);
-        const body = await response.json();
-        setProducts(body);
+    const fetchData = async () => {
+        const data = await getAllProducts();
+        if (data != null) {
+            setProducts(data);
+            setReadyRender(true);
+        }
     }
 
     useEffect(() => {
-        fetchProducts();
+        fetchData();
     }, [])
 
     return (
         <div className="MyProducts TablePage">
             <h2>{t('page_titles.my_products')}</h2>
-            <List items={products} columns={['title', 'date']} columnTitles={columnTitles} fixedUrl='edit_product'/>
+            {!readyRender && <span>Loading...</span>}
+            { readyRender && <List
+                items={products}
+                columns={['title', 'date']}
+                columnTitles={{
+                    'title': t('product.column_title'),
+                    'date' : t('product.column_date'),
+                }}
+                addButtonText={t('button.add_product')}
+                fixedUrl='edit_product'
+            />}
         </div>
     );
 }
- 
+
 export default MyProducts;
