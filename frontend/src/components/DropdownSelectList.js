@@ -3,7 +3,7 @@ import Dropdown from "components/Dropdown";
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedChoices, errorMessage, onChange}) => {
+const DropdownSelectList = ({name, labelText, dropdownLabel, choices, selectedChoices, errorMessage, onChange}) => {
 
     const [selectedList, setSelectedList] = useState([]);
 
@@ -47,7 +47,7 @@ const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedC
                 name={name}
                 labelText={labelText}
                 hideLabel
-                noneOptionText={noneOptionText}
+                noneOptionText={dropdownLabel}
                 hideNoneOption
                 choices={choices.filter(e => !selectedList.includes(e.id))}
                 onChange={handleDropdownSelect}
@@ -60,7 +60,7 @@ const DropdownSelectList = ({name, labelText, noneOptionText, choices, selectedC
 DropdownSelectList.propTypes = {
     name: PropTypes.string,
     labelText: PropTypes.string,
-    noneOptionText: PropTypes.string,
+    dropdownLabel: PropTypes.string,
     choices: PropTypes.array,
     selectedChoices: PropTypes.array,
     errorMessage: PropTypes.string,
@@ -70,7 +70,7 @@ DropdownSelectList.propTypes = {
 DropdownSelectList.defaultProps = {
     name: '',
     labelText: '',
-    noneOptionText: null,
+    dropdownLabel: null,
     choices: [],
     selectedChoices: [],
     errorMessage: null,

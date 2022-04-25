@@ -314,7 +314,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='membersInvolved'
                         labelText={t('event.members_involved')}
-                        noneOptionText={t('dropdown.add_member_involved')}
+                        dropdownLabel={t('dropdown.add_member_involved')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName
@@ -326,7 +326,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='pastEvents'
                         labelText={t('event.past_events')}
-                        noneOptionText={t('dropdown.add_past_event')}
+                        dropdownLabel={t('dropdown.add_past_event')}
                         choices={events.map(e => ({
                             id: e.id,
                             name: e.nameEn ?
@@ -343,7 +343,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='futureEvents'
                         labelText={t('event.future_events')}
-                        noneOptionText={t('dropdown.add_future_event')}
+                        dropdownLabel={t('dropdown.add_future_event')}
                         choices={events.map(e => ({
                             id: e.id,
                             name: e.nameEn ?
@@ -360,7 +360,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='grants'
                         labelText={t('event.grants_resulted')}
-                        noneOptionText={t('dropdown.add_grant')}
+                        dropdownLabel={t('dropdown.add_grant')}
                         choices={grants.map(e => ({
                             id: e.id,
                             name: e.title
@@ -371,7 +371,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='products'
                         labelText={t('event.products_resulted')}
-                        noneOptionText={t('dropdown.add_product')}
+                        dropdownLabel={t('dropdown.add_product')}
                         choices={products.map(e => ({
                             id: e.id,
                             name: e.title
@@ -382,7 +382,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='partners'
                         labelText={t('event.partners_involved')}
-                        noneOptionText={t('dropdown.add_partner')}
+                        dropdownLabel={t('dropdown.add_partner')}
                         choices={partners.map(e => ({
                             id: e.id,
                             name: e.name
@@ -393,7 +393,7 @@ const EditEvent = ({isNew}) => {
                     <DropdownSelectList
                         name='topics'
                         labelText={t('event.topics')}
-                        noneOptionText={t('dropdown.add_topic')}
+                        dropdownLabel={t('dropdown.add_topic')}
                         choices={topics.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr

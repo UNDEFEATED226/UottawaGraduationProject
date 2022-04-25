@@ -271,7 +271,7 @@ const EditSupervision = ({isNew}) => {
                     <DropdownSelectList
                         name='principalSupervisors'
                         labelText={t('supervision.supervisor_principal')}
-                        noneOptionText={t('dropdown.add_principal_supervisor')}
+                        dropdownLabel={t('dropdown.add_principal_supervisor')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: `${e.firstName} ${e.lastName}`
@@ -283,7 +283,7 @@ const EditSupervision = ({isNew}) => {
                     <DropdownSelectList
                         name='coSupervisors'
                         labelText={t('supervision.supervisor_co')}
-                        noneOptionText={t('dropdown.add_co_supervisor')}
+                        dropdownLabel={t('dropdown.add_co_supervisor')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: `${e.firstName} ${e.lastName}`
@@ -294,7 +294,7 @@ const EditSupervision = ({isNew}) => {
                     <DropdownSelectList
                         name='thesisAdvisoryCommittee'
                         labelText={t('supervision.thesis_advisory_committee')}
-                        noneOptionText={t('dropdown.add_thesis_advisory_committee')}
+                        dropdownLabel={t('dropdown.add_thesis_advisory_committee')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: `${e.firstName} ${e.lastName}`

@@ -269,7 +269,7 @@ const EditProduct = ({isNew}) => {
                     <DropdownSelectList
                         name='memberAuthors'
                         labelText={t('product.member_authors')}
-                        noneOptionText={t('dropdown.add_member_author')}
+                        dropdownLabel={t('dropdown.add_member_author')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName
@@ -281,7 +281,7 @@ const EditProduct = ({isNew}) => {
                     <DropdownSelectList
                         name='targetStakeholders'
                         labelText={t('product.target_stakeholders')}
-                        noneOptionText={t('dropdown.add_target_stakeholder')}
+                        dropdownLabel={t('dropdown.add_target_stakeholder')}
                         choices={targetStakeholders.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
@@ -292,7 +292,7 @@ const EditProduct = ({isNew}) => {
                     <DropdownSelectList
                         name='partners'
                         labelText={t('product.partners')}
-                        noneOptionText={t('dropdown.add_partner')}
+                        dropdownLabel={t('dropdown.add_partner')}
                         choices={partners.map(e => ({
                             id: e.id,
                             name: e.name
@@ -303,7 +303,7 @@ const EditProduct = ({isNew}) => {
                     <DropdownSelectList
                         name='topics'
                         labelText={t('product.topics')}
-                        noneOptionText={t('dropdown.add_topic')}
+                        dropdownLabel={t('dropdown.add_topic')}
                         choices={topics.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr

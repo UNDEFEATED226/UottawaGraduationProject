@@ -176,6 +176,7 @@ const EditPartner = ({isNew}) => {
                     <DropdownSelectList
                         name='membersInvolved'
                         labelText={t('partner.members_involved')}
+                        dropdownLabel={t('dropdown.add_member_involved')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName

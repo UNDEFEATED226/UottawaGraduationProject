@@ -307,7 +307,7 @@ const EditGrant = ({isNew}) => {
                     <DropdownSelectList
                         name='memberInvestigators'
                         labelText={t('grant.investigators_members')}
-                        noneOptionText={t('dropdown.add_member_investigator')}
+                        dropdownLabel={t('dropdown.add_member_investigator')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName
@@ -318,7 +318,7 @@ const EditGrant = ({isNew}) => {
                     <DropdownSelectList
                         name='membersInvolved'
                         labelText={t('grant.member_involved')}
-                        noneOptionText={t('dropdown.add_member_involved')}
+                        dropdownLabel={t('dropdown.add_member_involved')}
                         choices={members.map(e => ({
                             id: e.id,
                             name: e.firstName + ' ' + e.lastName
@@ -330,7 +330,7 @@ const EditGrant = ({isNew}) => {
                     <DropdownSelectList
                         name='topics'
                         labelText={t('grant.topics')}
-                        noneOptionText={t('dropdown.add_topic')}
+                        dropdownLabel={t('dropdown.add_topic')}
                         choices={topics.map(e => ({
                             id: e.id,
                             name: i18n.resolvedLanguage === "en" ? e.nameEn : e.nameFr
