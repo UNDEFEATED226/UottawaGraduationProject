@@ -6,5 +6,5 @@ CREATE TABLE types_Faculty(
   name_fr varchar(255) DEFAULT NULL
 );
 
-INSERT INTO types_Faculty VALUES (1,'hello','boujour');
-INSERT INTO types_Faculty VALUES (2,'thanks','merci');
+INSERT INTO types_Faculty VALUES (1,'Fac. Arts','Fac. Arts');
+INSERT INTO types_Faculty VALUES (2,'Fac. Education','Fac. Éducation');

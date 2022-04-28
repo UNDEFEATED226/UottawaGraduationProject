@@ -6,5 +6,5 @@ CREATE TABLE types_PartnershipType(
   type_fr varchar(255) DEFAULT NULL
 );
 
-INSERT INTO types_PartnershipType VALUES (1,'hello','boujour');
-INSERT INTO types_PartnershipType VALUES (2,'thanks','merci');
+INSERT INTO types_PartnershipType VALUES (1,'Industry','Industrie');
+INSERT INTO types_PartnershipType VALUES (2,'Government','Gouvernement');

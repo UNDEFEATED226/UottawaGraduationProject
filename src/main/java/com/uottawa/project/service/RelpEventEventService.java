@@ -10,6 +10,7 @@ import com.uottawa.project.repository.RelpEventEventRepository;
 
 @Service
 public class RelpEventEventService {
+	
 	@Autowired
 	private RelpEventEventRepository relpEventEventRepository;
 

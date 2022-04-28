@@ -6,5 +6,5 @@ CREATE TABLE types_TraineeLevel(
   level_fr varchar(255) DEFAULT NULL
 );
 
-INSERT INTO types_TraineeLevel VALUES (1,'hello','boujour');
-INSERT INTO types_TraineeLevel VALUES (2,'thanks','merci');
+INSERT INTO types_TraineeLevel VALUES (1,'UnderGrad','Premier cycle');
+INSERT INTO types_TraineeLevel VALUES (2,'Master Thesis','Maîtrise thèse');

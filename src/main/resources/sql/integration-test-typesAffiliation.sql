@@ -5,5 +5,5 @@ CREATE TABLE types_Affiliation(
   name varchar(255) DEFAULT NULL
 );
 
-INSERT INTO types_Affiliation VALUES (1,'name1');
-INSERT INTO types_Affiliation VALUES (2,'name2');
+INSERT INTO types_Affiliation VALUES (1,'Plans to use');
+INSERT INTO types_Affiliation VALUES (2,'Related academic');

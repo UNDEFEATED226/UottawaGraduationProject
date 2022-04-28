@@ -5,5 +5,5 @@ CREATE TABLE types_Promotion(
   name_en varchar(255) DEFAULT NULL
 );
 
-INSERT INTO types_Promotion VALUES (1,'product1');
-INSERT INTO types_Promotion VALUES (2,'product2');
+INSERT INTO types_Promotion VALUES (1,'None');
+INSERT INTO types_Promotion VALUES (2,'Linkedin');
