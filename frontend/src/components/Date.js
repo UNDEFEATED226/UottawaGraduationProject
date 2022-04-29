@@ -1,6 +1,7 @@
 import './Date.css';
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 /**
 * Validates a date in ISO format.
@@ -60,6 +61,7 @@ export const isNotAfter = (date1, date2) => {
 
 const Date = ({name, labelText, textValue, disabled, errorMessage, onChange}) => {
 
+    const { t } = useTranslation();
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
@@ -84,7 +86,7 @@ const Date = ({name, labelText, textValue, disabled, errorMessage, onChange}) =>
 
     return (
         <div className="Date">
-            <label htmlFor={name}>{labelText}</label>
+            <label htmlFor={name}>{labelText}<span className='format'>{t('description.format_date')}</span></label>
             <input
                 type="text"
                 id={name}

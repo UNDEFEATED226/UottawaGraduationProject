@@ -33,6 +33,9 @@
     "sign_out": "Se déconnecter",
     "submit": "Soumettre"
   },
+  "description": {
+    "format_date": "(AAAA-MM-JJ)"
+  },
   "dropdown": {
     "add_co_supervisor": "Ajouter un co-superviseur",
     "add_future_event": "Ajouter un événement futur",

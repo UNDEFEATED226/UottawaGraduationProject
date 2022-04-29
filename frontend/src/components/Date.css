@@ -10,3 +10,8 @@
 .Date > .errorMsg {
     color: red;
 }
+
+.format {
+    color: #6b6b6b;
+    margin-left: 1em;
+}
