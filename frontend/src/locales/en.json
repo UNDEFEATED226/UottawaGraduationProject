@@ -75,12 +75,12 @@
     "empty_type": "Type cannot be empty.",
     "invalid_date": "Please use the format YYYY-MM-DD.",
     "invalid_date_order": "End date cannot be before Start date.",
-    "invalid_day": "Day is invalid.",
+    "invalid_day": "Please provide a day that is between 01 and 31, depending on the month you provided.",
     "invalid_event": "Linked events cannot include the currently editing event.",
-    "invalid_format_email": "Email format is invalid.",
-    "invalid_month": "Month is invalid.",
+    "invalid_format_email": "Please provide an email in form: username@domain (e.g., smith@gmail.com).",
+    "invalid_month": "Please provide a month that is between 01 and 12.",
     "invalid_submit": "There are errors in the form.",
-    "unable_fetch": "Failed to get your data!",
+    "unable_fetch": "Failed to get your data! Please check you network connection and reload the page.",
     "unable_fetch_types": "Failed to get the data for dropdown lists!",
     "unable_submit": "Submission failed! Please try again later."
   },
@@ -178,7 +178,7 @@
     "type": "Type:"
   },
   "prompt": {
-    "cancel_unsaved": "Are you sure? Any unsaved changes will be lost."
+    "cancel_unsaved": "Are you sure? Any unsaved changes will be lost. Click the \"OK\" button to confirm cancelling the changes."
   },
   "supervision": {
     "column_level": "Level",

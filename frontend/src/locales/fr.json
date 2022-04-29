@@ -75,12 +75,12 @@
     "empty_type": "Le type ne peut pas être vide.",
     "invalid_date": "Veuillez utiliser le format AAAA-MM-JJ.",
     "invalid_date_order": "La date de fin ne peut pas être avant la date de début.",
-    "invalid_day": "Le jour est invalide.",
+    "invalid_day": "Veuillez indiquer un jour compris entre 01 et 31, en fonction du mois que vous avez indiqué.",
     "invalid_event": "Les événements liés ne peuvent pas inclure l'événement en cours d'édition.",
-    "invalid_format_email": "Le format d'e-mail n'est pas valide.",
-    "invalid_month": "Le mois n'est pas valide.",
+    "invalid_format_email": "Veuillez fournir un courriel sous la forme : nom d'utilisateur@domaine (par exemple, smith@gmail.com).",
+    "invalid_month": "Veuillez indiquer un mois compris entre 01 et 12.",
     "invalid_submit": "Il y a des erreurs dans le formulaire.",
-    "unable_fetch": "Impossible d'obtenir vos données!",
+    "unable_fetch": "Impossible d'obtenir vos données! Veuillez vérifier votre connexion réseau et recharger la page.",
     "unable_fetch_types": "Impossible d'obtenir les données pour les listes déroulantes !",
     "unable_submit": "La soumission a échoué! Veuillez réessayer plus tard."
   },
@@ -178,7 +178,7 @@
     "type": "Type:"
   },
   "prompt": {
-    "cancel_unsaved": "Es-tu sûr? Toutes les modifications non enregistrées seront perdues."
+    "cancel_unsaved": "Es-tu sûr? Toutes les modifications non enregistrées seront perdues. Cliquez sur le bouton \"OK\" pour confirmer l'annulation des modifications."
   },
   "supervision": {
     "column_level": "Niveau",
