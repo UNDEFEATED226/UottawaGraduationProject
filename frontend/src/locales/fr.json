@@ -181,7 +181,7 @@
     "type": "Type:"
   },
   "prompt": {
-    "cancel_unsaved": "Es-tu sûr? Toutes les modifications non enregistrées seront perdues. Cliquez sur le bouton \"OK\" pour confirmer l'annulation des modifications."
+    "cancel_unsaved": "Êtes-vous sûr? Toutes les modifications non enregistrées seront perdues. Cliquez sur le bouton \"OK\" pour confirmer l'annulation des modifications."
   },
   "supervision": {
     "column_level": "Niveau",
