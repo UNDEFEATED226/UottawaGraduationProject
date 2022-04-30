@@ -128,4 +128,10 @@ public class MainMembers {
 	private String password;
 	
 	private String role;
+	
+	private String twitter;
+	
+	private String linkedin;
+	
+	private String website;
 }
